@@ -1,32 +1,26 @@
 import { Component, OnInit } from "@angular/core";
+import { GoogleApiService } from "src/app/common/services/google-api-service/google-api.service";
+import { UserInfo } from "src/app/common/models/user-info";
 
-var google = (<any>window).google
 @Component({
     selector: 'signin',
     templateUrl: './signin.component.html',
     styleUrls: ['./signin.component.css']
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent {
+    userInfo?: UserInfo
 
-
-    constructor() { }
-
-    ngOnInit(): void {
-        window.onload = () => {
-            google.accounts.id.initialize({
-            client_id: "48301263695-3je8eommj5iqskcfv49q1fqdkekvke4f.apps.googleusercontent.com",
-            callback: this.handleCredentialResponse
-          });
-          google.accounts.id.renderButton(
-            document.getElementById("buttonDiv"),
-            { theme: "outline", size: "large" }
-          );
-          google.accounts.id.prompt();
-        }
+    constructor(private readonly googleService: GoogleApiService) {     
+        googleService.userProfileSubject.subscribe( info => {
+            this.userInfo = info
+        })
     }
 
-    private handleCredentialResponse(response: any) {
-        console.log("Encoded JWT ID token: ", response);
+    isLoggedIn(): boolean {
+        return this.googleService.isLoggedIn();
     }
 
+    logout() {
+        this.googleService.signOut()
+    }
 }

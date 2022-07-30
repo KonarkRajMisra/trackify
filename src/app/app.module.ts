@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SignInComponent } from './components/signIn/signin.component';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { SignInComponent } from './components/signIn/signin.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    OAuthModule.forRoot()
   ],
   providers: [
   ],

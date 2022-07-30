@@ -1,6 +1,8 @@
-<div class="container">
-    <div class="d-flex justify-content-center">
-        <div id="buttonDiv">
-        </div>
+<div *ngIf="isLoggedIn()">
+    <div class="container"> Name: {{userInfo?.info?.name }} </div>
+    <div class="container"> E-Mail: {{userInfo?.info?.email }}</div>
+    <div class="container"> <img src="{{userInfo?.info?.picture}}"> </div>
+    <div class="container">
+        <button (click)="logout()"> Logout from Google</button>
     </div>
 </div>
