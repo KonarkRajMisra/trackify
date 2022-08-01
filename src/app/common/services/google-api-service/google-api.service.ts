@@ -41,4 +41,12 @@ export class GoogleApiService {
   signOut() {
     this.oAuthService.logOut()
   }
+
+  getAuthorizationHeader() {
+    return this.oAuthService.authorizationHeader();
+  }
+
+  getIdToken() {
+    return this.oAuthService.getIdToken();
+  }
 }
