@@ -7,11 +7,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SignInComponent } from './components/signIn/signin.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { DashBoardComponent } from './components/dash-board/dash-board.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignInComponent
+    SignInComponent,
+    NavBarComponent,
+    DashBoardComponent
   ],
   imports: [
     BrowserModule,

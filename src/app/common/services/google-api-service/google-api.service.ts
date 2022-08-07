@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OAuthService, AuthConfig } from 'angular-oauth2-oidc';
 import { Subject } from 'rxjs';
-import { UserInfo } from '../../models/user-info';
+import { Customer } from '../../models/customer';
 
 const oAuthConfig: AuthConfig = {
   issuer: 'https://accounts.google.com',
@@ -16,7 +16,7 @@ const oAuthConfig: AuthConfig = {
 })
 export class GoogleApiService {
 
-  userProfileSubject = new Subject<UserInfo>();
+  customerProfileSubject = new Subject<Customer>();
 
   constructor(private readonly oAuthService: OAuthService) { 
     oAuthService.configure(oAuthConfig);
@@ -26,8 +26,8 @@ export class GoogleApiService {
         if(!oAuthService.hasValidAccessToken()){
           oAuthService.initLoginFlow()
         }else {
-          oAuthService.loadUserProfile().then( (userProfile) => {
-            this.userProfileSubject.next(userProfile as UserInfo)
+          oAuthService.loadUserProfile().then( (customerProfile) => {
+            this.customerProfileSubject.next(customerProfile as Customer)
           })
         }
       })
