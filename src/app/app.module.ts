@@ -9,6 +9,7 @@ import { SignInComponent } from './components/signIn/signin.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { DashBoardComponent } from './components/dash-board/dash-board.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DashBoardComponent } from './components/dash-board/dash-board.component
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    NgbModule
   ],
   providers: [
   ],
