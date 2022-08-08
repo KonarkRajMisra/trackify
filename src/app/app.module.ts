@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { SignInComponent } from './components/signIn/signin.component';
+import { LogInComponent} from './components/log-in/log-in.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { DashBoardComponent } from './components/dash-board/dash-board.component';
@@ -14,7 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
-    SignInComponent,
+    LogInComponent,
     NavBarComponent,
     DashBoardComponent
   ],

@@ -4,12 +4,35 @@
         <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse collapse" id="collapseNavbar">
+        <div *ngIf="(authenticationService.currentUser$ | async) === null else profile" class="navbar-collapse collapse"
+            id="collapseNavbar">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <button class="btn btn-primary" (click)="openModal()">Login</button>
                 </li>
             </ul>
         </div>
+
+        <ng-template #profile>
+            
+            <div class="navbar-collapse collapse" id="collapseNavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <div class="row">
+                            <div class="col">
+                                <div ngbDropdown class="d-inline-block">
+                                    <img [src]="(authenticationService.currentUser$ | async)?.picture"/>
+                                    <button type="button" class="btn btn-primary" id="dropdownBasic1"
+                                        ngbDropdownToggle> {{ (authenticationService.currentUser$ | async)!.name }}</button>
+                                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                        <button ngbDropdownItem (click)="logout()">Logout</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </ng-template>
     </div>
 </nav>
