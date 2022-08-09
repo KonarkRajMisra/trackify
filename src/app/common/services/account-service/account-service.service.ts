@@ -10,7 +10,7 @@ import { GoogleApiService } from '../google-api-service/google-api.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
+export class AccountService {
 
   googleProfile!: GoogleUser;
   user!: User;
@@ -21,7 +21,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private googleService: GoogleApiService, private modalService: NgbModal) { }
 
   authenticate() {
-    return this.http.post<AuthenticationResponse>('https://localhost:7020/Authentication/authenticate', { idToken: this.googleService.getIdToken() })
+    return this.http.post<AuthenticationResponse>('https://localhost:7020/Account/authenticate', { idToken: this.googleService.getIdToken() })
       .pipe(
         map((response: AuthenticationResponse) => {
           const res = response;
@@ -32,7 +32,6 @@ export class AuthenticationService {
               name: this.googleProfile.info.name,
               picture: this.googleProfile.info.picture
             }
-            console.log(this.user)
             localStorage.setItem('user', JSON.stringify(this.user));
             this.currentUserSource.next(this.user);
           }
@@ -44,7 +43,6 @@ export class AuthenticationService {
   async setUserAfterGoogleLogin(): Promise<void> {
     this.googleService.googleProfileSubject.subscribe(profile => {
       this.googleProfile = profile;
-      console.log("Google profile set", this.googleProfile)
       this.authenticate().subscribe(() => {
         if (this.modalService.hasOpenModals()) {
           this.modalService.dismissAll()
@@ -54,7 +52,7 @@ export class AuthenticationService {
   }
 
   setCurrentUser(user: User) {
-    this.currentUserSource.next(this.user);
+    this.currentUserSource.next(user);
   }
 
   isLoggedIn(){
@@ -62,7 +60,6 @@ export class AuthenticationService {
   }
   logout() {
     localStorage.removeItem('user');
-    this.googleService.signOut()
     this.currentUserSource.next(null!);
   }
 }

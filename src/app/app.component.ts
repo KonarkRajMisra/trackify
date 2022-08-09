@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GoogleUser } from './common/models/GoogleUser';
 import { User } from './common/models/User';
-import { AuthenticationService } from './common/services/authentication-service/authentication-service.service';
+import { AccountService } from './common/services/account-service/account-service.service';
 import { GoogleApiService } from './common/services/google-api-service/google-api.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   title = 'trackify';
   googleUser: GoogleUser | undefined;
 
-  constructor(private authenticationService: AuthenticationService, private googleService: GoogleApiService){
+  constructor(private accountService: AccountService, private googleService: GoogleApiService){
   }
 
   ngOnInit(): void {
@@ -23,16 +23,13 @@ export class AppComponent implements OnInit {
   setCurrentUser() {
     const user: User = JSON.parse(localStorage.getItem('user')!);
     const initiated = JSON.parse(localStorage.getItem('initiated')!);
-    console.log(this.googleUser)
+    console.log(user)
     if (initiated){
       this.googleService.initiateSignIn().then(() => 
-      this.authenticationService.setUserAfterGoogleLogin());
-    }
-    if (this.googleUser){
-      this.authenticationService.setUserAfterGoogleLogin();
+      this.accountService.setUserAfterGoogleLogin());
     }
     if(user){
-      this.authenticationService.setCurrentUser(user);
+      this.accountService.setCurrentUser(user);
     }
   }
 }

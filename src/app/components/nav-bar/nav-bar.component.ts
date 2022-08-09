@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
-import { User } from 'src/app/common/models/User';
-import { AuthenticationService } from 'src/app/common/services/authentication-service/authentication-service.service';
+import { AccountService } from 'src/app/common/services/account-service/account-service.service';
 import { LogInComponent } from '../log-in/log-in.component';
 
 @Component({
@@ -12,7 +10,7 @@ import { LogInComponent } from '../log-in/log-in.component';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, public authenticationService: AuthenticationService) { }
+  constructor(private modalService: NgbModal, public accountService: AccountService) { }
 
   ngOnInit(): void {
   }
@@ -22,6 +20,6 @@ export class NavBarComponent implements OnInit {
   }
 
   logout() {
-    this.authenticationService.logout();
+    this.accountService.logout();
   }
 }

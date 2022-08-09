@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { OAuthService, AuthConfig } from 'angular-oauth2-oidc';
 import { Subject } from 'rxjs';
 import { GoogleUser } from '../../models/GoogleUser';
-import { AuthenticationService } from '../authentication-service/authentication-service.service';
 
 const oAuthConfig: AuthConfig = {
   issuer: 'https://accounts.google.com',
