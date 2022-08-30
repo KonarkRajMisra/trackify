@@ -1,3 +1,16 @@
 <div class="container">
-    
+    <div class="container" *ngIf="(userTemplates !== undefined) && (userTemplates.length > 0)">
+        <div class="row" *ngFor="let template of userTemplates">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{template.templateName}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-template-form></app-template-form>
 </div>

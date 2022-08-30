@@ -1,6 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map, ReplaySubject } from 'rxjs';
 import { AuthenticationResponse } from '../../models/AuthenticationResponse';
 import { GoogleUser } from '../../models/GoogleUser';
@@ -11,17 +10,17 @@ import { GoogleApiService } from '../google-api-service/google-api.service';
   providedIn: 'root'
 })
 export class AccountService {
-
+  baseUrl = "https://localhost:7020/Account/";
   googleProfile!: GoogleUser;
   user!: User;
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
 
-  constructor(private http: HttpClient, private googleService: GoogleApiService, private modalService: NgbModal) { }
+  constructor(private http: HttpClient, private googleService: GoogleApiService) { }
 
   authenticate() {
-    return this.http.post<AuthenticationResponse>('https://localhost:7020/Account/authenticate', { idToken: this.googleService.getIdToken() })
+    return this.http.post<AuthenticationResponse>(this.baseUrl+'authenticate', { idToken: this.googleService.getIdToken() })
       .pipe(
         map((response: AuthenticationResponse) => {
           const res = response;
@@ -30,7 +29,8 @@ export class AccountService {
               authToken: res.authToken,
               email: this.googleProfile.info.email,
               name: this.googleProfile.info.name,
-              picture: this.googleProfile.info.picture
+              picture: this.googleProfile.info.picture,
+              templates: []
             }
             localStorage.setItem('user', JSON.stringify(this.user));
             this.currentUserSource.next(this.user);
@@ -43,11 +43,10 @@ export class AccountService {
   async setUserAfterGoogleLogin(): Promise<void> {
     this.googleService.googleProfileSubject.subscribe(profile => {
       this.googleProfile = profile;
-      this.authenticate().subscribe(() => {
-        if (this.modalService.hasOpenModals()) {
-          this.modalService.dismissAll()
-        }
-      });
+      
+      // Call authenticate and store user in browser local storage
+      // Also, pass the user to currentUserSource observable
+      this.authenticate().subscribe();
     })
   }
 
@@ -58,8 +57,32 @@ export class AccountService {
   isLoggedIn(){
     return this.user !== null;
   }
+
   logout() {
     localStorage.removeItem('user');
+    localStorage.removeItem('initiated');
     this.currentUserSource.next(null!);
+  }
+
+  getAllTemplates(){
+      this.getCurrentUser();
+      let options = this.getAuthorizationHeader()
+      return this.http.get(this.baseUrl + 'getAllTemplates/', options);
+  }
+
+  getAuthorizationHeader() {
+    let header = new HttpHeaders({ 'Authorization' : `Bearer ${this.user.authToken}`})
+    let params = {"email" : this.user.email};
+    const options = {
+      headers: header,
+      params: params
+    };
+    return options;
+  }
+
+  getCurrentUser() {
+    this.currentUser$.subscribe(user => {
+      this.user = user
+    })
   }
 }

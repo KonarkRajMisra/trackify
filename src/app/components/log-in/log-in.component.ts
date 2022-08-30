@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { GoogleApiService } from "src/app/common/services/google-api-service/google-api.service";
-import { AccountService } from "src/app/common/services/account-service/account-service.service";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-
+import { AccountService } from "src/app/common/services/authentication-service/account-service.service";
 
 @Component({
     selector: 'app-log-in',
@@ -11,13 +9,12 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 })
 export class LogInComponent implements OnInit {
 
-    constructor(public activeModal: NgbActiveModal, private readonly googleService: GoogleApiService, private readonly accountService: AccountService) { }
+    constructor(private readonly googleService: GoogleApiService, private readonly accountService: AccountService) { }
 
-    ngOnInit(): void {
-
-    }
+    ngOnInit(): void {}
 
     async onGoogleButtonClick(): Promise<void> {
+        // Login using google, then authenticate with AccountService and getToken
         await this.googleService.initiateSignIn().then(() => {
             this.accountService.setUserAfterGoogleLogin();
         })

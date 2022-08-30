@@ -1,0 +1,37 @@
+<form [formGroup]="templateForm" (ngSubmit)="onSubmit()">
+    <div formArrayName="templates">
+        <div *ngFor="let template of templates().controls; let tempIdx=index">
+            <div [formGroupName]="tempIdx">
+                {{tempIdx + 1}}
+                Template Name:
+                <input type="text" formControlName="templateName" />
+                <button (click)="removeTemplateForm(tempIdx)"> Remove Template</button>
+                <div formArrayName="items">
+                    <div *ngFor="let item of items(tempIdx).controls; let itemIdx = index">
+                        <div [formGroupName]="itemIdx">
+                            {{itemIdx + 1}}
+                            ItemName:
+                            <input type="text" formControlName="itemName">
+                            <button (click)="removeTemplateItem(tempIdx, itemIdx)"> Remove Template Item</button>
+                            <div formArrayName="units">
+                                <div *ngFor="let u of units(tempIdx, itemIdx).controls; let unitIdx = index">
+                                    <div [formGroupName]="unitIdx">
+                                        {{unitIdx + 1}}
+                                        Unit:
+                                        <input type="text" formControlName="unit">
+                                        <input type="text" formControlName="type">
+                                        <button (click)="removeUnit(tempIdx, itemIdx, unitIdx)"> Remove Unit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button (click)="addUnit(tempIdx, itemIdx)"> Add Unit</button>
+                        </div>
+
+                    </div>
+                </div>
+                <button (click)="addTemplateItem(tempIdx)"> Add Template Item</button>
+            </div>
+        </div>
+        <button (click)="addTemplateForm()"> Add Template </button>
+    </div>
+</form>

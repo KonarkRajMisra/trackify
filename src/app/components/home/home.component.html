@@ -1,0 +1,8 @@
+<div class="container">
+    <div *ngIf="(accountService.currentUser$ | async) === null; else dash">
+        <app-log-in> </app-log-in>
+    </div>
+    <ng-template #dash>
+        <app-dash-board></app-dash-board>
+    </ng-template>
+</div>
