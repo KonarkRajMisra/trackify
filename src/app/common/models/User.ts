@@ -5,5 +5,6 @@ export interface User{
     email: string,
     picture: string,
     authToken: string,
-    templates: Array<Template>
+    templates: Array<Template>,
+    firstTimeUser: boolean
 }

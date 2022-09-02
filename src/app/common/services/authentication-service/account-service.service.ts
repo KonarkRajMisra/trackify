@@ -20,13 +20,14 @@ export class AccountService {
   constructor(private http: HttpClient, private googleService: GoogleApiService) { }
 
   authenticate() {
-    return this.http.post<AuthenticationResponse>(this.baseUrl+'authenticate', { idToken: this.googleService.getIdToken() })
+    return this.http.post<AuthenticationResponse>(this.baseUrl + 'authenticate', { idToken: this.googleService.getIdToken() })
       .pipe(
         map((response: AuthenticationResponse) => {
           const res = response;
           if (res) {
             this.user = {
               authToken: res.authToken,
+              firstTimeUser: res.firstTimeUser,
               email: this.googleProfile.info.email,
               name: this.googleProfile.info.name,
               picture: this.googleProfile.info.picture,
@@ -43,7 +44,7 @@ export class AccountService {
   async setUserAfterGoogleLogin(): Promise<void> {
     this.googleService.googleProfileSubject.subscribe(profile => {
       this.googleProfile = profile;
-      
+
       // Call authenticate and store user in browser local storage
       // Also, pass the user to currentUserSource observable
       this.authenticate().subscribe();
@@ -54,7 +55,7 @@ export class AccountService {
     this.currentUserSource.next(user);
   }
 
-  isLoggedIn(){
+  isLoggedIn() {
     return this.user !== null;
   }
 
@@ -64,15 +65,22 @@ export class AccountService {
     this.currentUserSource.next(null!);
   }
 
-  getAllTemplates(){
-      this.getCurrentUser();
-      let options = this.getAuthorizationHeader()
-      return this.http.get(this.baseUrl + 'getAllTemplates/', options);
+  // get the current user, make request and get all templates, return templates
+  getAllTemplates() {
+    return this.getCurrentUser().pipe(
+      map((user) => {
+        if (user !== null) {
+          console.log("USER AFTER PIPE", user)
+          let options = this.getAuthorizationHeader()
+          this.http.get(this.baseUrl + 'getAllTemplates/', options).subscribe((res) =>
+            console.log("InsideAccountService", res));
+        }
+      }))
   }
 
   getAuthorizationHeader() {
-    let header = new HttpHeaders({ 'Authorization' : `Bearer ${this.user.authToken}`})
-    let params = {"email" : this.user.email};
+    let header = new HttpHeaders({ 'Authorization': `Bearer ${this.user.authToken}` })
+    let params = { "email": this.user.email };
     const options = {
       headers: header,
       params: params
@@ -81,8 +89,10 @@ export class AccountService {
   }
 
   getCurrentUser() {
-    this.currentUser$.subscribe(user => {
-      this.user = user
-    })
+    // Get current User, apply map to it, return the user
+    return this.currentUser$.pipe(map(user => {
+      this.user = user;
+      return this.user;
+    }))
   }
 }

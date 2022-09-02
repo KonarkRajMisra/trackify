@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { GoogleApiService } from "src/app/common/services/google-api-service/google-api.service";
 import { AccountService } from "src/app/common/services/authentication-service/account-service.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-log-in',
@@ -9,14 +10,20 @@ import { AccountService } from "src/app/common/services/authentication-service/a
 })
 export class LogInComponent implements OnInit {
 
-    constructor(private readonly googleService: GoogleApiService, private readonly accountService: AccountService) { }
+    constructor(private readonly googleService: GoogleApiService, private readonly accountService: AccountService, private router: Router) { }
 
     ngOnInit(): void {}
 
     async onGoogleButtonClick(): Promise<void> {
         // Login using google, then authenticate with AccountService and getToken
         await this.googleService.initiateSignIn().then(() => {
-            this.accountService.setUserAfterGoogleLogin();
+            this.accountService.setUserAfterGoogleLogin().then(() => {
+                if (this.accountService.user && this.accountService.user.firstTimeUser){
+                    this.router.navigateByUrl('/profile');
+                }else{
+                    this.router.navigateByUrl('/dash');
+                }
+            })
         })
     }
 

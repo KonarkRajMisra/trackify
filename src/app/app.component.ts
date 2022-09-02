@@ -17,14 +17,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.setCurrentUser();
+      this.getCurrentUser();
   }
 
-  setCurrentUser() {
+  getCurrentUser() {
 
     // Every time the app loads up, check if user object exists in localStorage
     // if initiated is true, that means google user has been already verified
-
     const user: User = JSON.parse(localStorage.getItem('user')!);
     const initiated = JSON.parse(localStorage.getItem('initiated')!);
     console.log(user)
@@ -39,6 +38,7 @@ export class AppComponent implements OnInit {
     // Set current user as well
     if(user){
       this.accountService.setCurrentUser(user);
+      console.log(user);
     }
   }
 }

@@ -12,6 +12,7 @@
                                     <button type="button" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>
                                         {{ (accountService.currentUser$ | async)!.name }}</button>
                                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                        <button ngbDropdownItem routerLink="/profile"> Profile</button>
                                         <button ngbDropdownItem (click)="logout()">Logout</button>
                                     </div>
                                 </div>

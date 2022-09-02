@@ -12,6 +12,7 @@ import { DashBoardComponent } from './components/dash-board/dash-board.component
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { TemplateFormComponent } from './components/template-form/template-form.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TemplateFormComponent } from './components/template-form/template-form.
     NavBarComponent,
     DashBoardComponent,
     HomeComponent,
-    TemplateFormComponent
+    TemplateFormComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
