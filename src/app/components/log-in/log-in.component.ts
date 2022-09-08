@@ -2,6 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { GoogleApiService } from "src/app/common/services/google-api-service/google-api.service";
 import { AccountService } from "src/app/common/services/authentication-service/account-service.service";
 import { Router } from "@angular/router";
+import { AuthenticationResponse } from "src/app/common/models/AuthenticationResponse";
+import { map, Observable } from "rxjs";
+import { GoogleUser } from "src/app/common/models/GoogleUser";
+import { User } from "src/app/common/models/User";
 
 @Component({
     selector: 'app-log-in',
@@ -10,18 +14,23 @@ import { Router } from "@angular/router";
 })
 export class LogInComponent implements OnInit {
 
-    constructor(private readonly googleService: GoogleApiService, private readonly accountService: AccountService, private router: Router) { }
+    constructor(private readonly googleService: GoogleApiService, private readonly accountService: AccountService, private router: Router) {
+        accountService.currentUser$.subscribe((user) => {
+            if (user) {
+                router.navigateByUrl('/dash')
+            }
+        })
+    }
 
-    ngOnInit(): void {}
+    ngOnInit(): void { }
 
-    async onGoogleButtonClick(): Promise<void> {
-        // Login using google, then authenticate with AccountService and getToken
-        await this.googleService.initiateSignIn().then(() => {
-            this.accountService.setUserAfterGoogleLogin().then(() => {
-                if (this.accountService.user && this.accountService.user.firstTimeUser){
-                    this.router.navigateByUrl('/profile');
-                }else{
-                    this.router.navigateByUrl('/dash');
+    initiateSignIn() {
+        // Get GoogleUser, call account service to get user from the backend
+        this.accountService.signIn().subscribe(() => {
+            this.accountService.authenticate().subscribe((res) => {
+                console.log("authenticate()", res)
+                if (res != undefined || res != null) {
+                    this.accountService.setCurrentUser(res as User)
                 }
             })
         })
@@ -32,7 +41,6 @@ export class LogInComponent implements OnInit {
     }
 
     logout() {
-        this.accountService.logout();
-        this.googleService.signOut()
+        this.accountService.logOut();
     }
 }

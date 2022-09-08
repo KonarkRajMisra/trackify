@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
   constructor(public accountService: AccountService) { }
 
   ngOnInit(): void {
+    console.log(this.accountService.user)
   }
 
 }

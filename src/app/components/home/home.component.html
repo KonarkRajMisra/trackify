@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf="(accountService.currentUser$ | async) === null; else dash">
+    <div *ngIf="(accountService.user) === undefined; else dash">
         <app-log-in> </app-log-in>
     </div>
     <ng-template #dash>

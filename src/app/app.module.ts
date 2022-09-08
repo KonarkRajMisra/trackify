@@ -12,8 +12,9 @@ import { DashBoardComponent } from './components/dash-board/dash-board.component
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { TemplateFormComponent } from './components/template-form/template-form.component';
-import { ProfileComponent } from './components/profile/profile.component';
-
+import { FitnessPlanner } from './components/fitness-planner/fitness-planner.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { WeightTracker } from './components/weight-tracker/weight-tracker.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     DashBoardComponent,
     HomeComponent,
     TemplateFormComponent,
-    ProfileComponent
+    FitnessPlanner,
+    WeightTracker
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
   ],
   providers: [
   ],

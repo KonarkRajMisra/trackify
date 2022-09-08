@@ -14,11 +14,8 @@ export class DashBoardComponent implements OnInit {
   constructor(public accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.accountService.getAllTemplates().subscribe((res: any) => {
+    let res = this.accountService.getAllTemplates()?.subscribe((res) => {
       this.userTemplates = res as Array<Template>
     })
   }
-
-
-
 }

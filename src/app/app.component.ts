@@ -25,20 +25,12 @@ export class AppComponent implements OnInit {
     // Every time the app loads up, check if user object exists in localStorage
     // if initiated is true, that means google user has been already verified
     const user: User = JSON.parse(localStorage.getItem('user')!);
-    const initiated = JSON.parse(localStorage.getItem('initiated')!);
-    console.log(user)
+    const googleUser = JSON.parse(localStorage.getItem('googleUser')!);
 
     // If initiated exists, reinitialize as google auth token could have expired
     // And reinitialize auth token
-    if (initiated){
-      this.googleService.initiateSignIn().then(() => 
-      this.accountService.setUserAfterGoogleLogin());
-    }
-
-    // Set current user as well
-    if(user){
-      this.accountService.setCurrentUser(user);
-      console.log(user);
+    if (googleUser){
+      this.accountService.signIn()
     }
   }
 }
