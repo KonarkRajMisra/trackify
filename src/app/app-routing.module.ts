@@ -5,14 +5,18 @@ import { HomeComponent } from './components/home/home.component';
 import { FitnessPlanner } from './components/fitness-planner/fitness-planner.component';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
 import { LogInComponent } from './components/log-in/log-in.component';
+import { FitnessPlanCardsComponent } from './components/fitness-plan-cards/fitness-plan-cards.component';
+
 
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
-  {path: "fitnessPlanning", component: FitnessPlanner},
+  {path: "fitnessPlanCards", component: FitnessPlanCardsComponent},
+  {path: "fitnessPlan", component: FitnessPlanner},
+  {path: "fitnessPlan/:id", component: FitnessPlanner},
   {path: "weightTracking", component: WeightTracker},
   {path: "dash", component: DashBoardComponent},
-  {path: "login", component: LogInComponent}
+  {path: "login", component: LogInComponent},
 ];
 
 @NgModule({

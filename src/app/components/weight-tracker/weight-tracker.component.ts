@@ -121,7 +121,21 @@ export class WeightTracker implements OnInit {
 
   onPlanDataSubmit(){
     let plan: PlanData = this.planData.value as PlanData;
-    this.fitnessPlanningService.submitFitnessPlan(plan);
+    this.sanitizePlan(plan);
+    this.fitnessPlanningService.submitFitnessPlanData(plan);
+  }
+
+  sanitizePlan(plan: PlanData){
+    console.log("PRE", plan)
+    let newArr = []
+    for(let i = 0; i <  plan.planDatesData.length; i++){
+      let date = plan.planDatesData[i];
+      if (date.weight !== 0)
+      {
+        newArr.push(date)
+      }
+    }
+    plan.planDatesData = newArr
   }
 
   get planDatesData() {

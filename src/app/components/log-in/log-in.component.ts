@@ -15,11 +15,6 @@ import { User } from "src/app/common/models/User";
 export class LogInComponent implements OnInit {
 
     constructor(private readonly googleService: GoogleApiService, private readonly accountService: AccountService, private router: Router) {
-        accountService.currentUser$.subscribe((user) => {
-            if (user) {
-                router.navigateByUrl('/dash')
-            }
-        })
     }
 
     ngOnInit(): void { }
@@ -31,6 +26,7 @@ export class LogInComponent implements OnInit {
                 console.log("authenticate()", res)
                 if (res != undefined || res != null) {
                     this.accountService.setCurrentUser(res as User)
+                    this.router.navigateByUrl('/dash');
                 }
             })
         })

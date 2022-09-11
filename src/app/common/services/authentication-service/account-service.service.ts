@@ -20,7 +20,6 @@ export class AccountService {
   googleUser$ = this.googleUserSource.asObservable();
 
   constructor(private http: HttpClient, private googleService: GoogleApiService) {
-    this.initUser()
   }
 
   authenticate(): Observable<AuthenticationResponse> {
@@ -28,6 +27,7 @@ export class AccountService {
   }
 
   setCurrentUser(user: User) {
+    this.googleProfile = JSON.parse(localStorage.getItem('googleUser')!);
     this.user = {
       authToken: user.authToken,
       firstTimeUser: user.firstTimeUser,
@@ -70,6 +70,12 @@ export class AccountService {
     return options;
   }
 
+  getCurrentUser() {
+    const user: User = JSON.parse(localStorage.getItem('user')!);
+    this.setCurrentUser(user);
+    return user;
+  }
+
   signIn() {
     return this.googleService.initiateGoogleSignIn().pipe(
       map((googleUser) => {
@@ -82,18 +88,5 @@ export class AccountService {
         })
       })
     )
-  }
-
-  initUser() {
-    // Every time the app loads up, check if user object exists in localStorage
-    // if initiated is true, that means google user has been already verified
-    const user: User = JSON.parse(localStorage.getItem('user')!);
-    const initiated = JSON.parse(localStorage.getItem('initiated')!);
-
-    // If initiated exists, reinitialize as google auth token could have expired
-    // And reinitialize auth token
-    if (initiated) {
-    }
-    // Set current user as well
   }
 }

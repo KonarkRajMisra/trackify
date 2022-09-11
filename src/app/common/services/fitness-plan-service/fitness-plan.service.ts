@@ -12,7 +12,7 @@ export class FitnessPlanService{
     baseUrl = "https://localhost:7020/FitnessPlan/";
 
     constructor(private http: HttpClient, private accountService: AccountService){
-        this.accountService.initUser();
+        this.accountService.getCurrentUser()
     }
 
     createFitnessPlan(fitnessPlan: FitnessPlan)
@@ -36,7 +36,7 @@ export class FitnessPlanService{
         return this.http.get(this.baseUrl + 'getAllFitnessPlans', options);
     }
 
-    submitFitnessPlan(plan: PlanData){
+    submitFitnessPlanData(plan: PlanData){
         let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
         const options = {
             headers: header
@@ -47,5 +47,26 @@ export class FitnessPlanService{
         .subscribe((res) => console.log(res));
     }
 
+    deleteFitnessPlan(plan: FitnessPlan){
+        let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
+        const options = {
+            headers: header,
+            body: plan
+        }
+        plan.email = this.accountService.user.email
+        console.log(plan);
+        return this.http.delete<User>(this.baseUrl + "deleteFitnessPlan", options)
+        .subscribe((res) => console.log(res));
+    }
 
+    updateFitnessPlan(plan: FitnessPlan){
+        let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
+        const options = {
+            headers: header
+        }
+        plan.email = this.accountService.user.email
+        console.log(plan);
+        return this.http.patch<User>(this.baseUrl + "updateFitnessPlan", plan, options)
+        .subscribe((res) => console.log(res));
+    }
 }

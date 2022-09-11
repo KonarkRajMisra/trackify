@@ -14,7 +14,9 @@ import { HomeComponent } from './components/home/home.component';
 import { TemplateFormComponent } from './components/template-form/template-form.component';
 import { FitnessPlanner } from './components/fitness-planner/fitness-planner.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { WeightTracker } from './components/weight-tracker/weight-tracker.component'
+import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
+import { FitnessPlanCardsComponent } from './components/fitness-plan-cards/fitness-plan-cards.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +26,8 @@ import { WeightTracker } from './components/weight-tracker/weight-tracker.compon
     HomeComponent,
     TemplateFormComponent,
     FitnessPlanner,
-    WeightTracker
+    WeightTracker,
+    FitnessPlanCardsComponent
   ],
   imports: [
     BrowserModule,
