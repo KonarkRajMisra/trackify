@@ -77,15 +77,23 @@ export class AccountService {
   }
 
   signIn() {
+    return this.signInToGoogle().pipe(
+      map(googleUser => {
+        return this.authenticate().subscribe((res) => {
+          if (res !== null) {
+            this.setCurrentUser(res as User)
+          }
+        })
+      })
+    )
+  }
+
+  signInToGoogle(): Observable<GoogleUser> {
     return this.googleService.initiateGoogleSignIn().pipe(
       map((googleUser) => {
         this.googleProfile = JSON.parse(localStorage.getItem('googleUser')!) as GoogleUser;
         console.log("onGoogleButtonClick", googleUser)
-        this.authenticate().subscribe((res) => {
-          if (res != undefined || res != null) {
-            this.setCurrentUser(res as User)
-          }
-        })
+        return googleUser;
       })
     )
   }

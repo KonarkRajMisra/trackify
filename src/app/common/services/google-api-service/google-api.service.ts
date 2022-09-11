@@ -23,8 +23,7 @@ export class GoogleApiService {
 
   initiateGoogleSignIn(): Observable<GoogleUser>{
     this.oAuthService.configure(oAuthConfig);
-    this.oAuthService.logoutUrl = 'https://www.google.com/accounts/Logout'
-    return from(this.oAuthService.loadDiscoveryDocument().then(() => {
+    return from(this.oAuthService.loadDiscoveryDocumentAndLogin().then(() => {
       return this.oAuthService.tryLoginImplicitFlow().then(() => {
         if(!this.oAuthService.hasValidAccessToken()){
           this.oAuthService.initImplicitFlow()

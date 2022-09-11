@@ -1,48 +1,63 @@
 <div class="container">
-    <h2> Current Active Plan: {{currentActivePlan?.currentPlan}}</h2>
-    <h2> Plan Start Date:
-        {{currentActivePlan?.currentDate?.year}}-{{currentActivePlan?.currentDate?.month}}-{{currentActivePlan?.currentDate?.day}}
-    </h2>
-    <h2> Plan End Date:
-        {{currentActivePlan?.planEndDate?.year}}-{{currentActivePlan?.planEndDate?.month}}-{{currentActivePlan?.planEndDate?.day}}
-    </h2>
-    <h2> Plan Target Calories: {{currentActivePlan?.currentPlanCalories}} </h2>
-</div>
-<div class="container">
-    <form [formGroup]="planData" (submit)="onPlanDataSubmit()">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col"> Day </th>
-                    <th scope="col"> Weight</th>
-                    <th scope="col"> Calories </th>
-                    <th scope="col"> Net Calories</th>
-                    <th scope="col"> Notes</th>
-                </tr>
-            </thead>
-            <tbody formArrayName="planDatesData">
-                <tr *ngFor="let dateGroup of planDatesData.controls; let dateIdx=index" [formGroupName]="dateIdx">
-                    <th scope="row"> {{dateGroup.get('date')?.value}}</th>
-                    <td>
-                        <input formControlName="weight" (change)="onWeightChange(dateIdx, $event)">
-                    </td>
-                    <td>
-                        <input formControlName="calories" (change)="onCaloriesChange(dateIdx, $event)">
-                    </td>
-                    <td>
-                        <div *ngIf="dateGroup?.get('weight')?.value && dateGroup?.get('calories')?.value !== '';else noNetCals">
-                            {{netCalories}}
-                        </div>
-                        <ng-template #noNetCals>
-                            0
-                        </ng-template>
-                    </td>
-                    <td>
-                        <input formControlName="notes" (change)="onNotesChange(dateIdx, $event)">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <button class="btn btn-primary" type="submit"> Save</button>
-    </form>
+    <div class="row" style="margin: 20px 20px 20px 20px">
+        <div class="col">
+            <p class="lead"> Current Active Plan: {{currentActivePlan?.currentPlan}}</p>
+            <p class="lead"> Plan Start Date:
+                {{currentActivePlan?.currentDate?.year}}-{{currentActivePlan?.currentDate?.month}}-{{currentActivePlan?.currentDate?.day}}
+            </p>
+            <p class="lead"> Plan End Date:
+                {{currentActivePlan?.planEndDate?.year}}-{{currentActivePlan?.planEndDate?.month}}-{{currentActivePlan?.planEndDate?.day}}
+            </p>
+            <p class="lead">  Plan Target Calories: {{currentActivePlan?.currentPlanCalories}} </p>
+        </div>
+    </div>
+    <div class="row" style="margin: 20px 20px 20px 20px">
+        <div class="col">
+            <form [formGroup]="planData">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col"> Day </th>
+                            <th scope="col"> Weight</th>
+                            <th scope="col"> Calories </th>
+                            <th scope="col"> Net Calories</th>
+                            <th scope="col"> Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="planDatesData">
+                        <tr *ngFor="let dateGroup of planDatesData.controls; let dateIdx=index" [formGroupName]="dateIdx">
+                            <th scope="row"> {{dateGroup.get('date')?.value}}</th>
+                            <td>
+                                <input class="form-control" formControlName="weight" (change)="onWeightChange(dateIdx, $event)">
+                            </td>
+                            <td>
+                                <input class="form-control" formControlName="calories"
+                                    (change)="onCaloriesChange(dateIdx, $event)">
+                            </td>
+                            <td>
+                                <div
+                                    *ngIf="dateGroup?.get('weight')?.value && dateGroup?.get('calories')?.value !== '';else noNetCals">
+                                    {{netCalories}}
+                                </div>
+                                <ng-template #noNetCals>
+                                    0
+                                </ng-template>
+                            </td>
+                            <td>
+                                <input class="form-control" formControlName="notes" (change)="onNotesChange(dateIdx, $event)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-center" style="margin: 20px 20px 20px 20px; padding-bottom: 20px;">
+        <div class="col-2">
+                <button class="btn btn-primary" (click)="onPlanDataSubmit()"> Save</button>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-info" (click)="viewGraphClicked()"> View Graph</button>
+        </div>
+    </div>
 </div>

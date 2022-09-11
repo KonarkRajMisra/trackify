@@ -22,14 +22,11 @@ export class LogInComponent implements OnInit {
     initiateSignIn() {
         // Get GoogleUser, call account service to get user from the backend
         this.accountService.signIn().subscribe(() => {
-            this.accountService.authenticate().subscribe((res) => {
-                console.log("authenticate()", res)
-                if (res != undefined || res != null) {
-                    this.accountService.setCurrentUser(res as User)
-                    this.router.navigateByUrl('/dash');
-                }
-            })
-        })
+            if (this.accountService.user !== null) {
+                this.router.navigateByUrl('/dash');
+            }
+        }
+        )
     }
 
     isLoggedIn(): boolean {
