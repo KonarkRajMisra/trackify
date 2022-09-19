@@ -29,13 +29,14 @@
     "bootstrap": "^5.2.0",
     "chart.js": "^3.9.1",
     "font-awesome": "^4.7.0",
+    "g": "^2.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.1.1",
-    "@angular/cli": "~14.1.1",
+    "@angular/cli": "^14.2.2",
     "@angular/compiler-cli": "^14.1.1",
     "@types/jasmine": "~4.0.0",
     "jasmine-core": "~4.1.0",

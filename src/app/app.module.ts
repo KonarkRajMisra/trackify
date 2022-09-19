@@ -16,6 +16,7 @@ import { FitnessPlanner } from './components/fitness-planner/fitness-planner.com
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
 import { FitnessPlanCardsComponent } from './components/fitness-plan-cards/fitness-plan-cards.component';
+import { GraphComponent } from './graph/graph.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { FitnessPlanCardsComponent } from './components/fitness-plan-cards/fitne
     TemplateFormComponent,
     FitnessPlanner,
     WeightTracker,
-    FitnessPlanCardsComponent
+    FitnessPlanCardsComponent,
+    GraphComponent
   ],
   imports: [
     BrowserModule,

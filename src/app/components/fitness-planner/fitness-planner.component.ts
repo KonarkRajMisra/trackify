@@ -155,8 +155,20 @@ export class FitnessPlanner implements OnInit {
   }
 
   editSelectedPlan(){
+    let fitnessPlan: FitnessPlan = {
+      email: this.accountService.user.email,
+      planId: this.currentFitnessPlan?.planId as number,
+      currentWeight: Number(this.currentWeight?.value),
+      currentPlan: this.currentPlan?.value!,
+      currentDate: this.currentDate?.value! as unknown as Date,
+      planEndDate: this.planEndDate?.value! as unknown as Date,
+      currentPlanCalories: this.planCalories,
+      status: 'active',
+      planData: this.currentFitnessPlan?.planData as PlanData
+    }
     console.log(this.currentFitnessPlan);
-    this.fitnessPlanService.updateFitnessPlan(this.currentFitnessPlan!);
+    console.log(fitnessPlan)
+    this.fitnessPlanService.updateFitnessPlan(fitnessPlan);
   }
 
   deleteSelectedPlan(){

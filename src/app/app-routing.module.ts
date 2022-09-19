@@ -6,6 +6,7 @@ import { FitnessPlanner } from './components/fitness-planner/fitness-planner.com
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
 import { LogInComponent } from './components/log-in/log-in.component';
 import { FitnessPlanCardsComponent } from './components/fitness-plan-cards/fitness-plan-cards.component';
+import { GraphComponent } from './graph/graph.component';
 
 
 
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: "weightTracking", component: WeightTracker},
   {path: "dash", component: DashBoardComponent},
   {path: "login", component: LogInComponent},
+  {path: "graph", component: GraphComponent}
 ];
 
 @NgModule({

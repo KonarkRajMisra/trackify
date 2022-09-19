@@ -16,8 +16,8 @@ export class NavBarComponent implements OnInit {
   }
 
   setCurrentUser() {
-    const user: User = JSON.parse(localStorage.getItem('user')!);
-    this.accountService.setCurrentUser(user);
+    // get the current user
+    this.accountService.getCurrentUser()
   }
 
   logout() {

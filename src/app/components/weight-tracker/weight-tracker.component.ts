@@ -6,6 +6,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { PlanData } from 'src/app/common/models/PlanData';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
 import { PlanDateData } from 'src/app/common/models/PlanDateData';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-weight-tracker',
@@ -13,79 +14,160 @@ import { PlanDateData } from 'src/app/common/models/PlanDateData';
   styleUrls: ['./weight-tracker.component.css']
 })
 export class WeightTracker implements OnInit {
-  netCalories = 0;
-
-  planDates!: Array<globalThis.Date>
-  allFitnessPlans?: Array<FitnessPlan>;
-  currentActivePlan?: FitnessPlan;
-  
-  planData = this.fb.group({
+  //Form group
+  planFormData = this.fb.group({
     planDatesData: this.fb.array([])
   })
 
-  constructor(private accountService: AccountService, private fitnessPlanningService: FitnessPlanService, private fb: FormBuilder) { }
+  //Props
+  netCalorieChange = 0;
+  netCaloriesPerRow = 0;
+  plannedDates!: Array<globalThis.Date>
+  allFitnessPlans?: Array<FitnessPlan>;
+  currentActiveFitnessPlan?: FitnessPlan;
+  populatedDatesData:PlanDateData[] = []
+
+  constructor(private accountService: AccountService, private fitnessPlanningService: FitnessPlanService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
+    // get the current user
     this.accountService.getCurrentUser()
+    // get all fitness plans
     this.fitnessPlanningService.getAllFitnessPlans(this.accountService.user?.email!, this.accountService.user.authToken!).subscribe((res: any) => {
       this.allFitnessPlans = res
+      // set current active plan
       this.setCurrentActivePlan()
-      this.setNetCalories()
     })
   }
 
+  // Getters
+  get planDatesData() {
+    return this.planFormData.get('planDatesData') as FormArray;
+  }
+
+  // Events
+  onWeightChange(dateIdx: number, e: any){
+    this.planDatesData.at(dateIdx).get('weight')?.setValue(Number(e.target.value));
+    this.updatePopulatedDatesData()
+  }
+
+  onCaloriesChange(dateIdx: number, e: any){
+    this.planDatesData.at(dateIdx).get('calories')?.setValue(Number(e.target.value));
+    this.planDatesData.at(dateIdx).get('netcalories')?.setValue(Number(this.getNetCaloriesForDate(this.planDatesData.at(dateIdx).get('weight')?.value, this.planDatesData.at(dateIdx).get('calories')?.value)))
+    this.updatePopulatedDatesData()
+  }
+
+  onNotesChange(dateIdx: number, e: any): void{
+    this.planDatesData.at(dateIdx).get('notes')?.setValue(e.target.value);
+  }
+
+  onPlanDataSubmit(){
+    let plan: PlanData = this.planFormData.value as PlanData;
+    this.sanitizePlan(plan);
+    console.log(plan)
+    this.fitnessPlanningService.submitFitnessPlanData(plan);
+  }
+
+  viewGraphClicked(){
+    this.router.navigateByUrl("/graph", {state: this.populatedDatesData})
+  }
+
+  // Setters
   setCurrentActivePlan(){
+    // iterate over plans
     for( let plan of this.allFitnessPlans!){
       if (plan.status === 'active'){
-        this.currentActivePlan = plan;
-        this.calculatePlanDateRange(plan)
+        // if plan status is active, set it to currentActiveFitnessPlan
+        this.currentActiveFitnessPlan = plan;
+        // convert plan
+        this.convertPlanDates()
       }
     }
   }
 
-  
-  calculatePlanDateRange(plan: FitnessPlan){
-    let planStartDate = this.convertDateToString(this.currentActivePlan?.currentDate!);
-    let planEndDate = this.convertDateToString(this.currentActivePlan?.planEndDate!);
+  setNetCalories(){
+    let tdee = 0;
+    let totalCals = 0;
+
+    for(let dateObj of this.planDatesData.controls){
+      if (dateObj.get('weight')?.value !== 0 && dateObj.get('calories')?.value !== 0)
+      {
+        tdee = Number(dateObj.get('weight')?.value) * 15;
+        totalCals -= tdee - Number(dateObj.get('calories')?.value)
+      }
+      else{
+        break;
+      }
+    }
+    this.netCaloriesPerRow = totalCals;
+  }
+
+  // Logic
+  convertPlanDates(){
+    // convert date to string
+    let planStartDate = this.convertDateToString(this.currentActiveFitnessPlan?.currentDate!);
+    let planEndDate = this.convertDateToString(this.currentActiveFitnessPlan?.planEndDate!);
     let startDate = new Date(planStartDate);
     let endDate = new Date(planEndDate);
     let currentDate = startDate;
     let dateArray = [];
     while (currentDate <= endDate){
+      // populate all the dates within the plan
       dateArray.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
     }
-    this.planDates = dateArray;
-    this.convertPlanDatesToFormControl(dateArray, plan)
+    // set plannedDates to populated dateArray
+    this.plannedDates = dateArray;
+    // convert plannedDates to Form Control
+    this.convertPlanDatesToFormControl()
   }
 
-  convertPlanDatesToFormControl(dateArray: Array<globalThis.Date>, plan: FitnessPlan){
-    let propogatedDatesData = []
-    for(let data of plan.planData?.planDatesData!){
-      if ( data.weight !== 0 || data.calories !== 0 || data.notes !== '')
-      propogatedDatesData.push(data)
+  convertPlanDatesToFormControl(){
+    // populate populatedDates
+    let populatedDates = []
+    for(let data of this.currentActiveFitnessPlan?.planData?.planDatesData!){
+      if ( data.weight !== 0 || data.calories !== 0 || data.notes !== ''){
+        populatedDates.push(data)
+      }
     }
-    for(let date of dateArray){
-      this.addDate(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`, propogatedDatesData)
+    // for each date, create date string, and create Form group
+    for(let date of this.plannedDates){
+      this.createFormGroup(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`, populatedDates)
     }
+    this.updatePopulatedDatesData()
   }
 
-  addDate(stringDate: string, propogatedDatesData: PlanDateData[]) {
-    console.log(stringDate, propogatedDatesData)
-    let date = this.createDateGroup(stringDate, propogatedDatesData)
-    this.planDatesData.push(date);
+  createFormGroup(stringDate: string, populatedDates: PlanDateData[]) {
+    // create form group, for the particular date
+    let group = this.createDateGroup(stringDate, populatedDates)
+    // add it to planDatesData
+    this.planDatesData.push(group);
   }
 
-  createDateGroup(stringDate: string, propogatedDatesData: PlanDateData[]){
+  updatePopulatedDatesData(){
+    let tempArr = []
+    for (let formData of this.planDatesData.value){
+      if (formData.weight != 0 && formData.calories != 0){
+        tempArr.push(formData)
+        this.netCalorieChange += formData.netcalories
+      }
+    }
+    console.log(tempArr,"TEMPARR")
+    this.populatedDatesData = tempArr
+  }
+
+  createDateGroup(stringDate: string, populatedDates: PlanDateData[]){
     // Check if date has already been filled by user, if so return populated vals
-    for (let propogatedDate of propogatedDatesData){
-      if (propogatedDate.date === stringDate){
+    for (let populatedDate of populatedDates){
+      if (populatedDate.date === stringDate){
         let newDate = this.fb.group({
           date: this.fb.control(stringDate),
-          weight: this.fb.control(propogatedDate.weight),
-          calories: this.fb.control(propogatedDate.calories),
-          notes: this.fb.control(propogatedDate.notes)
+          weight: this.fb.control(populatedDate.weight),
+          calories: this.fb.control(populatedDate.calories),
+          netcalories: this.fb.control(this.getNetCaloriesForDate(populatedDate.weight, populatedDate.calories)),
+          notes: this.fb.control(populatedDate.notes)
         })
+        this.populatedDatesData.push(populatedDate);
         return newDate
       }
     }
@@ -95,6 +177,7 @@ export class WeightTracker implements OnInit {
       date: this.fb.control(stringDate),
       weight: this.fb.control(0),
       calories: this.fb.control(0),
+      netcalories: this.fb.control(this.netCaloriesPerRow),
       notes: this.fb.control('')
     })
     return newDate;
@@ -105,41 +188,10 @@ export class WeightTracker implements OnInit {
     return stringDate;
   }
 
-  onWeightChange(dateIdx: number, e: any){
-    this.planDatesData.at(dateIdx).get('weight')?.setValue(Number(e.target.value));
-  }
-
-  onCaloriesChange(dateIdx: number, e: any){
-    this.planDatesData.at(dateIdx).get('calories')?.setValue(Number(e.target.value));
-    this.setNetCalories()
-  }
-
-  setNetCalories(){
-    let tdee = 0;
-    let totalCals = 0;
-    for(let dateObj of this.planDatesData.controls){
-      if (dateObj.get('weight')?.value !== '' && dateObj.get('calories')?.value !== '')
-      {
-        tdee = Number(dateObj.get('weight')?.value) * 15;
-        totalCals -= tdee - Number(dateObj.get('calories')?.value)
-        console.log(tdee, totalCals, this.netCalories)
-      }
-      else{
-        break;
-      }
-    }
-    this.netCalories = totalCals;
-  }
-
-  onNotesChange(dateIdx: number, e: any){
-    console.log(this.planDatesData.at(dateIdx))
-    this.planDatesData.at(dateIdx).get('notes')?.setValue(e.target.value);
-  }
-
-  onPlanDataSubmit(){
-    let plan: PlanData = this.planData.value as PlanData;
-    this.sanitizePlan(plan);
-    this.fitnessPlanningService.submitFitnessPlanData(plan);
+  getNetCaloriesForDate(weight: number, calories: number): number{
+    let tdee = weight * 15;
+    let netCals = calories - tdee;
+    return netCals
   }
 
   sanitizePlan(plan: PlanData){
@@ -152,13 +204,5 @@ export class WeightTracker implements OnInit {
       }
     }
     plan.planDatesData = newArr
-  }
-
-  get planDatesData() {
-    return this.planData.get('planDatesData') as FormArray;
-  }
-
-  viewGraphClicked(){
-    
   }
 }

@@ -21,12 +21,7 @@ export class LogInComponent implements OnInit {
 
     initiateSignIn() {
         // Get GoogleUser, call account service to get user from the backend
-        this.accountService.signIn().subscribe(() => {
-            if (this.accountService.user !== null) {
-                this.router.navigateByUrl('/dash');
-            }
-        }
-        )
+        this.accountService.signIn().subscribe()
     }
 
     isLoggedIn(): boolean {

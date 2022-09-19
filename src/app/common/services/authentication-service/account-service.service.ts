@@ -6,6 +6,7 @@ import { GoogleUser } from '../../models/GoogleUser';
 import { User } from '../../models/User';
 import { GoogleApiService } from '../google-api-service/google-api.service';
 import { map } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class AccountService {
   currentUser$ = this.currentUserSource.asObservable();
   googleUser$ = this.googleUserSource.asObservable();
 
-  constructor(private http: HttpClient, private googleService: GoogleApiService) {
+  constructor(private http: HttpClient, private googleService: GoogleApiService, private router: Router) {
   }
 
   authenticate(): Observable<AuthenticationResponse> {
@@ -82,6 +83,7 @@ export class AccountService {
         return this.authenticate().subscribe((res) => {
           if (res !== null) {
             this.setCurrentUser(res as User)
+            this.router.navigateByUrl('/dash');
           }
         })
       })
