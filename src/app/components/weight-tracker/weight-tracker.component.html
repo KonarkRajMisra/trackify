@@ -9,6 +9,10 @@
                 {{currentActiveFitnessPlan?.planEndDate?.year}}-{{currentActiveFitnessPlan?.planEndDate?.month}}-{{currentActiveFitnessPlan?.planEndDate?.day}}
             </p>
             <p class="lead"> Plan Target Calories: {{currentActiveFitnessPlan?.currentPlanCalories}} </p>
+            <p class="lead">
+                Net Calorie Change: {{this.netCalorieChange}}
+            </p>
+
         </div>
     </div>
     <div class="row" style="margin: 20px 20px 20px 20px">
@@ -49,9 +53,6 @@
                                 <input class="form-control" formControlName="notes"
                                     (change)="onNotesChange(dateIdx, $event)">
                             </td>
-                        </tr>
-                        <tr>
-                            Net Calorie Change: {{this.netCalorieChange}}
                         </tr>
                     </tbody>
                 </table>

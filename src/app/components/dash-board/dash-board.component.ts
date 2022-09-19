@@ -11,11 +11,9 @@ import { AccountService } from 'src/app/common/services/authentication-service/a
 export class DashBoardComponent implements OnInit {
   userTemplates: Array<Template> | undefined
 
-  constructor(public accountService: AccountService) { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
-    let res = this.accountService.getAllTemplates()?.subscribe((res) => {
-      this.userTemplates = res as Array<Template>
-    })
+    this.accountService.getCurrentUser();
   }
 }

@@ -2,23 +2,52 @@
     <div *ngFor="let fitnessPlan of fitnessPlans" class="col-sm-6">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Current Plan: {{fitnessPlan.currentPlan}}</h5>
-                <p class="card-text"> Plan Calories: {{fitnessPlan.currentPlanCalories.toString()}}</p>
-                <p class="card-text"> Plan Start Date:
-                    {{fitnessPlan.currentDate.year}}-{{fitnessPlan.currentDate.month}}-{{fitnessPlan.currentDate.day}}
-                </p>
-                <p class="card-text"> Plan End Date:
-                    {{fitnessPlan.planEndDate.year}}-{{fitnessPlan.planEndDate.month}}-{{fitnessPlan.planEndDate.day}}
-                </p>
-                <button (click)="onEditPlanClicked(fitnessPlan.planId, fitnessPlan)" class="btn btn-primary">Edit
-                    Plan</button>
+                
+                <div class="row p-3" style="text-align: center;">
+                    <div class="col">
+                        <h5 class="card-title">Current Plan: {{fitnessPlan.currentPlan}}</h5>
+                    </div>
+                </div>
+                <div class="row p-3" style="text-align: center;">
+                    <div class="col">
+                        <p class="card-text"> Plan Calories: {{fitnessPlan.currentPlanCalories.toString()}}</p>
+                    </div>
+                </div>
+                <div class="row p-3" style="text-align: center;">
+                    <div class="col">
+                        <p class="card-text"> Plan Start Date:
+                            {{fitnessPlan.currentDate.year}}-{{fitnessPlan.currentDate.month}}-{{fitnessPlan.currentDate.day}}
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row p-3" style="text-align: center;">
+                    <div class="col">
+                        <p class="card-text"> Plan End Date:
+                            {{fitnessPlan.planEndDate.year}}-{{fitnessPlan.planEndDate.month}}-{{fitnessPlan.planEndDate.day}}
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row p-3" style="text-align: center;">
+                    <div class="col">
+                        <button (click)="onEditPlanClicked(fitnessPlan.planId, fitnessPlan)" class="btn btn-primary">Edit
+                            Plan</button>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
     <div class="col-sm-6">
         <div class="card">
             <div class="card-body">
-                <button (click)="onCreateFitnessPlanClicked()"> Create New Fitness Plan</button>
+                <div class="row" style="text-align: center;">
+                    <div class="col">
+                        <button class="btn btn-primary" (click)="onCreateFitnessPlanClicked()"> Create Plan</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

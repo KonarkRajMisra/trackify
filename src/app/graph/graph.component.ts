@@ -1,24 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Chart, registerables } from 'node_modules/chart.js';
+import { AccountService } from '../common/services/authentication-service/account-service.service';
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css']
 })
 export class GraphComponent implements OnInit {
+  graph?: Chart
   labels: Array<string> = []
   data: Array<number> = []
   navigationData: any
-  constructor(private router: Router) {
+  WEIGHT = "weight";
+  CALORIES = "calories";
+  NETCALORIES = "netcalories";
+  constructor(private router: Router, private accountService: AccountService) {
     this.navigationData = this.router.getCurrentNavigation()?.extras.state;
   }
 
   ngOnInit(): void {
+    this.accountService.getCurrentUser();
     this.updateNavigationData()
     Chart.register(...registerables);
-    this.transformDataToGraphInput()
-    this.createGraph()
+    this.createGraphWithSelector(this.WEIGHT)
+  }
+
+  createGraphWithSelector(selector: string){
+    this.transformDataToGraphInput(selector)
+    this.createGraph(selector)
   }
 
   updateNavigationData(): void {
@@ -34,23 +44,28 @@ export class GraphComponent implements OnInit {
     }
   }
 
-  transformDataToGraphInput() {
-    console.log(this.navigationData)
+  transformDataToGraphInput(selector: string) {
     if (this.data !== null || this.data !== undefined) {
+      this.labels = []
+      this.data = []
       for (let item of this.navigationData) {
         this.labels.push(item.date)
-        this.data.push(item.weight)
+        this.data.push(item[selector])
       }
     }
+    console.log(this.navigationData, this.labels, this.data)
   }
 
-  createGraph() {
-    const graph = new Chart("graph", {
+  createGraph(selector: string) {
+    if (this.graph !== null || this.graph !== undefined){
+      this.graph?.destroy()
+    }
+    this.graph = new Chart("graph", {
       type: 'line',
       data: {
         labels: this.labels,
         datasets: [{
-          label: 'Weight Chage',
+          label: `${selector[0].toUpperCase()+selector.slice(1,selector.length)} Change`,
           data: this.data,
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
@@ -63,9 +78,7 @@ export class GraphComponent implements OnInit {
       },
       options: {
         scales: {
-          x: {
-
-          },
+          x: {},
           y: {
             ticks: {
               stepSize: 1
@@ -76,4 +89,7 @@ export class GraphComponent implements OnInit {
     });
   }
 
+  updateGraph(e: any){
+    this.createGraphWithSelector(e.target.value)
+  }
 }

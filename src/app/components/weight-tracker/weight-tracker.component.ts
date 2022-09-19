@@ -88,7 +88,6 @@ export class WeightTracker implements OnInit {
   setNetCalories(){
     let tdee = 0;
     let totalCals = 0;
-
     for(let dateObj of this.planDatesData.controls){
       if (dateObj.get('weight')?.value !== 0 && dateObj.get('calories')?.value !== 0)
       {
@@ -146,6 +145,7 @@ export class WeightTracker implements OnInit {
 
   updatePopulatedDatesData(){
     let tempArr = []
+    this.netCalorieChange = 0
     for (let formData of this.planDatesData.value){
       if (formData.weight != 0 && formData.calories != 0){
         tempArr.push(formData)

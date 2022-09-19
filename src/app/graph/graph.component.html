@@ -3,15 +3,13 @@
         <canvas id="graph"></canvas>
     </div>
 </div>
-<div class="row" style="text-align: center;">
-    <div class="col">
-        <div ngbDropdown class="d-inline-block">
-            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Change Graph Type</button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button ngbDropdownItem>Weight</button>
-                <button ngbDropdownItem>Calories</button>
-                <button ngbDropdownItem>Net Calories</button>
-            </div>
-        </div>
+<div class="row" style="text-align: center; padding: 50px ;">
+    <div class="col mx-auto">
+        <select class="form-select" (change)="updateGraph($event)">
+            <option selected>Change Graph Type</option>
+            <option [value]="WEIGHT">Weight</option>
+            <option [value]="CALORIES">Calories</option>
+            <option [value]="NETCALORIES">Net Calories</option>
+          </select>
     </div>
 </div>

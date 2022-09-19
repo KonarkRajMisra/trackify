@@ -8,7 +8,6 @@ const oAuthConfig: AuthConfig = {
   strictDiscoveryDocumentValidation: false,
   redirectUri: window.location.origin,
   clientId: '48301263695-3je8eommj5iqskcfv49q1fqdkekvke4f.apps.googleusercontent.com',
-  useSilentRefresh: true,
   scope: 'openid profile email'
 }
 
@@ -19,7 +18,9 @@ export class GoogleApiService {
   
   // googleProfileSubject = new Subject<GoogleUser>();
   googleProfile!: GoogleUser;
-  constructor(private readonly oAuthService: OAuthService) { }
+  constructor(private readonly oAuthService: OAuthService) { 
+    this.oAuthService.getRefreshToken()
+  }
 
   initiateGoogleSignIn(): Observable<GoogleUser>{
     this.oAuthService.configure(oAuthConfig);
