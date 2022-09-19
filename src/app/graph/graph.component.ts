@@ -26,7 +26,13 @@ export class GraphComponent implements OnInit {
     this.createGraphWithSelector(this.WEIGHT)
   }
 
-  createGraphWithSelector(selector: string){
+  ngOnDestroy() {
+    if (this.graph !== null || this.graph !== undefined) {
+      this.graph?.destroy()
+    }
+  }
+
+  createGraphWithSelector(selector: string) {
     this.transformDataToGraphInput(selector)
     this.createGraph(selector)
   }
@@ -57,7 +63,7 @@ export class GraphComponent implements OnInit {
   }
 
   createGraph(selector: string) {
-    if (this.graph !== null || this.graph !== undefined){
+    if (this.graph !== null || this.graph !== undefined) {
       this.graph?.destroy()
     }
     this.graph = new Chart("graph", {
@@ -65,7 +71,7 @@ export class GraphComponent implements OnInit {
       data: {
         labels: this.labels,
         datasets: [{
-          label: `${selector[0].toUpperCase()+selector.slice(1,selector.length)} Change`,
+          label: `${selector[0].toUpperCase() + selector.slice(1, selector.length)} Change`,
           data: this.data,
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
@@ -89,7 +95,7 @@ export class GraphComponent implements OnInit {
     });
   }
 
-  updateGraph(e: any){
+  updateGraph(e: any) {
     this.createGraphWithSelector(e.target.value)
   }
 }

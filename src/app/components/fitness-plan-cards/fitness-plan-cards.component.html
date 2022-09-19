@@ -3,17 +3,17 @@
         <div class="card">
             <div class="card-body">
                 
-                <div class="row p-3" style="text-align: center;">
+                <div class="row p-2" style="text-align: center;">
                     <div class="col">
                         <h5 class="card-title">Current Plan: {{fitnessPlan.currentPlan}}</h5>
                     </div>
                 </div>
-                <div class="row p-3" style="text-align: center;">
+                <div class="row p-2" style="text-align: center;">
                     <div class="col">
                         <p class="card-text"> Plan Calories: {{fitnessPlan.currentPlanCalories.toString()}}</p>
                     </div>
                 </div>
-                <div class="row p-3" style="text-align: center;">
+                <div class="row p-2" style="text-align: center;">
                     <div class="col">
                         <p class="card-text"> Plan Start Date:
                             {{fitnessPlan.currentDate.year}}-{{fitnessPlan.currentDate.month}}-{{fitnessPlan.currentDate.day}}
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 
-                <div class="row p-3" style="text-align: center;">
+                <div class="row p-2" style="text-align: center;">
                     <div class="col">
                         <p class="card-text"> Plan End Date:
                             {{fitnessPlan.planEndDate.year}}-{{fitnessPlan.planEndDate.month}}-{{fitnessPlan.planEndDate.day}}
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 
-                <div class="row p-3" style="text-align: center;">
+                <div class="row p-2" style="text-align: center;">
                     <div class="col">
                         <button (click)="onEditPlanClicked(fitnessPlan.planId, fitnessPlan)" class="btn btn-primary">Edit
                             Plan</button>
