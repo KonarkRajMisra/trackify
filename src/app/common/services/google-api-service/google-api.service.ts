@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OAuthService, AuthConfig } from 'angular-oauth2-oidc';
-import { Subject } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { GoogleUser } from '../../models/GoogleUser';
 
 const oAuthConfig: AuthConfig = {
@@ -8,7 +8,6 @@ const oAuthConfig: AuthConfig = {
   strictDiscoveryDocumentValidation: false,
   redirectUri: window.location.origin,
   clientId: '48301263695-3je8eommj5iqskcfv49q1fqdkekvke4f.apps.googleusercontent.com',
-  useSilentRefresh: true,
   scope: 'openid profile email'
 }
 
@@ -17,27 +16,30 @@ const oAuthConfig: AuthConfig = {
 })
 export class GoogleApiService {
   
-  googleProfileSubject = new Subject<GoogleUser>();
-  constructor(private readonly oAuthService: OAuthService) { }
+  // googleProfileSubject = new Subject<GoogleUser>();
+  googleProfile!: GoogleUser;
+  constructor(private readonly oAuthService: OAuthService) { 
+    this.oAuthService.getRefreshToken()
+  }
 
-  async initiateSignIn(): Promise<void> {
+  initiateGoogleSignIn(): Observable<GoogleUser>{
     this.oAuthService.configure(oAuthConfig);
-    this.oAuthService.logoutUrl = 'https://www.google.com/accounts/Logout'
-    this.oAuthService.loadDiscoveryDocument().then( () => {
-      this.oAuthService.tryLoginImplicitFlow().then( () => {
+    return from(this.oAuthService.loadDiscoveryDocumentAndLogin().then(() => {
+      return this.oAuthService.tryLoginImplicitFlow().then(() => {
         if(!this.oAuthService.hasValidAccessToken()){
           this.oAuthService.initImplicitFlow()
-          localStorage.setItem('initiated', 'true');
-        }else {
-          this.loadGoogleUser();
         }
+        return this.loadGoogleUser().then((googleProfile) => googleProfile)
       })
-    })
+    }))
   }
   
-  loadGoogleUser() {
-    this.oAuthService.loadUserProfile().then((googleProfile) => {
-      this.googleProfileSubject.next(googleProfile as GoogleUser)
+  loadGoogleUser(): Promise<GoogleUser> {
+    return this.oAuthService.loadUserProfile().then((googleProfile) => {
+      this.googleProfile = googleProfile as GoogleUser;
+      console.log("loadGoogleUser()",googleProfile)
+      localStorage.setItem('googleUser', JSON.stringify(this.googleProfile));
+      return this.googleProfile;
     })
   }
 
@@ -45,7 +47,7 @@ export class GoogleApiService {
     return this.oAuthService.hasValidAccessToken();
   }
 
-  signOut() {
+  logOut() {
     this.oAuthService.logOut()
   }
 

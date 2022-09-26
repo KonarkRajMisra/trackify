@@ -1,8 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { GoogleApiService } from "src/app/common/services/google-api-service/google-api.service";
-import { AccountService } from "src/app/common/services/account-service/account-service.service";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-
+import { AccountService } from "src/app/common/services/authentication-service/account-service.service";
+import { Router } from "@angular/router";
+import { AuthenticationResponse } from "src/app/common/models/AuthenticationResponse";
+import { map, Observable } from "rxjs";
+import { GoogleUser } from "src/app/common/models/GoogleUser";
+import { User } from "src/app/common/models/User";
 
 @Component({
     selector: 'app-log-in',
@@ -11,16 +14,14 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 })
 export class LogInComponent implements OnInit {
 
-    constructor(public activeModal: NgbActiveModal, private readonly googleService: GoogleApiService, private readonly accountService: AccountService) { }
-
-    ngOnInit(): void {
-
+    constructor(private readonly googleService: GoogleApiService, private readonly accountService: AccountService, private router: Router) {
     }
 
-    async onGoogleButtonClick(): Promise<void> {
-        await this.googleService.initiateSignIn().then(() => {
-            this.accountService.setUserAfterGoogleLogin();
-        })
+    ngOnInit(): void { }
+
+    initiateSignIn() {
+        // Get GoogleUser, call account service to get user from the backend
+        this.accountService.signIn().subscribe()
     }
 
     isLoggedIn(): boolean {
@@ -28,7 +29,6 @@ export class LogInComponent implements OnInit {
     }
 
     logout() {
-        this.accountService.logout();
-        this.googleService.signOut()
+        this.accountService.logOut();
     }
 }

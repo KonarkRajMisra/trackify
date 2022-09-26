@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GoogleUser } from './common/models/GoogleUser';
 import { User } from './common/models/User';
-import { AccountService } from './common/services/account-service/account-service.service';
+import { AccountService } from './common/services/authentication-service/account-service.service';
 import { GoogleApiService } from './common/services/google-api-service/google-api.service';
 
 @Component({
@@ -17,19 +17,20 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.setCurrentUser();
+      this.getCurrentUser();
   }
 
-  setCurrentUser() {
+  getCurrentUser() {
+
+    // Every time the app loads up, check if user object exists in localStorage
+    // if initiated is true, that means google user has been already verified
     const user: User = JSON.parse(localStorage.getItem('user')!);
-    const initiated = JSON.parse(localStorage.getItem('initiated')!);
-    console.log(user)
-    if (initiated){
-      this.googleService.initiateSignIn().then(() => 
-      this.accountService.setUserAfterGoogleLogin());
-    }
-    if(user){
-      this.accountService.setCurrentUser(user);
+    const googleUser = JSON.parse(localStorage.getItem('googleUser')!);
+
+    // If initiated exists, reinitialize as google auth token could have expired
+    // And reinitialize auth token
+    if (googleUser){
+      this.accountService.signIn()
     }
   }
 }

@@ -1,38 +1,40 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand abs" href="#">Trackify</a>
-        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div *ngIf="(accountService.currentUser$ | async) === null else profile" class="navbar-collapse collapse"
-            id="collapseNavbar">
-            <ul class="navbar-nav ms-auto">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <div *ngIf=" accountService.currentUser$ | async; else notLoggedIn">
+            <a class="navbar-brand abs" routerLink="/dash">Trackify</a>
+        </div>
+        <ng-template #notLoggedIn>
+            <a class="navbar-brand abs" routerLink="/login">Trackify</a>
+        </ng-template>
+        
+        <div class="collapse navbar-collapse" *ngIf="accountService.currentUser$ | async">
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <button class="btn btn-primary" (click)="openModal()">Login</button>
+                    <a class="nav-link" routerLink="/weightTracking"> Weight </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/workoutTracking"> Workouts </a>
                 </li>
             </ul>
-        </div>
-
-        <ng-template #profile>
             
-            <div class="navbar-collapse collapse" id="collapseNavbar">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <div class="row">
-                            <div class="col">
-                                <div ngbDropdown class="d-inline-block">
-                                    <img [src]="(accountService.currentUser$ | async)?.picture" width="30" height="30"/>
-                                    <button type="button" class="btn btn-primary" id="dropdownBasic1"
-                                        ngbDropdownToggle> {{ (accountService.currentUser$ | async)!.name }}</button>
-                                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                        <button ngbDropdownItem (click)="logout()">Logout</button>
-                                    </div>
-                                </div>
+        </div>
+        <ul class="navbar-nav mr-auto" *ngIf="accountService.currentUser$ | async">
+            <li class="nav-item">
+                <div class="row">
+                    <div class="col">
+                        <div ngbDropdown class="d-inline-block">
+                            <img [src]=" (accountService.currentUser$ | async)?.picture" width="30" height="30" />
+                            <button type="button" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                {{ (accountService.currentUser$ | async)!.name }}</button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <button ngbDropdownItem routerLink="/fitnessPlanCards"> Fitness Planning</button>
+                                <button ngbDropdownItem routerLink="/fitnessPlanCards"> Workout Planning</button>
+                                <button ngbDropdownItem (click)="logout()">Logout</button>
                             </div>
                         </div>
-                    </li>
-                </ul>
-            </div>
-        </ng-template>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
 </nav>

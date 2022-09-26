@@ -1,0 +1,8 @@
+<div class="container">
+    <div *ngIf="(accountService.user) === undefined; else dash">
+        <app-log-in> </app-log-in>
+    </div>
+    <ng-template #dash>
+        <app-dash-board></app-dash-board>
+    </ng-template>
+</div>

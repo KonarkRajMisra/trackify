@@ -1,6 +1,17 @@
-<div class="modal-header">
-    <h4 class="modal-title">Login to trackify</h4>
-</div>
-<div class="modal-body">
-    <button (click)="onGoogleButtonClick()">Login using Google</button>
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+                    <h3 class="mb-5">Login to Trackify</h3>
+                    <hr class="my-4">
+                    <button class="btn btn-lg btn-block btn-primary mb-2" style="background-color: white; text-transform: none; color: black;" (click)="initiateSignIn()"><img
+                            width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                            Login with Google
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AccountService } from 'src/app/common/services/account-service/account-service.service';
-import { LogInComponent } from '../log-in/log-in.component';
+import { Router } from '@angular/router';
+import { User } from 'src/app/common/models/User';
+import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,16 +10,18 @@ import { LogInComponent } from '../log-in/log-in.component';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, public accountService: AccountService) { }
+  constructor(public accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  openModal(): void {
-    const modalRef = this.modalService.open(LogInComponent)
+  setCurrentUser() {
+    // get the current user
+    this.accountService.getCurrentUser()
   }
 
   logout() {
-    this.accountService.logout();
+    this.accountService.logOut();
+    this.router.navigateByUrl("/login");
   }
 }

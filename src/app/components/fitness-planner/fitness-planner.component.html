@@ -1,0 +1,53 @@
+<div>
+    <h1> Fitness Plan </h1>
+    <form [formGroup]="fitnessPlanningForm">
+        <div class="mb-3">
+            <label for="currentWeight" class="form-label"> Current Weight </label>
+            <input class="form-control" id="currentWeight" type="text" formControlName="currentWeight"
+                (change)="changeCurrentWeight($event)">
+        </div>
+        <div class="mb-3">
+            <label for="plans" class="form-label"> Plan </label>
+            <select class="form-select" id="currentPlan" (change)="changePlan($event)" formControlName="currentPlan">
+                <option value=""></option>
+                <option *ngFor="let plan of plans" [value]="plan.name">
+                    {{plan.name}}
+                </option>
+            </select>
+        </div>
+
+        <label for="currentDate" class="form-label"> Current Date </label>
+        <div class="input-group mb-3">
+            <input class="form-control" placeholder="yyyy-mm-dd" id="currentDate" formControlName="currentDate"
+                ngbDatepicker #d="ngbDatepicker" (change)="changeCurrentDate($event)">
+            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                <fa-icon [icon]="faCalendar"></fa-icon>
+            </button>
+        </div>
+        <label for="planEndDate" class="form-label"> Plan End Date </label>
+        <div class="input-group mb-3">
+            <input class="form-control" type="text" placeholder="yyyy-mm-dd" id="planEndDate" formControlName="planEndDate"
+                ngbDatepicker #d2="ngbDatepicker">
+            <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button">
+                <fa-icon [icon]="faCalendar"></fa-icon>
+            </button>
+        </div>
+        <label for="tdee" class="form-label"> TDEE</label>
+        <div class="mb-3">
+            <h3> {{ tdee }}</h3>
+        </div>
+        <label for="planCalories" class="form-label"> {{currentPlan?.value}} Plan Calories</label>
+        <div class="mb-3">
+            <h3> {{planCalories}}</h3>
+        </div>
+        <div style="text-align: center;">
+            <div *ngIf="editPlan; else savePlan">
+                <button class="btn btn-primary" style="margin: 10px;" (click)="editSelectedPlan()"> Edit Plan </button>
+                <button class="btn btn-danger" style="margin: 10px;" (click)="deleteSelectedPlan()"> Delete Plan </button>
+            </div>
+            <ng-template #savePlan>
+                <button class="btn btn-primary" (click)="onPlanSubmit()"> Save Plan</button>
+            </ng-template>
+        </div>
+    </form>
+</div>
