@@ -1,3 +1,18 @@
 <div class="container">
-    <app-graph></app-graph>
+    <div *ngIf="planData; else noPlanData" class="row">
+        <div class="row" style="text-align: center;">
+            <h1 class="display-6"> Fitness Plan Data </h1>
+        </div>
+        <div class="row">
+            <app-graph *ngIf="planDatesData?.length" [planDatesData]="planDatesData"></app-graph>
+        </div>
+        
+    </div>
+
+    <ng-template #noPlanData>
+        <div class="row">
+            <h1 class="display-6"> You currently have no Fitness Plan Data.</h1>
+        </div>
+    </ng-template>
+    
 </div>

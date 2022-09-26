@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Chart, registerables } from 'node_modules/chart.js';
+import { Chart, ChartTypeRegistry, registerables } from 'node_modules/chart.js';
+import { PlanDateData } from '../common/models/PlanDateData';
 import { AccountService } from '../common/services/authentication-service/account-service.service';
 @Component({
   selector: 'app-graph',
@@ -8,15 +9,26 @@ import { AccountService } from '../common/services/authentication-service/accoun
   styleUrls: ['./graph.component.css']
 })
 export class GraphComponent implements OnInit {
+  @Input() planDatesData?: any
   graph?: Chart
   labels: Array<string> = []
   data: Array<number> = []
   navigationData: any
+  selectedData: string = "weight"
+  selectedType: keyof ChartTypeRegistry = "line"
   WEIGHT = "weight";
   CALORIES = "calories";
   NETCALORIES = "netcalories";
+  LINE = "line"
+  BAR = "bar"
+
+
+
   constructor(private router: Router, private accountService: AccountService) {
-    this.navigationData = this.router.getCurrentNavigation()?.extras.state;
+    // If graph data is coming from navigation
+    if (this.router.getCurrentNavigation()?.extras.state !== undefined) {
+      this.navigationData = this.router.getCurrentNavigation()?.extras.state;
+    }
   }
 
   ngOnInit(): void {
@@ -34,15 +46,17 @@ export class GraphComponent implements OnInit {
 
   createGraphWithSelector(selector: string) {
     this.transformDataToGraphInput(selector)
-    this.createGraph(selector)
+    this.createGraph(selector, this.selectedType as keyof ChartTypeRegistry)
   }
 
   updateNavigationData(): void {
     if (this.navigationData === null || this.navigationData === undefined) {
       let navData = localStorage.getItem("graphNavigationData")
-      console.log(navData)
-      if (navData !== null || navData !== undefined) {
+      if (navData !== null && navData !== undefined) {
         this.navigationData = JSON.parse(navData!)
+      } else {
+        this.navigationData = this.planDatesData
+        localStorage.setItem("graphNavigationData", JSON.stringify(this.navigationData))
       }
     }
     else {
@@ -59,15 +73,14 @@ export class GraphComponent implements OnInit {
         this.data.push(item[selector])
       }
     }
-    console.log(this.navigationData, this.labels, this.data)
   }
 
-  createGraph(selector: string) {
+  createGraph(selector: string, type: keyof ChartTypeRegistry) {
     if (this.graph !== null || this.graph !== undefined) {
       this.graph?.destroy()
     }
     this.graph = new Chart("graph", {
-      type: 'line',
+      type: type,
       data: {
         labels: this.labels,
         datasets: [{
@@ -95,7 +108,18 @@ export class GraphComponent implements OnInit {
     });
   }
 
-  updateGraph(e: any) {
-    this.createGraphWithSelector(e.target.value)
+  updateGraphData(e: any) {
+    if (e.target.value !== "Change Graph Data") {
+      this.createGraphWithSelector(e.target.value)
+      this.selectedData = e.target.value
+    }
+  }
+
+  updateGraphType(e: any) {
+    if (e.target.value !== "Change Graph Type") {
+      this.createGraph(this.selectedData, e.target.value)
+      this.selectedType = e.target.value
+    }
+
   }
 }

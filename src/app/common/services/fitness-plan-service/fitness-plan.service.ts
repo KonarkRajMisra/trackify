@@ -33,7 +33,7 @@ export class FitnessPlanService{
             headers: header,
             params: params
         };
-        return this.http.get(this.baseUrl + 'getAllFitnessPlans', options);
+        return this.http.get<Array<FitnessPlan>>(this.baseUrl + 'getAllFitnessPlans', options);
     }
 
     submitFitnessPlanData(plan: PlanData){
