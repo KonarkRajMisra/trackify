@@ -205,4 +205,8 @@ export class WeightTracker implements OnInit {
     }
     plan.planDatesData = newArr
   }
+
+  viewFitnessSummary() {
+    this.fitnessPlanningService.getFitnessPlanSummary(this.accountService.user.email, this.accountService.user.authToken).subscribe((res) => console.log("SUMMARY",res))
+  }
 }

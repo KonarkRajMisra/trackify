@@ -28,7 +28,7 @@ export class FitnessPlanCardsComponent implements OnInit {
     this.router.navigateByUrl("/fitnessPlan/" + id, { state: fitnessPlan });
   }
 
-  onCreateFitnessPlanClicked(){
+  onCreateFitnessPlanClicked() {
     this.router.navigateByUrl("/fitnessPlan");
   }
 

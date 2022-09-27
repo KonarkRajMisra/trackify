@@ -36,6 +36,17 @@ export class FitnessPlanService{
         return this.http.get<Array<FitnessPlan>>(this.baseUrl + 'getAllFitnessPlans', options);
     }
 
+    getFitnessPlanSummary(email: string, authToken: string)
+    {
+        let header = new HttpHeaders().set('Authorization', `Bearer ${authToken}`)
+        let params = { "email": email };
+        const options = {
+            headers: header,
+            params: params
+        };
+        return this.http.get<any>(this.baseUrl + 'getFitnessPlanSummary', options);
+    }
+
     submitFitnessPlanData(plan: PlanData){
         let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
         const options = {
