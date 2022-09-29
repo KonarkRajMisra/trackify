@@ -15,7 +15,7 @@ import { TemplateFormComponent } from './components/template-form/template-form.
 import { NutritionPlanner } from './components/nutrition-planner/nutrition-planner.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
-import { FitnessPlanCardsComponent } from './components/nutrition-plan-cards/nutrition-plan-cards.component';
+import { NutritionPlanCards } from './components/nutrition-plan-cards/nutrition-plan-cards.component';
 import { GraphComponent } from './graph/graph.component';
 
 @NgModule({
@@ -28,7 +28,7 @@ import { GraphComponent } from './graph/graph.component';
     TemplateFormComponent,
     NutritionPlanner,
     WeightTracker,
-    FitnessPlanCardsComponent,
+    NutritionPlanCards,
     GraphComponent
   ],
   imports: [
