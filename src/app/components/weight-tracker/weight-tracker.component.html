@@ -1,14 +1,14 @@
 <div class="container">
     <div class="row" style="margin: 20px 20px 20px 20px">
         <div class="col">
-            <p class="lead"> Current Active Plan: {{currentActiveFitnessPlan?.currentPlan}}</p>
+            <p class="lead"> Current Active Plan: {{currentActiveNutritionPlan?.planName}}</p>
             <p class="lead"> Plan Start Date:
-                {{currentActiveFitnessPlan?.currentDate?.year}}-{{currentActiveFitnessPlan?.currentDate?.month}}-{{currentActiveFitnessPlan?.currentDate?.day}}
+                {{currentActiveNutritionPlan?.startDate?.year}}-{{currentActiveNutritionPlan?.startDate?.month}}-{{currentActiveNutritionPlan?.startDate?.day}}
             </p>
             <p class="lead"> Plan End Date:
-                {{currentActiveFitnessPlan?.planEndDate?.year}}-{{currentActiveFitnessPlan?.planEndDate?.month}}-{{currentActiveFitnessPlan?.planEndDate?.day}}
+                {{currentActiveNutritionPlan?.endDate?.year}}-{{currentActiveNutritionPlan?.endDate?.month}}-{{currentActiveNutritionPlan?.endDate?.day}}
             </p>
-            <p class="lead"> Plan Target Calories: {{currentActiveFitnessPlan?.currentPlanCalories}} </p>
+            <p class="lead"> Plan Target Calories: {{currentActiveNutritionPlan?.planCalories}} </p>
             <p class="lead">
                 Net Calorie Change: {{this.netCalorieChange}}
             </p>
@@ -17,7 +17,7 @@
     </div>
     <div class="row" style="margin: 20px 20px 20px 20px">
         <div class="col">
-            <form [formGroup]="planFormData">
+            <form [formGroup]="nutritionPlanForm">
                 <table class="table table-dark table-striped table-bordered">
                     <thead>
                         <tr>
@@ -28,8 +28,8 @@
                             <th scope="col"> Notes</th>
                         </tr>
                     </thead>
-                    <tbody formArrayName="planDatesData">
-                        <tr *ngFor="let dateGroup of planDatesData.controls; let dateIdx=index"
+                    <tbody formArrayName="dateData">
+                        <tr *ngFor="let dateGroup of dateData.controls; let dateIdx=index"
                             [formGroupName]="dateIdx">
                             <th scope="row"> {{dateGroup.get('date')?.value}}</th>
                             <td>

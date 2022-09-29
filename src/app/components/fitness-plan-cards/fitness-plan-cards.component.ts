@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FitnessPlan } from 'src/app/common/models/FitnessPlan';
+import { NutritionPlan } from 'src/app/common/models/Nutrition/NutritionPlan';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
-import { FitnessPlanService } from 'src/app/common/services/fitness-plan-service/fitness-plan.service';
+import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan-service';
 
 @Component({
   selector: 'app-fitness-plan-cards',
@@ -11,25 +11,25 @@ import { FitnessPlanService } from 'src/app/common/services/fitness-plan-service
 })
 export class FitnessPlanCardsComponent implements OnInit {
 
-  fitnessPlans: Array<FitnessPlan> | undefined
-  constructor(public accountService: AccountService, private fitnessPlanService: FitnessPlanService, private router: Router) { }
+  fitnessPlans: Array<NutritionPlan> | undefined
+  constructor(public accountService: AccountService, private nutritionPlanService: NutritionPlanService, private router: Router) { }
 
   ngOnInit(): void {
     this.accountService.getCurrentUser()
     if (this.accountService.user != undefined) {
-      this.fitnessPlanService.getAllFitnessPlans(this.accountService.user.email, this.accountService.user.authToken).subscribe((res: any) => {
+      this.nutritionPlanService.getAllNutritionPlans(this.accountService.user.email, this.accountService.user.authToken).subscribe((res: any) => {
         this.fitnessPlans = res;
         console.log("FITNESSPLANCARDCOMPONENT", this.fitnessPlans);
       })
     }
   }
 
-  onEditPlanClicked(id: number, fitnessPlan: FitnessPlan) {
-    this.router.navigateByUrl("/fitnessPlan/" + id, { state: fitnessPlan });
+  onEditPlanClicked(id: number, nutritionPlan: NutritionPlan) {
+    this.router.navigateByUrl("/nutritionPlan/" + id, { state: nutritionPlan });
   }
 
   onCreateFitnessPlanClicked() {
-    this.router.navigateByUrl("/fitnessPlan");
+    this.router.navigateByUrl("/nutritionPlan");
   }
 
 }

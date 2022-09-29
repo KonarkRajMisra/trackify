@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { Template } from 'src/app/common/models/Template';
+import { Template } from 'src/app/common/models/Workout/WorkoutRoutine';
 
 @Component({
   selector: 'app-template-form',

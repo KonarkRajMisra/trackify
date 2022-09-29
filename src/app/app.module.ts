@@ -12,12 +12,11 @@ import { DashBoardComponent } from './components/dash-board/dash-board.component
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { TemplateFormComponent } from './components/template-form/template-form.component';
-import { FitnessPlanner } from './components/fitness-planner/fitness-planner.component';
+import { FitnessPlanner } from './components/nutrition-planner/nutrition-planner.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
 import { FitnessPlanCardsComponent } from './components/fitness-plan-cards/fitness-plan-cards.component';
 import { GraphComponent } from './graph/graph.component';
-import { TrainingPlanCardsComponent } from './components/training-plan-cards/training-plan-cards.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +29,7 @@ import { TrainingPlanCardsComponent } from './components/training-plan-cards/tra
     FitnessPlanner,
     WeightTracker,
     FitnessPlanCardsComponent,
-    GraphComponent,
-    TrainingPlanCardsComponent
+    GraphComponent
   ],
   imports: [
     BrowserModule,

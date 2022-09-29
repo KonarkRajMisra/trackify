@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Chart, ChartTypeRegistry, registerables } from 'node_modules/chart.js';
-import { PlanDateData } from '../common/models/PlanDateData';
+import { DateData } from '../common/models/DateData';
 import { AccountService } from '../common/services/authentication-service/account-service.service';
 @Component({
   selector: 'app-graph',
@@ -9,7 +9,7 @@ import { AccountService } from '../common/services/authentication-service/accoun
   styleUrls: ['./graph.component.css']
 })
 export class GraphComponent implements OnInit {
-  @Input() planDatesData?: any
+  @Input() dateData?: any
   graph?: Chart
   labels: Array<string> = []
   data: Array<number> = []
@@ -55,7 +55,7 @@ export class GraphComponent implements OnInit {
       if (navData !== null && navData !== undefined) {
         this.navigationData = JSON.parse(navData!)
       } else {
-        this.navigationData = this.planDatesData
+        this.navigationData = this.dateData
         localStorage.setItem("graphNavigationData", JSON.stringify(this.navigationData))
       }
     }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PlanData } from 'src/app/common/models/PlanData';
-import { PlanDateData } from 'src/app/common/models/PlanDateData';
+import { NutritionData } from 'src/app/common/models/Nutrition/NutritionData';
+import { DateData } from 'src/app/common/models/DateData';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
-import { FitnessPlanService } from 'src/app/common/services/fitness-plan-service/fitness-plan.service';
+import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan-service';
 
 @Component({
   selector: 'app-dash-board',
@@ -10,17 +10,17 @@ import { FitnessPlanService } from 'src/app/common/services/fitness-plan-service
   styleUrls: ['./dash-board.component.css']
 })
 export class DashBoardComponent implements OnInit {
-  planData?: PlanData
-  planDatesData?: PlanDateData[]
+  nutritionData?: NutritionData
+  dateData?: DateData[]
 
-  constructor(private accountService: AccountService, private fitnessPlanService: FitnessPlanService) { }
+  constructor(private accountService: AccountService, private nutritionPlanService: NutritionPlanService) { }
 
   ngOnInit(): void {
     this.accountService.getCurrentUser();
-    this.fitnessPlanService.getAllFitnessPlans(this.accountService.user.email, this.accountService.user.authToken).subscribe((res) => {
-      this.planData = res[0].planData!
-      this.planDatesData = this.planData?.planDatesData
-      console.log("PDD was Set", this.planDatesData)
+    this.nutritionPlanService.getAllNutritionPlans(this.accountService.user.email, this.accountService.user.authToken).subscribe((res) => {
+      this.nutritionData = res[0].nutritionData!
+      this.dateData = this.nutritionData?.dateData
+      console.log("PDD was Set", this.dateData)
     }
     )
   }

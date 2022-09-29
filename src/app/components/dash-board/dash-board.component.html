@@ -1,10 +1,10 @@
 <div class="container">
-    <div *ngIf="planData; else noPlanData" class="row">
+    <div *ngIf="nutritionData; else noPlanData" class="row">
         <div class="row" style="text-align: center;">
             <h1 class="display-6"> Fitness Plan Data </h1>
         </div>
         <div class="row">
-            <app-graph *ngIf="planDatesData?.length" [planDatesData]="planDatesData"></app-graph>
+            <app-graph *ngIf="dateData?.length" [dateData]="dateData"></app-graph>
         </div>
         
     </div>

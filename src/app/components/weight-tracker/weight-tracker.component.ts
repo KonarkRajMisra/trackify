@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FitnessPlan } from 'src/app/common/models/FitnessPlan';
-import { FitnessPlanService } from 'src/app/common/services/fitness-plan-service/fitness-plan.service';
+import { NutritionPlan } from 'src/app/common/models/Nutrition/NutritionPlan';
+import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan-service';
 import { Date } from 'src/app/common/models/Date';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { PlanData } from 'src/app/common/models/PlanData';
+import { NutritionData } from 'src/app/common/models/Nutrition/NutritionData';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
-import { PlanDateData } from 'src/app/common/models/PlanDateData';
+import { DateData } from 'src/app/common/models/DateData';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,57 +15,57 @@ import { Router } from '@angular/router';
 })
 export class WeightTracker implements OnInit {
   //Form group
-  planFormData = this.fb.group({
-    planDatesData: this.fb.array([])
+  nutritionPlanForm = this.fb.group({
+    dateData: this.fb.array([])
   })
 
   //Props
   netCalorieChange = 0;
   netCaloriesPerRow = 0;
   plannedDates!: Array<globalThis.Date>
-  allFitnessPlans?: Array<FitnessPlan>;
-  currentActiveFitnessPlan?: FitnessPlan;
-  populatedDatesData:PlanDateData[] = []
+  allNutritionPlans?: Array<NutritionPlan>;
+  currentActiveNutritionPlan?: NutritionPlan;
+  populatedDatesData:DateData[] = []
 
-  constructor(private accountService: AccountService, private fitnessPlanningService: FitnessPlanService, private fb: FormBuilder, private router: Router) { }
+  constructor(private accountService: AccountService, private fitnessPlanningService: NutritionPlanService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     // get the current user
     this.accountService.getCurrentUser()
     // get all fitness plans
-    this.fitnessPlanningService.getAllFitnessPlans(this.accountService.user?.email!, this.accountService.user.authToken!).subscribe((res: any) => {
-      this.allFitnessPlans = res
+    this.fitnessPlanningService.getAllNutritionPlans(this.accountService.user?.email!, this.accountService.user.authToken!).subscribe((res: any) => {
+      this.allNutritionPlans = res
       // set current active plan
       this.setCurrentActivePlan()
     })
   }
 
   // Getters
-  get planDatesData() {
-    return this.planFormData.get('planDatesData') as FormArray;
+  get dateData() {
+    return this.nutritionPlanForm.get('dateData') as FormArray;
   }
 
   // Events
   onWeightChange(dateIdx: number, e: any){
-    this.planDatesData.at(dateIdx).get('weight')?.setValue(Number(e.target.value));
+    this.dateData.at(dateIdx).get('weight')?.setValue(Number(e.target.value));
     this.updatePopulatedDatesData()
   }
 
   onCaloriesChange(dateIdx: number, e: any){
-    this.planDatesData.at(dateIdx).get('calories')?.setValue(Number(e.target.value));
-    this.planDatesData.at(dateIdx).get('netcalories')?.setValue(Number(this.getNetCaloriesForDate(this.planDatesData.at(dateIdx).get('weight')?.value, this.planDatesData.at(dateIdx).get('calories')?.value)))
+    this.dateData.at(dateIdx).get('calories')?.setValue(Number(e.target.value));
+    this.dateData.at(dateIdx).get('netcalories')?.setValue(Number(this.getNetCaloriesForDate(this.dateData.at(dateIdx).get('weight')?.value, this.dateData.at(dateIdx).get('calories')?.value)))
     this.updatePopulatedDatesData()
   }
 
   onNotesChange(dateIdx: number, e: any): void{
-    this.planDatesData.at(dateIdx).get('notes')?.setValue(e.target.value);
+    this.dateData.at(dateIdx).get('notes')?.setValue(e.target.value);
   }
 
   onPlanDataSubmit(){
-    let plan: PlanData = this.planFormData.value as PlanData;
+    let plan: NutritionData = this.nutritionPlanForm.value as NutritionData;
     this.sanitizePlan(plan);
     console.log(plan)
-    this.fitnessPlanningService.submitFitnessPlanData(plan);
+    this.fitnessPlanningService.submitNutritionData(plan);
   }
 
   viewGraphClicked(){
@@ -75,10 +75,10 @@ export class WeightTracker implements OnInit {
   // Setters
   setCurrentActivePlan(){
     // iterate over plans
-    for( let plan of this.allFitnessPlans!){
+    for( let plan of this.allNutritionPlans!){
       if (plan.status === 'active'){
-        // if plan status is active, set it to currentActiveFitnessPlan
-        this.currentActiveFitnessPlan = plan;
+        // if plan status is active, set it to currentActiveNutritionPlan
+        this.currentActiveNutritionPlan = plan;
         // convert plan
         this.convertPlanDates()
       }
@@ -88,7 +88,7 @@ export class WeightTracker implements OnInit {
   setNetCalories(){
     let tdee = 0;
     let totalCals = 0;
-    for(let dateObj of this.planDatesData.controls){
+    for(let dateObj of this.dateData.controls){
       if (dateObj.get('weight')?.value !== 0 && dateObj.get('calories')?.value !== 0)
       {
         tdee = Number(dateObj.get('weight')?.value) * 15;
@@ -104,13 +104,13 @@ export class WeightTracker implements OnInit {
   // Logic
   convertPlanDates(){
     // convert date to string
-    let planStartDate = this.convertDateToString(this.currentActiveFitnessPlan?.currentDate!);
-    let planEndDate = this.convertDateToString(this.currentActiveFitnessPlan?.planEndDate!);
-    let startDate = new Date(planStartDate);
-    let endDate = new Date(planEndDate);
-    let currentDate = startDate;
+    let startDateStr = this.convertDateToString(this.currentActiveNutritionPlan?.startDate!);
+    let endDateStr = this.convertDateToString(this.currentActiveNutritionPlan?.endDate!);
+    let startDateObj = new Date(startDateStr);
+    let endDateObj = new Date(endDateStr);
+    let currentDate = startDateObj;
     let dateArray = [];
-    while (currentDate <= endDate){
+    while (startDateObj <= endDateObj){
       // populate all the dates within the plan
       dateArray.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
@@ -124,7 +124,7 @@ export class WeightTracker implements OnInit {
   convertPlanDatesToFormControl(){
     // populate populatedDates
     let populatedDates = []
-    for(let data of this.currentActiveFitnessPlan?.planData?.planDatesData!){
+    for(let data of this.currentActiveNutritionPlan?.nutritionData?.dateData!){
       if ( data.weight !== 0 || data.calories !== 0 || data.notes !== ''){
         populatedDates.push(data)
       }
@@ -136,17 +136,17 @@ export class WeightTracker implements OnInit {
     this.updatePopulatedDatesData()
   }
 
-  createFormGroup(stringDate: string, populatedDates: PlanDateData[]) {
+  createFormGroup(stringDate: string, populatedDates: DateData[]) {
     // create form group, for the particular date
     let group = this.createDateGroup(stringDate, populatedDates)
-    // add it to planDatesData
-    this.planDatesData.push(group);
+    // add it to dateData
+    this.dateData.push(group);
   }
 
   updatePopulatedDatesData(){
     let tempArr = []
     this.netCalorieChange = 0
-    for (let formData of this.planDatesData.value){
+    for (let formData of this.dateData.value){
       if (formData.weight != 0 && formData.calories != 0){
         tempArr.push(formData)
         this.netCalorieChange += formData.netcalories
@@ -156,7 +156,7 @@ export class WeightTracker implements OnInit {
     this.populatedDatesData = tempArr
   }
 
-  createDateGroup(stringDate: string, populatedDates: PlanDateData[]){
+  createDateGroup(stringDate: string, populatedDates: DateData[]){
     // Check if date has already been filled by user, if so return populated vals
     for (let populatedDate of populatedDates){
       if (populatedDate.date === stringDate){
@@ -194,19 +194,19 @@ export class WeightTracker implements OnInit {
     return netCals
   }
 
-  sanitizePlan(plan: PlanData){
+  sanitizePlan(plan: NutritionData){
     let newArr = []
-    for(let i = 0; i <  plan.planDatesData.length; i++){
-      let date = plan.planDatesData[i];
+    for(let i = 0; i <  plan.dateData.length; i++){
+      let date = plan.dateData[i];
       if (date.weight !== 0)
       {
         newArr.push(date)
       }
     }
-    plan.planDatesData = newArr
+    plan.dateData = newArr
   }
 
   viewFitnessSummary() {
-    this.fitnessPlanningService.getFitnessPlanSummary(this.accountService.user.email, this.accountService.user.authToken).subscribe((res) => console.log("SUMMARY",res))
+    this.fitnessPlanningService.getNutritionPlanSummary(this.accountService.user.email, this.accountService.user.authToken).subscribe((res) => console.log("SUMMARY",res))
   }
 }

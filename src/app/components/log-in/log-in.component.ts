@@ -2,10 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { GoogleApiService } from "src/app/common/services/google-api-service/google-api.service";
 import { AccountService } from "src/app/common/services/authentication-service/account-service.service";
 import { Router } from "@angular/router";
-import { AuthenticationResponse } from "src/app/common/models/AuthenticationResponse";
+import { AuthenticationResponse } from "src/app/common/models/Response/AuthenticationResponse";
 import { map, Observable } from "rxjs";
-import { GoogleUser } from "src/app/common/models/GoogleUser";
-import { User } from "src/app/common/models/User";
+import { GoogleUser } from "src/app/common/models/User/GoogleUser";
+import { User } from "src/app/common/models/User/User";
 
 @Component({
     selector: 'app-log-in',

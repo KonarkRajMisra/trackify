@@ -16,17 +16,17 @@
             </select>
         </div>
 
-        <label for="currentDate" class="form-label"> Current Date </label>
+        <label for="startDate" class="form-label"> Current Date </label>
         <div class="input-group mb-3">
-            <input class="form-control" placeholder="yyyy-mm-dd" id="currentDate" formControlName="currentDate"
+            <input class="form-control" placeholder="yyyy-mm-dd" id="startDate" formControlName="startDate"
                 ngbDatepicker #d="ngbDatepicker" (change)="changeCurrentDate($event)">
             <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                 <fa-icon [icon]="faCalendar"></fa-icon>
             </button>
         </div>
-        <label for="planEndDate" class="form-label"> Plan End Date </label>
+        <label for="endDate" class="form-label"> Plan End Date </label>
         <div class="input-group mb-3">
-            <input class="form-control" type="text" placeholder="yyyy-mm-dd" id="planEndDate" formControlName="planEndDate"
+            <input class="form-control" type="text" placeholder="yyyy-mm-dd" id="endDate" formControlName="endDate"
                 ngbDatepicker #d2="ngbDatepicker">
             <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button">
                 <fa-icon [icon]="faCalendar"></fa-icon>
@@ -36,7 +36,7 @@
         <div class="mb-3">
             <h3> {{ tdee }}</h3>
         </div>
-        <label for="planCalories" class="form-label"> {{currentPlan?.value}} Plan Calories</label>
+        <label for="planCalories" class="form-label"> {{planName?.value}} Plan Calories</label>
         <div class="mb-3">
             <h3> {{planCalories}}</h3>
         </div>

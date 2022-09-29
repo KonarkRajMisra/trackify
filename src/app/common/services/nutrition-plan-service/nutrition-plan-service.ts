@@ -1,31 +1,32 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {FitnessPlan } from '../../models/FitnessPlan';
-import { PlanData } from '../../models/PlanData';
-import { User } from '../../models/User';
+import {NutritionPlan } from '../../models/Nutrition/NutritionPlan';
+import { NutritionData } from '../../models/Nutrition/NutritionData';
+import { User } from '../../models/User/User';
 import { AccountService } from '../authentication-service/account-service.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class FitnessPlanService{
-    baseUrl = "https://localhost:7020/FitnessPlan/";
+export class NutritionPlanService{
+    
+    baseUrl = "https://localhost:7020/NutritionPlan/";
 
     constructor(private http: HttpClient, private accountService: AccountService){
         this.accountService.getCurrentUser()
     }
 
-    createFitnessPlan(fitnessPlan: FitnessPlan)
+    createNutritionPlan(nutritionPlan: NutritionPlan)
     {
         let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
         const options = {
             headers: header
         }
-        return this.http.post<User>(this.baseUrl + 'createFitnessPlan', fitnessPlan, options)
+        return this.http.post<User>(this.baseUrl + 'createNutritionPlan', nutritionPlan, options)
         .subscribe((res) => console.log(res));
     }
 
-    getAllFitnessPlans(email: string, authToken: string)
+    getAllNutritionPlans(email: string, authToken: string)
     {
         let header = new HttpHeaders().set('Authorization', `Bearer ${authToken}`)
         let params = { "email": email };
@@ -33,10 +34,10 @@ export class FitnessPlanService{
             headers: header,
             params: params
         };
-        return this.http.get<Array<FitnessPlan>>(this.baseUrl + 'getAllFitnessPlans', options);
+        return this.http.get<Array<NutritionPlan>>(this.baseUrl + 'getAllNutritionPlans', options);
     }
 
-    getFitnessPlanSummary(email: string, authToken: string)
+    getNutritionPlanSummary(email: string, authToken: string)
     {
         let header = new HttpHeaders().set('Authorization', `Bearer ${authToken}`)
         let params = { "email": email };
@@ -44,21 +45,21 @@ export class FitnessPlanService{
             headers: header,
             params: params
         };
-        return this.http.get<any>(this.baseUrl + 'getFitnessPlanSummary', options);
+        return this.http.get<any>(this.baseUrl + 'getNutritionPlanSummary', options);
     }
 
-    submitFitnessPlanData(plan: PlanData){
+    submitNutritionData(nutritionData: NutritionData){
         let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
         const options = {
             headers: header
         }
-        plan.email = this.accountService.user.email
-        console.log(plan);
-        return this.http.post<User>(this.baseUrl + "submitFitnessPlanData", plan, options)
+        nutritionData.email = this.accountService.user.email
+        console.log(nutritionData);
+        return this.http.post<User>(this.baseUrl + "submitNutritionData", nutritionData, options)
         .subscribe((res) => console.log(res));
     }
 
-    deleteFitnessPlan(plan: FitnessPlan){
+    deleteNutritionPlan(plan: NutritionPlan){
         let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
         const options = {
             headers: header,
@@ -66,18 +67,18 @@ export class FitnessPlanService{
         }
         plan.email = this.accountService.user.email
         console.log(plan);
-        return this.http.delete<User>(this.baseUrl + "deleteFitnessPlan", options)
+        return this.http.delete<User>(this.baseUrl + "deleteNutritionPlan", options)
         .subscribe((res) => console.log(res));
     }
 
-    updateFitnessPlan(plan: FitnessPlan){
+    updateNutritionPlan(plan: NutritionPlan){
         let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
         const options = {
             headers: header
         }
         plan.email = this.accountService.user.email
         console.log(plan);
-        return this.http.patch<User>(this.baseUrl + "updateFitnessPlan", plan, options)
+        return this.http.patch<User>(this.baseUrl + "updateNutritionPlan", plan, options)
         .subscribe((res) => console.log(res));
     }
 }

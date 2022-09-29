@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { AuthenticationResponse } from '../../models/AuthenticationResponse';
-import { GoogleUser } from '../../models/GoogleUser';
-import { User } from '../../models/User';
+import { AuthenticationResponse } from '../../models/Response/AuthenticationResponse';
+import { GoogleUser } from '../../models/User/GoogleUser';
+import { User } from '../../models/User/User';
 import { GoogleApiService } from '../google-api-service/google-api.service';
 import { map } from 'rxjs';
 import { Router } from '@angular/router';
@@ -35,8 +35,8 @@ export class AccountService {
       email: this.googleProfile.info.email,
       name: this.googleProfile.info.name,
       picture: this.googleProfile.info.picture,
-      templates: [],
-      fitnessPlans: []
+      workoutRoutines: [],
+      nutritionPlans: []
     }
     localStorage.setItem('user', JSON.stringify(this.user));
     this.currentUserSource.next(this.user);
