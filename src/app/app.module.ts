@@ -12,10 +12,10 @@ import { DashBoardComponent } from './components/dash-board/dash-board.component
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { TemplateFormComponent } from './components/template-form/template-form.component';
-import { FitnessPlanner } from './components/nutrition-planner/nutrition-planner.component';
+import { NutritionPlanner } from './components/nutrition-planner/nutrition-planner.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
-import { FitnessPlanCardsComponent } from './components/fitness-plan-cards/fitness-plan-cards.component';
+import { FitnessPlanCardsComponent } from './components/nutrition-plan-cards/nutrition-plan-cards.component';
 import { GraphComponent } from './graph/graph.component';
 
 @NgModule({
@@ -26,7 +26,7 @@ import { GraphComponent } from './graph/graph.component';
     DashBoardComponent,
     HomeComponent,
     TemplateFormComponent,
-    FitnessPlanner,
+    NutritionPlanner,
     WeightTracker,
     FitnessPlanCardsComponent,
     GraphComponent

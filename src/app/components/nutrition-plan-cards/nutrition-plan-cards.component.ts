@@ -5,11 +5,11 @@ import { AccountService } from 'src/app/common/services/authentication-service/a
 import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan-service';
 
 @Component({
-  selector: 'app-fitness-plan-cards',
-  templateUrl: './fitness-plan-cards.component.html',
-  styleUrls: ['./fitness-plan-cards.component.css']
+  selector: 'app-nutrition-plan-cards',
+  templateUrl: './nutrition-plan-cards.component.html',
+  styleUrls: ['./nutrition-plan-cards.component.css']
 })
-export class FitnessPlanCardsComponent implements OnInit {
+export class NutritionPlanCards implements OnInit {
 
   fitnessPlans: Array<NutritionPlan> | undefined
   constructor(public accountService: AccountService, private nutritionPlanService: NutritionPlanService, private router: Router) { }
