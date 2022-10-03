@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
-import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan-service';
+import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan.service';
 import { checkIfNumber } from 'src/app/common/util/checkIfNumber';
 import { NutritionPlan } from 'src/app/common/models/Nutrition/NutritionPlan';
 import { Date } from 'src/app/common/models/Date';
@@ -53,6 +53,7 @@ export class NutritionPlanner implements OnInit {
 
   fitnessPlanningForm = this.fb.group({
     startingWeight: ['', [Validators.required, checkIfNumber()]],
+    goalWeight: ['', [Validators.required, checkIfNumber()]],
     planName: ['', Validators.required],
     startDate: [new NgbDate(2022,8,22), Validators.required],
     endDate: [new NgbDate(2022,8,22), Validators.required]
@@ -81,13 +82,19 @@ export class NutritionPlanner implements OnInit {
     this.updatePlanCals(Number(this.startingWeight?.value), this.planName?.value?.toString()!)
   }
 
-  changeCurrentWeight(e: any) {
+  changeStartingWeight(e: any) {
     this.startingWeight?.setValue(e.target.value, {
       onlySelf: true
     });
     let currWeight = Number(this.startingWeight?.value);
     this.updateCals(Number(currWeight));
     this.updatePlanCals(currWeight, this.planName?.value!)
+  }
+
+  changeGoalWeight(e: any) {
+    this.goalWeight?.setValue(e.target.value, {
+      onlySelf: true
+    });
   }
 
   updateCals(weight: number) {
@@ -123,6 +130,10 @@ export class NutritionPlanner implements OnInit {
     return this.fitnessPlanningForm.get('startingWeight');
   }
 
+  get goalWeight() {
+    return this.fitnessPlanningForm.get('goalWeight');
+  }
+
   get planName() {
     return this.fitnessPlanningForm.get('planName');
   }
@@ -140,6 +151,7 @@ export class NutritionPlanner implements OnInit {
       email: this.accountService.user.email,
       planId: 0,
       startingWeight: Number(this.startingWeight?.value),
+      goalWeight: Number(this.goalWeight?.value),
       planName: this.planName?.value!,
       startDate: this.startDate?.value! as unknown as Date,
       endDate: this.endDate?.value! as unknown as Date,
@@ -156,6 +168,7 @@ export class NutritionPlanner implements OnInit {
       email: this.accountService.user.email,
       planId: this.nutritionPlan?.planId as number,
       startingWeight: Number(this.startingWeight?.value),
+      goalWeight: Number(this.goalWeight?.value),
       planName: this.planName?.value!,
       startDate: this.startDate?.value! as unknown as Date,
       endDate: this.endDate?.value! as unknown as Date,

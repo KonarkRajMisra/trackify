@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
     // If initiated exists, reinitialize as google auth token could have expired
     // And reinitialize auth token
     if (googleUser){
-      this.accountService.signIn()
+      this.accountService.signIn().subscribe()
     }
   }
 }

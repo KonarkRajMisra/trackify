@@ -17,6 +17,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
 import { NutritionPlanCards } from './components/nutrition-plan-cards/nutrition-plan-cards.component';
 import { GraphComponent } from './graph/graph.component';
+import { MealPlanCardsComponent } from './components/meal-plan-cards/meal-plan-cards.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { GraphComponent } from './graph/graph.component';
     NutritionPlanner,
     WeightTracker,
     NutritionPlanCards,
-    GraphComponent
+    GraphComponent,
+    MealPlanCardsComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +47,7 @@ import { GraphComponent } from './graph/graph.component';
     NgbModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    NgxPaginationModule
   ],
   providers: [
   ],

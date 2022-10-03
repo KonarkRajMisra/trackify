@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NutritionData } from 'src/app/common/models/Nutrition/NutritionData';
 import { DateData } from 'src/app/common/models/DateData';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
-import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan-service';
+import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan.service';
 
 @Component({
   selector: 'app-dash-board',

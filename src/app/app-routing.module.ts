@@ -7,18 +7,19 @@ import { WeightTracker } from './components/weight-tracker/weight-tracker.compon
 import { LogInComponent } from './components/log-in/log-in.component';
 import { NutritionPlanCards } from './components/nutrition-plan-cards/nutrition-plan-cards.component';
 import { GraphComponent } from './graph/graph.component';
+import { AuthGuard } from './common/guards/auth.guard';
 
 
 
 const routes: Routes = [
-  {path: "", component: HomeComponent},
-  {path: "nutritionPlanCards", component: NutritionPlanCards},
-  {path: "nutritionPlan", component: NutritionPlanner},
-  {path: "nutritionPlan/:id", component: NutritionPlanner},
-  {path: "weightTracking", component: WeightTracker},
-  {path: "dash", component: DashBoardComponent},
+  {path: "", component: HomeComponent, canActivate: [AuthGuard]},
+  {path: "nutritionPlanCards", component: NutritionPlanCards, canActivate: [AuthGuard]},
+  {path: "nutritionPlan", component: NutritionPlanner, canActivate: [AuthGuard]},
+  {path: "nutritionPlan/:id", component: NutritionPlanner, canActivate: [AuthGuard]},
+  {path: "weightTracking", component: WeightTracker, canActivate: [AuthGuard]},
+  {path: "dash", component: DashBoardComponent, canActivate: [AuthGuard]},
   {path: "login", component: LogInComponent},
-  {path: "graph", component: GraphComponent}
+  {path: "graph", component: GraphComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

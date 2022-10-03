@@ -55,7 +55,7 @@ export class NutritionPlanService{
         }
         nutritionData.email = this.accountService.user.email
         console.log(nutritionData);
-        return this.http.post<User>(this.baseUrl + "submitNutritionData", nutritionData, options)
+        return this.http.post<User>(this.baseUrl + "submitNutritionPlanData", nutritionData, options)
         .subscribe((res) => console.log(res));
     }
 

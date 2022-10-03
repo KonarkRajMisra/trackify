@@ -4,6 +4,7 @@ export interface NutritionPlan{
     email: string,
     planId: number,
     startingWeight: number,
+    goalWeight: number,
     planName: string,
     startDate: Date,
     endDate: Date,

@@ -1,73 +1,44 @@
 <div class="container">
     <div class="row" style="margin: 20px 20px 20px 20px">
         <div class="col">
-            <p class="lead"> Current Active Plan: {{currentActiveNutritionPlan?.planName}}</p>
+            <p class="lead"> Current Active Plan: {{activeNutritionPlan?.planName}}</p>
             <p class="lead"> Plan Start Date:
-                {{currentActiveNutritionPlan?.startDate?.year}}-{{currentActiveNutritionPlan?.startDate?.month}}-{{currentActiveNutritionPlan?.startDate?.day}}
+                {{activeNutritionPlan?.startDate?.year}}-{{activeNutritionPlan?.startDate?.month}}-{{activeNutritionPlan?.startDate?.day}}
             </p>
             <p class="lead"> Plan End Date:
-                {{currentActiveNutritionPlan?.endDate?.year}}-{{currentActiveNutritionPlan?.endDate?.month}}-{{currentActiveNutritionPlan?.endDate?.day}}
+                {{activeNutritionPlan?.endDate?.year}}-{{activeNutritionPlan?.endDate?.month}}-{{activeNutritionPlan?.endDate?.day}}
             </p>
-            <p class="lead"> Plan Target Calories: {{currentActiveNutritionPlan?.planCalories}} </p>
+            <p class="lead"> Plan Target Calories: {{activeNutritionPlan?.planCalories}} </p>
             <p class="lead">
-                Net Calorie Change: {{this.netCalorieChange}}
+                Net Calorie Change: {{this.netCals}}
             </p>
+            <p class="lead">
+                Estimated Date to reach Goal Weight: {{this.goalWeight}} is {{this.expectedDateToReachGoalWeight}}
+            </p>
+            <p class="h2">
+                Week : {{currentWeek}}
+            </p>
+        </div>
+    </div>
 
-        </div>
-    </div>
-    <div class="row" style="margin: 20px 20px 20px 20px">
-        <div class="col">
-            <form [formGroup]="nutritionPlanForm">
-                <table class="table table-dark table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col"> Day </th>
-                            <th scope="col"> Weight</th>
-                            <th scope="col"> Calories </th>
-                            <th scope="col"> Net Calories</th>
-                            <th scope="col"> Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody formArrayName="dateData">
-                        <tr *ngFor="let dateGroup of dateData.controls; let dateIdx=index"
-                            [formGroupName]="dateIdx">
-                            <th scope="row"> {{dateGroup.get('date')?.value}}</th>
-                            <td>
-                                <input class="form-control" formControlName="weight"
-                                    (change)="onWeightChange(dateIdx, $event)">
-                            </td>
-                            <td>
-                                <input class="form-control" formControlName="calories"
-                                    (change)="onCaloriesChange(dateIdx, $event)">
-                            </td>
-                            <td>
-                                <div
-                                    *ngIf="dateGroup?.get('weight')?.value && dateGroup?.get('calories')?.value !== '';else noNetCals">
-                                    {{dateGroup.get('netcalories')?.value}}
-                                </div>
-                                <ng-template #noNetCals>
-                                    0
-                                </ng-template>
-                            </td>
-                            <td>
-                                <input class="form-control" formControlName="notes"
-                                    (change)="onNotesChange(dateIdx, $event)">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-        </div>
-    </div>
-    <div class="row justify-content-center" style="margin: 20px 20px 20px 20px; padding-bottom: 20px;">
-        <div class="col-2">
+    <app-pagination 
+        [currentActiveNutritionPlan]="activeNutritionPlan" 
+        (nutritionPlanFormEvent)="nutritionPlanHandler($event)"
+        (populatedDatesDataEvent)="populatedDatesHandler($event)" 
+        (weekEvent)="weekUpdateHandler($event)"
+        (netCalorieChangeEvent)="netCalorieChangeHandler($event)"
+        >
+    </app-pagination>
+
+    <div class="row justify-content-center">
+        <div class="col-1">
             <button class="btn btn-primary" (click)="onPlanDataSubmit()"> Save</button>
         </div>
-        <div class="col-2">
-            <button class="btn btn-info" (click)="viewGraphClicked()"> View Graph</button>
+        <div class="col-1">
+            <button class="btn btn-primary"(click)="viewGraphClicked()"> Graph</button>
         </div>
-        <div class="col-2">
-            <button class="btn btn-info" (click)="viewFitnessSummary()"> View Summary</button>
+        <div class="col-1">
+            <button class="btn btn-primary" (click)="viewFitnessSummary()"> Summary</button>
         </div>
     </div>
 </div>

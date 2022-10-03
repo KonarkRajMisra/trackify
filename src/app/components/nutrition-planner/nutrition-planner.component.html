@@ -2,13 +2,18 @@
     <h1> Fitness Plan </h1>
     <form [formGroup]="fitnessPlanningForm">
         <div class="mb-3">
-            <label for="currentWeight" class="form-label"> Current Weight </label>
-            <input class="form-control" id="currentWeight" type="text" formControlName="currentWeight"
-                (change)="changeCurrentWeight($event)">
+            <label for="startingWeight" class="form-label"> Starting Weight </label>
+            <input class="form-control" id="startingWeight" type="text" formControlName="startingWeight"
+                (change)="changeStartingWeight($event)">
+        </div>
+        <div class="mb-3">
+            <label for="goalWeight" class="form-label"> Goal Weight </label>
+            <input class="form-control" id="goalWeight" type="text" formControlName="goalWeight"
+                (change)="changeGoalWeight($event)">
         </div>
         <div class="mb-3">
             <label for="plans" class="form-label"> Plan </label>
-            <select class="form-select" id="currentPlan" (change)="changePlan($event)" formControlName="currentPlan">
+            <select class="form-select" id="currentPlan" (change)="changePlan($event)" formControlName="planName">
                 <option value=""></option>
                 <option *ngFor="let plan of plans" [value]="plan.name">
                     {{plan.name}}

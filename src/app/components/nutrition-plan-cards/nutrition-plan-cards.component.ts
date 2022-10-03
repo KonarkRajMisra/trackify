@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NutritionPlan } from 'src/app/common/models/Nutrition/NutritionPlan';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
-import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan-service';
+import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan.service';
 
 @Component({
   selector: 'app-nutrition-plan-cards',
