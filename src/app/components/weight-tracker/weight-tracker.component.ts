@@ -17,11 +17,6 @@ export class WeightTracker implements OnInit, AfterViewChecked {
   //Props
   allNutritionPlans?: Array<NutritionPlan>;
   activeNutritionPlan?: NutritionPlan;
-  
-
-  goalWeight = 0;
-  expectedDateToReachGoalWeight = ""
-
   planFormData?: FormGroup<any>
   populatedDates?: DateData[]
   netCals?: number;

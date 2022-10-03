@@ -1,6 +1,6 @@
 <div class="row" style="margin: 50px;">
     <div *ngFor="let nutritionPlan of fitnessPlans" class="col-sm-6">
-        <div class="card">
+        <div class="card h-100">
             <div class="card-body">
                 
                 <div class="row p-2" style="text-align: center;">
@@ -10,12 +10,12 @@
                 </div>
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <p class="card-text"> Plan Calories: {{nutritionPlan.planCalories.toString()}}</p>
+                        <p class="lead"> Plan Calories: {{nutritionPlan.planCalories.toString()}}</p>
                     </div>
                 </div>
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <p class="card-text"> Plan Start Date:
+                        <p class="lead"> Plan Start Date:
                             {{nutritionPlan.startDate.year}}-{{nutritionPlan.startDate.month}}-{{nutritionPlan.startDate.day}}
                         </p>
                     </div>
@@ -23,7 +23,7 @@
                 
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <p class="card-text"> Plan End Date:
+                        <p class="lead"> Plan End Date:
                             {{nutritionPlan.endDate.year}}-{{nutritionPlan.endDate.month}}-{{nutritionPlan.endDate.day}}
                         </p>
                     </div>
@@ -40,14 +40,20 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <div class="card" style="height: 256px; width: 506px">
+        <div class="card h-100">
             <div class="card-body">
+                <div class="row" style="text-align: center;">
+                    <div class="col">
+                        <p class="lead">
+                            Create new nutrition plan
+                        </p>
+                    </div>
+                </div>
                 <div class="row" style="text-align: center;">
                     <div class="col">
                         <button class="btn btn-primary" (click)="onCreateFitnessPlanClicked()"> Create Plan</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

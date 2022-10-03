@@ -95,15 +95,6 @@ export class PaginationComponent implements OnInit, OnChanges {
     this.populatedDatesData = tempArr
     this.count = this.dateData.length
     this.sendEventToParent()
-    this.calculateDaysTillGoalWeight()
-  }
-
-  calculateDaysTillGoalWeight() {
-    let currentWeight = this.populatedDatesData![this.populatedDatesData?.length! - 1].weight
-    let currentTdee = currentWeight * 15;
-    let goal = this.currentActiveNutritionPlan?.goalWeight!
-    let caloriesToReachGoalWeight = (currentWeight - goal) * 3500
-    console.log("calsToReachGoalWeight", caloriesToReachGoalWeight)
   }
 
   // Pagination Event Emitters

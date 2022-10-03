@@ -52,8 +52,8 @@ export class NutritionPlanner implements OnInit {
   ]
 
   fitnessPlanningForm = this.fb.group({
-    startingWeight: ['', [Validators.required, checkIfNumber()]],
-    goalWeight: ['', [Validators.required, checkIfNumber()]],
+    startingWeight: [0, [Validators.required, checkIfNumber()]],
+    goalWeight: [0, [Validators.required, checkIfNumber()]],
     planName: ['', Validators.required],
     startDate: [new NgbDate(2022,8,22), Validators.required],
     endDate: [new NgbDate(2022,8,22), Validators.required]
@@ -73,7 +73,8 @@ export class NutritionPlanner implements OnInit {
   updateFormWithNutritionPlanVals(){
     this.editPlan = true;
     this.fitnessPlanningForm.patchValue({
-      startingWeight: this.nutritionPlan?.startingWeight.toString(),
+      startingWeight: this.nutritionPlan?.startingWeight,
+      goalWeight: this.nutritionPlan?.goalWeight,
       planName: this.nutritionPlan?.planName,
       startDate:  new NgbDate(Number(this.nutritionPlan?.startDate.year), Number(this.nutritionPlan?.startDate.month), Number(this.nutritionPlan?.startDate.day)),
       endDate: new NgbDate(Number(this.nutritionPlan?.endDate.year), Number(this.nutritionPlan?.endDate.month), Number(this.nutritionPlan?.endDate.day))
