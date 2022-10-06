@@ -1,6 +1,6 @@
 import { Date } from "../Date"
 import { NutritionData } from "./NutritionData"
-export interface NutritionPlan{
+export interface NutritionProtocol{
     email: string,
     planId: number,
     startingWeight: number,

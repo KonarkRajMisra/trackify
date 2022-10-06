@@ -1,14 +1,14 @@
 <div class="container">
     <div class="row" style="margin: 20px 20px 20px 20px">
         <div class="col">
-            <p class="lead"> Current Active Plan: {{activeNutritionPlan?.planName}}</p>
+            <p class="lead"> Current Active Protocol: {{activeNutritionProtocol?.planName}}</p>
             <p class="lead"> Plan Start Date:
-                {{activeNutritionPlan?.startDate?.year}}-{{activeNutritionPlan?.startDate?.month}}-{{activeNutritionPlan?.startDate?.day}}
+                {{activeNutritionProtocol?.startDate?.year}}-{{activeNutritionProtocol?.startDate?.month}}-{{activeNutritionProtocol?.startDate?.day}}
             </p>
             <p class="lead"> Plan End Date:
-                {{activeNutritionPlan?.endDate?.year}}-{{activeNutritionPlan?.endDate?.month}}-{{activeNutritionPlan?.endDate?.day}}
+                {{activeNutritionProtocol?.endDate?.year}}-{{activeNutritionProtocol?.endDate?.month}}-{{activeNutritionProtocol?.endDate?.day}}
             </p>
-            <p class="lead"> Plan Target Calories: {{activeNutritionPlan?.planCalories}} </p>
+            <p class="lead"> Plan Target Calories: {{activeNutritionProtocol?.planCalories}} </p>
             <p class="lead">
                 Net Calorie Change: {{this.netCals}}
             </p>
@@ -19,8 +19,8 @@
     </div>
 
     <app-pagination 
-        [currentActiveNutritionPlan]="activeNutritionPlan" 
-        (nutritionPlanFormEvent)="nutritionPlanHandler($event)"
+        [currentActiveNutritionProtocol]="activeNutritionProtocol" 
+        (nutritionProtocolFormEvent)="nutritionProtocolHandler($event)"
         (populatedDatesDataEvent)="populatedDatesHandler($event)" 
         (weekEvent)="weekUpdateHandler($event)"
         (netCalorieChangeEvent)="netCalorieChangeHandler($event)"

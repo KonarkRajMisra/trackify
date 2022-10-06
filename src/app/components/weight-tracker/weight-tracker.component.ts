@@ -1,6 +1,6 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { NutritionPlan } from 'src/app/common/models/Nutrition/NutritionPlan';
-import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan.service';
+import { NutritionProtocol } from 'src/app/common/models/Nutrition/NutritionProtocol';
+import { NutritionProtocolService } from 'src/app/common/services/nutrition-protocol-service/nutrition-protocol.service';
 import { FormGroup } from '@angular/forms';
 import { NutritionData } from 'src/app/common/models/Nutrition/NutritionData';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
@@ -15,22 +15,22 @@ import { Router } from '@angular/router';
 export class WeightTracker implements OnInit, AfterViewChecked {
 
   //Props
-  allNutritionPlans?: Array<NutritionPlan>;
-  activeNutritionPlan?: NutritionPlan;
+  allNutritionProtocols?: Array<NutritionProtocol>;
+  activeNutritionProtocol?: NutritionProtocol;
   planFormData?: FormGroup<any>
   populatedDates?: DateData[]
   netCals?: number;
   currentWeek: number = 1;
 
-  constructor(private accountService: AccountService, private nutritionPlanningService: NutritionPlanService, private router: Router, private cdRef: ChangeDetectorRef) { }
+  constructor(private accountService: AccountService, private nutritionProtocolService: NutritionProtocolService, private router: Router, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     // get the current user
     
     this.accountService.getCurrentUser()
     // get all fitness plans
-    this.nutritionPlanningService.getAllNutritionPlans(this.accountService.user?.email!, this.accountService.user.authToken!).subscribe((res: any) => {
-      this.allNutritionPlans = res
+    this.nutritionProtocolService.getAllNutritionProtocols(this.accountService.user?.email!, this.accountService.user.authToken!).subscribe((res: any) => {
+      this.allNutritionProtocols = res
       // set current active plan
       this.setCurrentActivePlan()
     })
@@ -43,17 +43,17 @@ export class WeightTracker implements OnInit, AfterViewChecked {
   // Setters
   setCurrentActivePlan() {
     // iterate over plans
-    for (let plan of this.allNutritionPlans!) {
+    for (let plan of this.allNutritionProtocols!) {
       if (plan.status === 'active') {
-        // if plan status is active, set it to currentActiveNutritionPlan
-        this.activeNutritionPlan = plan;
+        // if plan status is active, set it to currentActiveNutritionProtocol
+        this.activeNutritionProtocol = plan;
       }
     }
   }
 
   // Event handler from child
-  nutritionPlanHandler(nutritionPlanForm: FormGroup<any>) {
-    this.planFormData = nutritionPlanForm
+  nutritionProtocolHandler(nutritionProtocolForm: FormGroup<any>) {
+    this.planFormData = nutritionProtocolForm
   }
 
   populatedDatesHandler(populatedDatesData: DateData[]) {
@@ -73,7 +73,7 @@ export class WeightTracker implements OnInit, AfterViewChecked {
     let plan: NutritionData = this.planFormData?.value as NutritionData;
     this.sanitizePlan(plan);
     console.log(plan)
-    this.nutritionPlanningService.submitNutritionData(plan);
+    this.nutritionProtocolService.submitNutritionData(plan);
   }
 
   viewGraphClicked() {
@@ -97,6 +97,6 @@ export class WeightTracker implements OnInit, AfterViewChecked {
   }
 
   viewFitnessSummary() {
-    this.nutritionPlanningService.getNutritionPlanSummary(this.accountService.user.email, this.accountService.user.authToken).subscribe((res) => console.log("SUMMARY", res))
+    this.nutritionProtocolService.getNutritionProtocolSummary(this.accountService.user.email, this.accountService.user.authToken).subscribe((res) => console.log("SUMMARY", res))
   }
 }

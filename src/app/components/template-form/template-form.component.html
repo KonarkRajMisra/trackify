@@ -1,6 +1,6 @@
 <form [formGroup]="templateForm" (ngSubmit)="onSubmit()">
     <div formArrayName="templates">
-        <div *ngFor="let template of templates().controls; let tempIdx=index">
+        <div *ngFor="let template of templates.controls; let tempIdx=index">
             <div [formGroupName]="tempIdx">
                 {{tempIdx + 1}}
                 Template Name:

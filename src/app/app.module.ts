@@ -12,14 +12,15 @@ import { DashBoardComponent } from './components/dash-board/dash-board.component
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { TemplateFormComponent } from './components/template-form/template-form.component';
-import { NutritionPlanner } from './components/nutrition-planner/nutrition-planner.component';
+import { NutritionProtocolPlanner } from './components/nutrition-planner/nutrition-protocol-planner.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
-import { NutritionPlanCards } from './components/nutrition-plan-cards/nutrition-plan-cards.component';
+import { NutritionProtocolCards } from './components/nutrition-protocol-cards/nutrition-protocol-cards.component';
 import { GraphComponent } from './graph/graph.component';
 import { MealPlanCardsComponent } from './components/meal-plan-cards/meal-plan-cards.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { MealPlannerComponent } from './components/meal-planner/meal-planner.component';
 
 @NgModule({
   declarations: [
@@ -29,12 +30,13 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     DashBoardComponent,
     HomeComponent,
     TemplateFormComponent,
-    NutritionPlanner,
+    NutritionProtocolPlanner,
     WeightTracker,
-    NutritionPlanCards,
+    NutritionProtocolCards,
     GraphComponent,
     MealPlanCardsComponent,
-    PaginationComponent
+    PaginationComponent,
+    MealPlannerComponent
   ],
   imports: [
     BrowserModule,

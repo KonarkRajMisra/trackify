@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateData } from 'src/app/common/models/DateData';
-import { NutritionPlan } from 'src/app/common/models/Nutrition/NutritionPlan';
+import { NutritionProtocol } from 'src/app/common/models/Nutrition/NutritionProtocol';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
-import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan.service';
+import { NutritionProtocolService } from 'src/app/common/services/nutrition-protocol-service/nutrition-protocol.service';
 import { Date } from 'src/app/common/models/Date';
 @Component({
   selector: 'app-pagination',
@@ -19,7 +19,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   populatedDatesData?: DateData[];
 
   // Form group
-  nutritionPlanForm = this.fb.group({
+  nutritionProtocolForm = this.fb.group({
     dateData: this.fb.array([])
   })
 
@@ -28,19 +28,19 @@ export class PaginationComponent implements OnInit, OnChanges {
   netCalorieChange?: number;
 
   // Weight Tracker Component 
-  @Input() currentActiveNutritionPlan?: NutritionPlan;
-  @Output() nutritionPlanFormEvent = new EventEmitter<FormGroup<any>>();
+  @Input() currentActiveNutritionProtocol?: NutritionProtocol;
+  @Output() nutritionProtocolFormEvent = new EventEmitter<FormGroup<any>>();
   @Output() populatedDatesDataEvent = new EventEmitter<DateData[]>();
   @Output() weekEvent = new EventEmitter<number>();
   @Output() netCalorieChangeEvent = new EventEmitter<number>();
 
-  constructor(private fb: FormBuilder, private nutritionPlanningService: NutritionPlanService, private accountService: AccountService) { }
+  constructor(private fb: FormBuilder, private nutritionProtocolService: NutritionProtocolService, private accountService: AccountService) { }
 
   ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.currentActiveNutritionPlan !== undefined) {
+    if (this.currentActiveNutritionProtocol !== undefined) {
       this.convertPlanDates()
     }
   }
@@ -48,8 +48,8 @@ export class PaginationComponent implements OnInit, OnChanges {
   // Logic
   convertPlanDates() {
     // convert date to string
-    let startDateStr = this.convertDateToString(this.currentActiveNutritionPlan?.startDate!);
-    let endDateStr = this.convertDateToString(this.currentActiveNutritionPlan?.endDate!);
+    let startDateStr = this.convertDateToString(this.currentActiveNutritionProtocol?.startDate!);
+    let endDateStr = this.convertDateToString(this.currentActiveNutritionProtocol?.endDate!);
     let startDateObj = new Date(startDateStr);
     let endDateObj = new Date(endDateStr);
     let currentDate = startDateObj;
@@ -68,7 +68,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   convertPlanDatesToFormControl() {
     // populate populatedDates
     let populatedDates = []
-    for (let data of this.currentActiveNutritionPlan?.nutritionData?.dateData!) {
+    for (let data of this.currentActiveNutritionProtocol?.nutritionData?.dateData!) {
       if (data.weight !== 0 || data.calories !== 0 || data.notes !== '') {
         populatedDates.push(data)
       }
@@ -104,9 +104,9 @@ export class PaginationComponent implements OnInit, OnChanges {
     console.log()
   }
 
-  emitNutritionPlanEvent(value: FormGroup<any>) {
+  emitNutritionProtocolEvent(value: FormGroup<any>) {
     console.log("EMITNUT", value)
-    this.nutritionPlanFormEvent.emit(value);
+    this.nutritionProtocolFormEvent.emit(value);
   }
 
   emitPopulatedDatesEvent(value: DateData[]) {
@@ -124,14 +124,14 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   sendEventToParent() {
-    this.emitNutritionPlanEvent(this.nutritionPlanForm);
+    this.emitNutritionProtocolEvent(this.nutritionProtocolForm);
     this.emitPopulatedDatesEvent(this.populatedDatesData!);
     this.emitNetCalorieChange(this.netCalorieChange!);
   }
 
   // Getters
   get dateData() {
-    return this.nutritionPlanForm.get('dateData') as FormArray;
+    return this.nutritionProtocolForm.get('dateData') as FormArray;
   }
 
   createFormGroup(stringDate: string, populatedDates: DateData[]) {

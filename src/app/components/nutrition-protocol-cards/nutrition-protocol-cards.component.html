@@ -1,22 +1,22 @@
 <div class="row" style="margin: 50px;">
-    <div *ngFor="let nutritionPlan of fitnessPlans" class="col-sm-6">
+    <div *ngFor="let nutritionProtocol of fitnessPlans" class="col-sm-6">
         <div class="card h-100">
             <div class="card-body">
                 
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <h5 class="card-title">Current Plan: {{nutritionPlan.planName}}</h5>
+                        <h5 class="card-title">Current Plan: {{nutritionProtocol.planName}}</h5>
                     </div>
                 </div>
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <p class="lead"> Plan Calories: {{nutritionPlan.planCalories.toString()}}</p>
+                        <p class="lead"> Plan Calories: {{nutritionProtocol.planCalories.toString()}}</p>
                     </div>
                 </div>
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
                         <p class="lead"> Plan Start Date:
-                            {{nutritionPlan.startDate.year}}-{{nutritionPlan.startDate.month}}-{{nutritionPlan.startDate.day}}
+                            {{nutritionProtocol.startDate.year}}-{{nutritionProtocol.startDate.month}}-{{nutritionProtocol.startDate.day}}
                         </p>
                     </div>
                 </div>
@@ -24,14 +24,14 @@
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
                         <p class="lead"> Plan End Date:
-                            {{nutritionPlan.endDate.year}}-{{nutritionPlan.endDate.month}}-{{nutritionPlan.endDate.day}}
+                            {{nutritionProtocol.endDate.year}}-{{nutritionProtocol.endDate.month}}-{{nutritionProtocol.endDate.day}}
                         </p>
                     </div>
                 </div>
                 
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <button (click)="onEditPlanClicked(nutritionPlan.planId, nutritionPlan)" class="btn btn-primary">Edit
+                        <button (click)="onEditPlanClicked(nutritionProtocol.planId, nutritionProtocol)" class="btn btn-primary">Edit
                             Plan</button>
                     </div>
                 </div>

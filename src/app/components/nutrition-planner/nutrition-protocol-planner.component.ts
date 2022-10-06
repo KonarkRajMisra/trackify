@@ -2,20 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
-import { NutritionPlanService } from 'src/app/common/services/nutrition-plan-service/nutrition-plan.service';
+import { NutritionProtocolService } from 'src/app/common/services/nutrition-protocol-service/nutrition-protocol.service';
 import { checkIfNumber } from 'src/app/common/util/checkIfNumber';
-import { NutritionPlan } from 'src/app/common/models/Nutrition/NutritionPlan';
+import { NutritionProtocol } from 'src/app/common/models/Nutrition/NutritionProtocol';
 import { Date } from 'src/app/common/models/Date';
 import { Router } from '@angular/router';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { NutritionData } from 'src/app/common/models/Nutrition/NutritionData';
 @Component({
-  selector: 'app-nutrition-planner',
-  templateUrl: './nutrition-planner.component.html',
-  styleUrls: ['./nutrition-planner.component.css']
+  selector: 'app-nutrition-protocol-planner',
+  templateUrl: './nutrition-protocol-planner.component.html',
+  styleUrls: ['./nutrition-protocol-planner.component.css']
 })
-export class NutritionPlanner implements OnInit {
-  nutritionPlan: NutritionPlan | undefined;
+export class NutritionProtocolPlanner implements OnInit {
+  nutritionProtocol: NutritionProtocol | undefined;
   editPlan: boolean = false;
   faCalendar = faCalendar;
   tdee = 0;
@@ -59,25 +59,25 @@ export class NutritionPlanner implements OnInit {
     endDate: [new NgbDate(2022,8,22), Validators.required]
   })
 
-  constructor(public accountService: AccountService, private fb: FormBuilder, private nutritionPlanService: NutritionPlanService, private router: Router) {
-    this.nutritionPlan = this.router.getCurrentNavigation()?.extras.state as NutritionPlan;
+  constructor(public accountService: AccountService, private fb: FormBuilder, private nutritionProtocolService: NutritionProtocolService, private router: Router) {
+    this.nutritionProtocol = this.router.getCurrentNavigation()?.extras.state as NutritionProtocol;
   }
 
   ngOnInit(): void {
     this.accountService.getCurrentUser();
-    if (this.nutritionPlan != undefined){
-      this.updateFormWithNutritionPlanVals();
+    if (this.nutritionProtocol != undefined){
+      this.updateFormWithNutritionProtocolVals();
     }
   }
 
-  updateFormWithNutritionPlanVals(){
+  updateFormWithNutritionProtocolVals(){
     this.editPlan = true;
     this.fitnessPlanningForm.patchValue({
-      startingWeight: this.nutritionPlan?.startingWeight,
-      goalWeight: this.nutritionPlan?.goalWeight,
-      planName: this.nutritionPlan?.planName,
-      startDate:  new NgbDate(Number(this.nutritionPlan?.startDate.year), Number(this.nutritionPlan?.startDate.month), Number(this.nutritionPlan?.startDate.day)),
-      endDate: new NgbDate(Number(this.nutritionPlan?.endDate.year), Number(this.nutritionPlan?.endDate.month), Number(this.nutritionPlan?.endDate.day))
+      startingWeight: this.nutritionProtocol?.startingWeight,
+      goalWeight: this.nutritionProtocol?.goalWeight,
+      planName: this.nutritionProtocol?.planName,
+      startDate:  new NgbDate(Number(this.nutritionProtocol?.startDate.year), Number(this.nutritionProtocol?.startDate.month), Number(this.nutritionProtocol?.startDate.day)),
+      endDate: new NgbDate(Number(this.nutritionProtocol?.endDate.year), Number(this.nutritionProtocol?.endDate.month), Number(this.nutritionProtocol?.endDate.day))
     })
     this.updateCals(Number(this.startingWeight?.value))
     this.updatePlanCals(Number(this.startingWeight?.value), this.planName?.value?.toString()!)
@@ -148,7 +148,7 @@ export class NutritionPlanner implements OnInit {
   }
 
   onPlanSubmit() {
-    let nutritionPlan: NutritionPlan = {
+    let nutritionProtocol: NutritionProtocol = {
       email: this.accountService.user.email,
       planId: 0,
       startingWeight: Number(this.startingWeight?.value),
@@ -160,14 +160,14 @@ export class NutritionPlanner implements OnInit {
       status: 'active',
       nutritionData: {email: this.accountService.user.email, dateData: []} as NutritionData
     }
-    console.log(nutritionPlan)
-    this.nutritionPlanService.createNutritionPlan(nutritionPlan);
+    console.log(nutritionProtocol)
+    this.nutritionProtocolService.createNutritionProtocol(nutritionProtocol);
   }
 
   editSelectedPlan(){
-    let nutritionPlan: NutritionPlan = {
+    let nutritionProtocol: NutritionProtocol = {
       email: this.accountService.user.email,
-      planId: this.nutritionPlan?.planId as number,
+      planId: this.nutritionProtocol?.planId as number,
       startingWeight: Number(this.startingWeight?.value),
       goalWeight: Number(this.goalWeight?.value),
       planName: this.planName?.value!,
@@ -175,15 +175,15 @@ export class NutritionPlanner implements OnInit {
       endDate: this.endDate?.value! as unknown as Date,
       planCalories: this.planCalories,
       status: 'active',
-      nutritionData: this.nutritionPlan?.nutritionData as NutritionData
+      nutritionData: this.nutritionProtocol?.nutritionData as NutritionData
     }
-    console.log(this.nutritionPlan);
-    console.log(nutritionPlan)
-    this.nutritionPlanService.updateNutritionPlan(nutritionPlan);
+    console.log(this.nutritionProtocol);
+    console.log(nutritionProtocol)
+    this.nutritionProtocolService.updateNutritionProtocol(nutritionProtocol);
   }
 
   deleteSelectedPlan(){
-    console.log(this.nutritionPlan);
-    this.nutritionPlanService.deleteNutritionPlan(this.nutritionPlan!);
+    console.log(this.nutritionProtocol);
+    this.nutritionProtocolService.deleteNutritionProtocol(this.nutritionProtocol!);
   }
 }

@@ -35,8 +35,9 @@ export class AccountService {
       email: this.googleProfile.info.email,
       name: this.googleProfile.info.name,
       picture: this.googleProfile.info.picture,
+      mealPlans: [],
       workoutRoutines: [],
-      nutritionPlans: []
+      nutritionProtocols: []
     }
     localStorage.setItem('user', JSON.stringify(this.user));
     this.currentUserSource.next(this.user);

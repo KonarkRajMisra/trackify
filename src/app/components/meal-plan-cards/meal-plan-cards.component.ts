@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MealPlan } from 'src/app/common/models/MealPlan/MealPlan';
 
 @Component({
   selector: 'app-meal-plan-cards',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MealPlanCardsComponent implements OnInit {
 
-  constructor() { }
+  mealPlans: Array<MealPlan> | undefined
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  onCreateMealPlanClick(){
+    this.router.navigateByUrl('/createMealPlan')
   }
 
 }
