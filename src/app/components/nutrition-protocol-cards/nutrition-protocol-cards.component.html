@@ -5,12 +5,12 @@
                 
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <h5 class="card-title">Current Plan: {{nutritionProtocol.planName}}</h5>
+                        <h5 class="card-title">Current Protocol: {{nutritionProtocol.protocolName}}</h5>
                     </div>
                 </div>
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <p class="lead"> Plan Calories: {{nutritionProtocol.planCalories.toString()}}</p>
+                        <p class="lead"> Protocol Calories: {{nutritionProtocol.protocolCalories}}</p>
                     </div>
                 </div>
                 <div class="row p-2" style="text-align: center;">
@@ -31,7 +31,7 @@
                 
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <button (click)="onEditPlanClicked(nutritionProtocol.planId, nutritionProtocol)" class="btn btn-primary">Edit
+                        <button (click)="onEditPlanClicked(nutritionProtocol.protocolId, nutritionProtocol)" class="btn btn-primary">Edit
                             Plan</button>
                     </div>
                 </div>

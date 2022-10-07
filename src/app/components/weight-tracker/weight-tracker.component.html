@@ -1,14 +1,14 @@
 <div class="container">
     <div class="row" style="margin: 20px 20px 20px 20px">
         <div class="col">
-            <p class="lead"> Current Active Protocol: {{activeNutritionProtocol?.planName}}</p>
-            <p class="lead"> Plan Start Date:
+            <p class="lead"> Current Active Protocol: {{activeNutritionProtocol?.protocolName}}</p>
+            <p class="lead"> Protocol Start Date:
                 {{activeNutritionProtocol?.startDate?.year}}-{{activeNutritionProtocol?.startDate?.month}}-{{activeNutritionProtocol?.startDate?.day}}
             </p>
-            <p class="lead"> Plan End Date:
+            <p class="lead"> Protocol End Date:
                 {{activeNutritionProtocol?.endDate?.year}}-{{activeNutritionProtocol?.endDate?.month}}-{{activeNutritionProtocol?.endDate?.day}}
             </p>
-            <p class="lead"> Plan Target Calories: {{activeNutritionProtocol?.planCalories}} </p>
+            <p class="lead"> Protocol Target Calories: {{activeNutritionProtocol?.protocolCalories}} </p>
             <p class="lead">
                 Net Calorie Change: {{this.netCals}}
             </p>
@@ -29,7 +29,7 @@
 
     <div class="row justify-content-center">
         <div class="col-1">
-            <button class="btn btn-primary" (click)="onPlanDataSubmit()"> Save</button>
+            <button class="btn btn-primary" (click)="onProtocolDataSubmit()"> Save</button>
         </div>
         <div class="col-1">
             <button class="btn btn-primary"(click)="viewGraphClicked()"> Graph</button>

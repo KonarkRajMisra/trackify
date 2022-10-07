@@ -56,26 +56,26 @@ export class NutritionProtocolService {
             .subscribe((res) => console.log(res));
     }
 
-    deleteNutritionProtocol(plan: NutritionProtocol) {
+    deleteNutritionProtocol(protocol: NutritionProtocol) {
         let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
         const options = {
             headers: header,
-            body: plan
+            body: protocol
         }
-        plan.email = this.accountService.user.email
-        console.log(plan);
+        protocol.email = this.accountService.user.email
+        console.log(protocol);
         return this.http.delete<User>(this.baseUrl + "deleteNutritionProtocol", options)
             .subscribe((res) => console.log(res));
     }
 
-    updateNutritionProtocol(plan: NutritionProtocol) {
+    updateNutritionProtocol(protocol: NutritionProtocol) {
         let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
         const options = {
             headers: header
         }
-        plan.email = this.accountService.user.email
-        console.log(plan);
-        return this.http.patch<User>(this.baseUrl + "updateNutritionProtocol", plan, options)
+        protocol.email = this.accountService.user.email
+        console.log(protocol);
+        return this.http.patch<User>(this.baseUrl + "updateNutritionProtocol", protocol, options)
             .subscribe((res) => console.log(res));
     }
 }

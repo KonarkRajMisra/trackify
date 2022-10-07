@@ -12,7 +12,7 @@ import { DashBoardComponent } from './components/dash-board/dash-board.component
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { TemplateFormComponent } from './components/template-form/template-form.component';
-import { NutritionProtocolPlanner } from './components/nutrition-planner/nutrition-protocol-planner.component';
+import { NutritionProtocolPlanner } from './components/nutrition-protocol-planner/nutrition-protocol-planner.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
 import { NutritionProtocolCards } from './components/nutrition-protocol-cards/nutrition-protocol-cards.component';

@@ -1,6 +1,6 @@
 <div>
-    <h1> Nutrition Plan </h1>
-    <form [formGroup]="fitnessPlanningForm">
+    <h1> Nutrition Protocol </h1>
+    <form [formGroup]="nutritionProtocolForm">
         <div class="mb-3">
             <label for="startingWeight" class="form-label"> Starting Weight </label>
             <input class="form-control" id="startingWeight" type="text" formControlName="startingWeight"
@@ -12,11 +12,11 @@
                 (change)="changeGoalWeight($event)">
         </div>
         <div class="mb-3">
-            <label for="plans" class="form-label"> Plan </label>
-            <select class="form-select" id="currentPlan" (change)="changePlan($event)" formControlName="planName">
+            <label for="plans" class="form-label"> Protocol </label>
+            <select class="form-select" id="currentPlan" (change)="changeProtocol($event)" formControlName="planName">
                 <option value=""></option>
-                <option *ngFor="let plan of plans" [value]="plan.name">
-                    {{plan.name}}
+                <option *ngFor="let protocol of protocols" [value]="protocol.name">
+                    {{protocol.name}}
                 </option>
             </select>
         </div>
@@ -29,7 +29,7 @@
                 <fa-icon [icon]="faCalendar"></fa-icon>
             </button>
         </div>
-        <label for="endDate" class="form-label"> Plan End Date </label>
+        <label for="endDate" class="form-label"> Protocol End Date </label>
         <div class="input-group mb-3">
             <input class="form-control" type="text" placeholder="yyyy-mm-dd" id="endDate" formControlName="endDate"
                 ngbDatepicker #d2="ngbDatepicker">
@@ -41,17 +41,17 @@
         <div class="mb-3">
             <h3> {{ tdee }}</h3>
         </div>
-        <label for="planCalories" class="form-label"> {{planName?.value}} Plan Calories</label>
+        <label for="protocolCalories" class="form-label"> {{protocolName?.value}} Protocol Calories</label>
         <div class="mb-3">
-            <h3> {{planCalories}}</h3>
+            <h3> {{protocolCalories}}</h3>
         </div>
         <div style="text-align: center;">
-            <div *ngIf="editPlan; else savePlan">
-                <button class="btn btn-primary" style="margin: 10px;" (click)="editSelectedPlan()"> Edit Plan </button>
-                <button class="btn btn-danger" style="margin: 10px;" (click)="deleteSelectedPlan()"> Delete Plan </button>
+            <div *ngIf="editProtocol; else saveProtocol">
+                <button class="btn btn-primary" style="margin: 10px;" (click)="editSelectedProtocol()"> Edit Protocol </button>
+                <button class="btn btn-danger" style="margin: 10px;" (click)="deleteSelectedProtocol()"> Delete Protocol </button>
             </div>
-            <ng-template #savePlan>
-                <button class="btn btn-primary" (click)="onPlanSubmit()"> Save Plan</button>
+            <ng-template #saveProtocol>
+                <button class="btn btn-primary" (click)="onProtocolSubmit()"> Save Protocol</button>
             </ng-template>
         </div>
     </form>

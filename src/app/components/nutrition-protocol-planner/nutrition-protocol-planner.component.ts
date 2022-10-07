@@ -16,11 +16,11 @@ import { NutritionData } from 'src/app/common/models/Nutrition/NutritionData';
 })
 export class NutritionProtocolPlanner implements OnInit {
   nutritionProtocol: NutritionProtocol | undefined;
-  editPlan: boolean = false;
+  editProtocol: boolean = false;
   faCalendar = faCalendar;
   tdee = 0;
-  planCalories = 0;
-  plans = [
+  protocolCalories = 0;
+  protocols = [
     {
       name: 'Aggressive Fat Loss',
       multiplier: 10
@@ -51,10 +51,10 @@ export class NutritionProtocolPlanner implements OnInit {
     }
   ]
 
-  fitnessPlanningForm = this.fb.group({
+  nutritionProtocolForm = this.fb.group({
     startingWeight: [0, [Validators.required, checkIfNumber()]],
     goalWeight: [0, [Validators.required, checkIfNumber()]],
-    planName: ['', Validators.required],
+    protocolName: ['', Validators.required],
     startDate: [new NgbDate(2022,8,22), Validators.required],
     endDate: [new NgbDate(2022,8,22), Validators.required]
   })
@@ -71,16 +71,16 @@ export class NutritionProtocolPlanner implements OnInit {
   }
 
   updateFormWithNutritionProtocolVals(){
-    this.editPlan = true;
-    this.fitnessPlanningForm.patchValue({
+    this.editProtocol = true;
+    this.nutritionProtocolForm.patchValue({
       startingWeight: this.nutritionProtocol?.startingWeight,
       goalWeight: this.nutritionProtocol?.goalWeight,
-      planName: this.nutritionProtocol?.planName,
+      protocolName: this.nutritionProtocol?.protocolName,
       startDate:  new NgbDate(Number(this.nutritionProtocol?.startDate.year), Number(this.nutritionProtocol?.startDate.month), Number(this.nutritionProtocol?.startDate.day)),
       endDate: new NgbDate(Number(this.nutritionProtocol?.endDate.year), Number(this.nutritionProtocol?.endDate.month), Number(this.nutritionProtocol?.endDate.day))
     })
     this.updateCals(Number(this.startingWeight?.value))
-    this.updatePlanCals(Number(this.startingWeight?.value), this.planName?.value?.toString()!)
+    this.updateProtocolCals(Number(this.startingWeight?.value), this.protocolName?.value?.toString()!)
   }
 
   changeStartingWeight(e: any) {
@@ -89,7 +89,7 @@ export class NutritionProtocolPlanner implements OnInit {
     });
     let currWeight = Number(this.startingWeight?.value);
     this.updateCals(Number(currWeight));
-    this.updatePlanCals(currWeight, this.planName?.value!)
+    this.updateProtocolCals(currWeight, this.protocolName?.value!)
   }
 
   changeGoalWeight(e: any) {
@@ -102,22 +102,22 @@ export class NutritionProtocolPlanner implements OnInit {
     this.tdee = weight * 15;
   }
 
-  updatePlanCals(weight: number, plan: string) {
-    for (let p of this.plans) {
-      if (p.name.toLowerCase() === plan.toLowerCase()) {
+  updateProtocolCals(weight: number, protocol: string) {
+    for (let p of this.protocols) {
+      if (p.name.toLowerCase() === protocol.toLowerCase()) {
         let multiplier = p.multiplier;
-        this.planCalories = weight * multiplier
+        this.protocolCalories = weight * multiplier
         break;
       }
     }
   }
 
-  changePlan(e: any) {
+  changeProtocol(e: any) {
     console.log(e.target.value)
-    this.planName?.setValue(e.target.value, {
+    this.protocolName?.setValue(e.target.value, {
       onlySelf: true,
     });
-    this.updatePlanCals(Number(this.startingWeight?.value), this.planName?.value!)
+    this.updateProtocolCals(Number(this.startingWeight?.value), this.protocolName?.value!)
   }
 
   changeCurrentDate(e: any) {
@@ -128,35 +128,35 @@ export class NutritionProtocolPlanner implements OnInit {
   }
 
   get startingWeight() {
-    return this.fitnessPlanningForm.get('startingWeight');
+    return this.nutritionProtocolForm.get('startingWeight');
   }
 
   get goalWeight() {
-    return this.fitnessPlanningForm.get('goalWeight');
+    return this.nutritionProtocolForm.get('goalWeight');
   }
 
-  get planName() {
-    return this.fitnessPlanningForm.get('planName');
+  get protocolName() {
+    return this.nutritionProtocolForm.get('protocolName');
   }
 
   get startDate() {
-    return this.fitnessPlanningForm.get('startDate');
+    return this.nutritionProtocolForm.get('startDate');
   }
 
   get endDate() {
-    return this.fitnessPlanningForm.get('endDate');
+    return this.nutritionProtocolForm.get('endDate');
   }
 
-  onPlanSubmit() {
+  onProtocolSubmit() {
     let nutritionProtocol: NutritionProtocol = {
       email: this.accountService.user.email,
-      planId: 0,
+      protocolId: 0,
       startingWeight: Number(this.startingWeight?.value),
       goalWeight: Number(this.goalWeight?.value),
-      planName: this.planName?.value!,
+      protocolName: this.protocolName?.value!,
       startDate: this.startDate?.value! as unknown as Date,
       endDate: this.endDate?.value! as unknown as Date,
-      planCalories: this.planCalories,
+      protocolCalories: this.protocolCalories,
       status: 'active',
       nutritionData: {email: this.accountService.user.email, dateData: []} as NutritionData
     }
@@ -164,16 +164,16 @@ export class NutritionProtocolPlanner implements OnInit {
     this.nutritionProtocolService.createNutritionProtocol(nutritionProtocol);
   }
 
-  editSelectedPlan(){
+  editSelectedProtocol(){
     let nutritionProtocol: NutritionProtocol = {
       email: this.accountService.user.email,
-      planId: this.nutritionProtocol?.planId as number,
+      protocolId: this.nutritionProtocol?.protocolId as number,
       startingWeight: Number(this.startingWeight?.value),
       goalWeight: Number(this.goalWeight?.value),
-      planName: this.planName?.value!,
+      protocolName: this.protocolName?.value!,
       startDate: this.startDate?.value! as unknown as Date,
       endDate: this.endDate?.value! as unknown as Date,
-      planCalories: this.planCalories,
+      protocolCalories: this.protocolCalories,
       status: 'active',
       nutritionData: this.nutritionProtocol?.nutritionData as NutritionData
     }
@@ -182,7 +182,7 @@ export class NutritionProtocolPlanner implements OnInit {
     this.nutritionProtocolService.updateNutritionProtocol(nutritionProtocol);
   }
 
-  deleteSelectedPlan(){
+  deleteSelectedProtocol(){
     console.log(this.nutritionProtocol);
     this.nutritionProtocolService.deleteNutritionProtocol(this.nutritionProtocol!);
   }

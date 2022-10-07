@@ -69,7 +69,7 @@ export class WeightTracker implements OnInit, AfterViewChecked {
   }
   
   // Event handler for button clicks
-  onPlanDataSubmit() {
+  onProtocolDataSubmit() {
     let plan: NutritionData = this.planFormData?.value as NutritionData;
     this.sanitizePlan(plan);
     console.log(plan)

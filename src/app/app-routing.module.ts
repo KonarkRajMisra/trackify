@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashBoardComponent } from './components/dash-board/dash-board.component';
 import { HomeComponent } from './components/home/home.component';
-import { NutritionProtocolPlanner } from './components/nutrition-planner/nutrition-protocol-planner.component';
+import { NutritionProtocolPlanner } from './components/nutrition-protocol-planner/nutrition-protocol-planner.component';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
 import { LogInComponent } from './components/log-in/log-in.component';
 import { NutritionProtocolCards } from './components/nutrition-protocol-cards/nutrition-protocol-cards.component';

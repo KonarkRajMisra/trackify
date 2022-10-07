@@ -1,7 +1,7 @@
-import { Meal } from "./Meal";
+import { Food } from "./Food";
 
 export interface MealPlan{
     mealPlanName: string,
     mealPlanCalories: number,
-    meals: Array<Meal>
+    meals: Array<Food>
 }

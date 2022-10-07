@@ -16,14 +16,17 @@ export class GraphComponent implements OnInit {
   navigationData: any
   selectedData: string = "weight"
   selectedType: keyof ChartTypeRegistry = "line"
-  WEIGHT = "weight";
-  CALORIES = "calories";
-  NETCALORIES = "netcalories";
-  LINE = "line"
-  BAR = "bar"
 
+  dataOptions = [
+    "Weight",
+    "Calories",
+    "Net Calories"
+  ]
 
-
+  typeOptions = [
+    "Line",
+    "Bar"
+  ]
   constructor(private router: Router, private accountService: AccountService) {
     // If graph data is coming from navigation
     if (this.router.getCurrentNavigation()?.extras.state !== undefined) {
@@ -33,9 +36,9 @@ export class GraphComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountService.getCurrentUser();
-    this.updateNavigationData()
+    this.updateNavigationData();
     Chart.register(...registerables);
-    this.createGraphWithSelector(this.WEIGHT)
+    this.createGraphWithSelector(this.selectedData);
   }
 
   ngOnDestroy() {
@@ -72,6 +75,8 @@ export class GraphComponent implements OnInit {
         this.labels.push(item.date)
         this.data.push(item[selector])
       }
+      console.log("LABELS", this.labels)
+      console.log("DATA", this.data)
     }
   }
 
@@ -109,17 +114,14 @@ export class GraphComponent implements OnInit {
   }
 
   updateGraphData(e: any) {
-    if (e.target.value !== "Change Graph Data") {
-      this.createGraphWithSelector(e.target.value)
-      this.selectedData = e.target.value
-    }
+    this.createGraphWithSelector(e.target.value.replace(/\s/g, "").toLowerCase())
+    this.selectedData = e.target.value.replace(/\s/g, "").toLowerCase()
+    console.log(this.selectedData)
   }
 
   updateGraphType(e: any) {
-    if (e.target.value !== "Change Graph Type") {
-      this.createGraph(this.selectedData, e.target.value)
-      this.selectedType = e.target.value
-    }
-
+    this.createGraph(this.selectedData, e.target.value.replace(/\s/g, "").toLowerCase())
+    this.selectedType = e.target.value.replace(/\s/g, "").toLowerCase()
+    console.log(this.selectedType)
   }
 }

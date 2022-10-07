@@ -1,7 +1,7 @@
 <div class="container">
-    <div *ngIf="nutritionData; else noPlanData" class="row">
+    <div *ngIf="nutritionData; else noProtocolData" class="row">
         <div class="row" style="text-align: center;">
-            <h1 class="display-6"> Fitness Plan Data </h1>
+            <h1 class="display-6"> Nutrition Protocol Data </h1>
         </div>
         <div class="row">
             <app-graph *ngIf="dateData?.length" [dateData]="dateData"></app-graph>
@@ -9,9 +9,9 @@
         
     </div>
 
-    <ng-template #noPlanData>
+    <ng-template #noProtocolData>
         <div class="row">
-            <h1 class="display-6"> You currently have no Fitness Plan Data.</h1>
+            <h1 class="display-6"> You currently have no Data.</h1>
         </div>
     </ng-template>
     
