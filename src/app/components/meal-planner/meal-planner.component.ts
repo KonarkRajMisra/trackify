@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Food } from 'src/app/common/models/MealPlan/Food';
+import { MealPlan } from 'src/app/common/models/MealPlan/MealPlan';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
+import { MealPlanService } from 'src/app/common/services/meal-plan-service/meal-plan.service';
 
 @Component({
   selector: 'app-meal-planner',
@@ -17,7 +20,7 @@ export class MealPlannerComponent implements OnInit {
 
   totalMealPlanCals: number = 0;
 
-  constructor(private fb: FormBuilder, private accountService: AccountService) { }
+  constructor(private fb: FormBuilder, private accountService: AccountService, private mealPlanService: MealPlanService) { }
 
   ngOnInit(): void {
     this.accountService.getCurrentUser()
@@ -39,7 +42,9 @@ export class MealPlannerComponent implements OnInit {
     return this.fb.group({
       name: [''],
       calories: [0],
-      protein: [0]
+      protein: [0],
+      carbohydrates: [0],
+      fats: [0]
     })
   }
 
@@ -59,6 +64,7 @@ export class MealPlannerComponent implements OnInit {
   onMealCaloriesChange(event: any, mealIdx: number){
     this.meal(mealIdx).controls['calories'].patchValue(Number(event.target.value))
     this.totalMealPlanCals += Number(event.target.value)
+    this.mealPlanForm.controls.mealPlanCalories.patchValue(this.totalMealPlanCals);
     console.log(this.meal(mealIdx))
   }
 
@@ -68,7 +74,14 @@ export class MealPlannerComponent implements OnInit {
   }
 
   saveMealPlan(){
-    
+    console.log(this.mealPlanForm);
+    const mealPlan: MealPlan = {
+      mealPlanName: this.mealPlanForm.get('mealPlanName')?.value!,
+      mealPlanCalories: this.mealPlanForm.get('mealPlanCalories')?.value!,
+      meals: this.meals.value as Food[]
+    }
+    console.log(mealPlan)
+    this.mealPlanService.createMealPlan(mealPlan);
   }
 
 }
