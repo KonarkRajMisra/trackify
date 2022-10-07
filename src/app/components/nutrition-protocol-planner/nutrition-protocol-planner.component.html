@@ -1,0 +1,58 @@
+<div>
+    <h1> Nutrition Protocol </h1>
+    <form [formGroup]="nutritionProtocolForm">
+        <div class="mb-3">
+            <label for="startingWeight" class="form-label"> Starting Weight </label>
+            <input class="form-control" id="startingWeight" type="text" formControlName="startingWeight"
+                (change)="changeStartingWeight($event)">
+        </div>
+        <div class="mb-3">
+            <label for="goalWeight" class="form-label"> Goal Weight </label>
+            <input class="form-control" id="goalWeight" type="text" formControlName="goalWeight"
+                (change)="changeGoalWeight($event)">
+        </div>
+        <div class="mb-3">
+            <label for="plans" class="form-label"> Protocol </label>
+            <select class="form-select" id="currentPlan" (change)="changeProtocol($event)" formControlName="planName">
+                <option value=""></option>
+                <option *ngFor="let protocol of protocols" [value]="protocol.name">
+                    {{protocol.name}}
+                </option>
+            </select>
+        </div>
+
+        <label for="startDate" class="form-label"> Current Date </label>
+        <div class="input-group mb-3">
+            <input class="form-control" placeholder="yyyy-mm-dd" id="startDate" formControlName="startDate"
+                ngbDatepicker #d="ngbDatepicker" (change)="changeCurrentDate($event)">
+            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                <fa-icon [icon]="faCalendar"></fa-icon>
+            </button>
+        </div>
+        <label for="endDate" class="form-label"> Protocol End Date </label>
+        <div class="input-group mb-3">
+            <input class="form-control" type="text" placeholder="yyyy-mm-dd" id="endDate" formControlName="endDate"
+                ngbDatepicker #d2="ngbDatepicker">
+            <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button">
+                <fa-icon [icon]="faCalendar"></fa-icon>
+            </button>
+        </div>
+        <label for="tdee" class="form-label"> TDEE</label>
+        <div class="mb-3">
+            <h3> {{ tdee }}</h3>
+        </div>
+        <label for="protocolCalories" class="form-label"> {{protocolName?.value}} Protocol Calories</label>
+        <div class="mb-3">
+            <h3> {{protocolCalories}}</h3>
+        </div>
+        <div style="text-align: center;">
+            <div *ngIf="editProtocol; else saveProtocol">
+                <button class="btn btn-primary" style="margin: 10px;" (click)="editSelectedProtocol()"> Edit Protocol </button>
+                <button class="btn btn-danger" style="margin: 10px;" (click)="deleteSelectedProtocol()"> Delete Protocol </button>
+            </div>
+            <ng-template #saveProtocol>
+                <button class="btn btn-primary" (click)="onProtocolSubmit()"> Save Protocol</button>
+            </ng-template>
+        </div>
+    </form>
+</div>

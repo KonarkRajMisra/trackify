@@ -1,70 +1,41 @@
 <div class="container">
     <div class="row" style="margin: 20px 20px 20px 20px">
         <div class="col">
-            <p class="lead"> Current Active Plan: {{currentActiveFitnessPlan?.currentPlan}}</p>
-            <p class="lead"> Plan Start Date:
-                {{currentActiveFitnessPlan?.currentDate?.year}}-{{currentActiveFitnessPlan?.currentDate?.month}}-{{currentActiveFitnessPlan?.currentDate?.day}}
+            <p class="lead"> Current Active Protocol: {{activeNutritionProtocol?.protocolName}}</p>
+            <p class="lead"> Protocol Start Date:
+                {{activeNutritionProtocol?.startDate?.year}}-{{activeNutritionProtocol?.startDate?.month}}-{{activeNutritionProtocol?.startDate?.day}}
             </p>
-            <p class="lead"> Plan End Date:
-                {{currentActiveFitnessPlan?.planEndDate?.year}}-{{currentActiveFitnessPlan?.planEndDate?.month}}-{{currentActiveFitnessPlan?.planEndDate?.day}}
+            <p class="lead"> Protocol End Date:
+                {{activeNutritionProtocol?.endDate?.year}}-{{activeNutritionProtocol?.endDate?.month}}-{{activeNutritionProtocol?.endDate?.day}}
             </p>
-            <p class="lead"> Plan Target Calories: {{currentActiveFitnessPlan?.currentPlanCalories}} </p>
+            <p class="lead"> Protocol Target Calories: {{activeNutritionProtocol?.protocolCalories}} </p>
             <p class="lead">
-                Net Calorie Change: {{this.netCalorieChange}}
+                Net Calorie Change: {{this.netCals}}
             </p>
+            <p class="h2">
+                Week : {{currentWeek}}
+            </p>
+        </div>
+    </div>
 
+    <app-pagination 
+        [currentActiveNutritionProtocol]="activeNutritionProtocol" 
+        (nutritionProtocolFormEvent)="nutritionProtocolHandler($event)"
+        (populatedDatesDataEvent)="populatedDatesHandler($event)" 
+        (weekEvent)="weekUpdateHandler($event)"
+        (netCalorieChangeEvent)="netCalorieChangeHandler($event)"
+        >
+    </app-pagination>
+
+    <div class="row justify-content-center">
+        <div class="col-1">
+            <button class="btn btn-primary" (click)="onProtocolDataSubmit()"> Save</button>
         </div>
-    </div>
-    <div class="row" style="margin: 20px 20px 20px 20px">
-        <div class="col">
-            <form [formGroup]="planFormData">
-                <table class="table table-dark table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col"> Day </th>
-                            <th scope="col"> Weight</th>
-                            <th scope="col"> Calories </th>
-                            <th scope="col"> Net Calories</th>
-                            <th scope="col"> Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody formArrayName="planDatesData">
-                        <tr *ngFor="let dateGroup of planDatesData.controls; let dateIdx=index"
-                            [formGroupName]="dateIdx">
-                            <th scope="row"> {{dateGroup.get('date')?.value}}</th>
-                            <td>
-                                <input class="form-control" formControlName="weight"
-                                    (change)="onWeightChange(dateIdx, $event)">
-                            </td>
-                            <td>
-                                <input class="form-control" formControlName="calories"
-                                    (change)="onCaloriesChange(dateIdx, $event)">
-                            </td>
-                            <td>
-                                <div
-                                    *ngIf="dateGroup?.get('weight')?.value && dateGroup?.get('calories')?.value !== '';else noNetCals">
-                                    {{dateGroup.get('netcalories')?.value}}
-                                </div>
-                                <ng-template #noNetCals>
-                                    0
-                                </ng-template>
-                            </td>
-                            <td>
-                                <input class="form-control" formControlName="notes"
-                                    (change)="onNotesChange(dateIdx, $event)">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+        <div class="col-1">
+            <button class="btn btn-primary"(click)="viewGraphClicked()"> Graph</button>
         </div>
-    </div>
-    <div class="row justify-content-center" style="margin: 20px 20px 20px 20px; padding-bottom: 20px;">
-        <div class="col-2">
-            <button class="btn btn-primary" (click)="onPlanDataSubmit()"> Save</button>
-        </div>
-        <div class="col-2">
-            <button class="btn btn-info" (click)="viewGraphClicked()"> View Graph</button>
+        <div class="col-1">
+            <button class="btn btn-primary" (click)="viewFitnessSummary()"> Summary</button>
         </div>
     </div>
 </div>

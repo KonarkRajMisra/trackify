@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GoogleUser } from './common/models/GoogleUser';
-import { User } from './common/models/User';
+import { GoogleUser } from './common/models/User/GoogleUser';
+import { User } from './common/models/User/User';
 import { AccountService } from './common/services/authentication-service/account-service.service';
 import { GoogleApiService } from './common/services/google-api-service/google-api.service';
 
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
     // If initiated exists, reinitialize as google auth token could have expired
     // And reinitialize auth token
     if (googleUser){
-      this.accountService.signIn()
+      this.accountService.signIn().subscribe()
     }
   }
 }

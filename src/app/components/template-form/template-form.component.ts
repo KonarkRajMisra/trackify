@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { Template } from 'src/app/common/models/Template';
+import { WorkoutRoutine } from 'src/app/common/models/Workout/WorkoutRoutine';
 
 @Component({
   selector: 'app-template-form',
@@ -39,12 +39,12 @@ export class TemplateFormComponent implements OnInit {
     })
   }
 
-  templates(): FormArray {
+  get templates(): FormArray {
     return this.templateForm.get('templates') as FormArray;
   }
 
   items(tempIdx: number): FormArray {
-    return this.templates().at(tempIdx).get('items') as FormArray;
+    return this.templates.at(tempIdx).get('items') as FormArray;
   }
 
   units(tempIdx: number, itemIdx: number): FormArray {
@@ -52,11 +52,11 @@ export class TemplateFormComponent implements OnInit {
   }
 
   addTemplateForm(){
-    this.templates().push(this.newTemplate());
+    this.templates.push(this.newTemplate());
   }
 
   removeTemplateForm(tempIdx: number){
-    this.templates().removeAt(tempIdx);
+    this.templates.removeAt(tempIdx);
   }
 
   addTemplateItem(tempIdx: number) {

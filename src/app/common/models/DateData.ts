@@ -1,4 +1,4 @@
-export interface PlanDateData{
+export interface DateData{
     date: string,
     weight: number,
     calories: number,

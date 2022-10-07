@@ -1,0 +1,49 @@
+<div class="container">
+    <h1> Create New Meal Plan </h1>
+    <form [formGroup]="mealPlanForm">
+        <div class="mb-3">
+            <label for="mealPlanName" class="form-label"> Meal Plan Name </label>
+            <input class="form-control" id="mealPlanName" type="text" formControlName="mealPlanName"
+                (change)="changeMealPlanName($event)">
+        </div>
+
+        <div class="mb-3">
+            <label for="mealPlanCalories" class="form-label"> Meal Plan Calories: {{totalMealPlanCals}} </label>
+        </div>
+
+        <div formArrayName="meals">
+            <div *ngFor="let meal of meals.controls; let mealIdx=index">
+                <h4>Meal #{{mealIdx + 1}} </h4>
+                <div [formGroupName]="mealIdx">
+                    <div class="mb-3">
+                        <label for="name" class="form-label"> Meal name </label>
+                        <input type="text" formControlName="name" class="form-control" (change)="onMealNameChange($event, mealIdx)"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="calories" class="form-label"> Meal Calories </label>
+                        <input type="number" formControlName="calories" class="form-control" (change)="onMealCaloriesChange($event, mealIdx)"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="protein" class="form-label"> Protein </label>
+                        <input type="number" formControlName="protein" class="form-control" (change)="onMealProteinChange($event, mealIdx)"/>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button class="btn btn-primary" (click)="removeMeal(mealIdx)"> Remove Meal</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button class="btn btn-primary" (click)="createNewMeal()"> Create New Meal</button>
+        </div>
+
+    </form>
+
+    <div class="mb-3">
+        <button class="btn btn-primary" (click)="saveMealPlan()"> Save Meal Plan</button>
+    </div>
+</div>

@@ -1,37 +1,37 @@
 <div class="row" style="margin: 50px;">
-    <div *ngFor="let fitnessPlan of fitnessPlans" class="col-sm-6">
-        <div class="card">
+    <div *ngFor="let nutritionProtocol of fitnessPlans" class="col-sm-6">
+        <div class="card h-100">
             <div class="card-body">
                 
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <h5 class="card-title">Current Plan: {{fitnessPlan.currentPlan}}</h5>
+                        <h5 class="card-title">Current Protocol: {{nutritionProtocol.protocolName}}</h5>
                     </div>
                 </div>
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <p class="card-text"> Plan Calories: {{fitnessPlan.currentPlanCalories.toString()}}</p>
+                        <p class="lead"> Protocol Calories: {{nutritionProtocol.protocolCalories}}</p>
                     </div>
                 </div>
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <p class="card-text"> Plan Start Date:
-                            {{fitnessPlan.currentDate.year}}-{{fitnessPlan.currentDate.month}}-{{fitnessPlan.currentDate.day}}
+                        <p class="lead"> Plan Start Date:
+                            {{nutritionProtocol.startDate.year}}-{{nutritionProtocol.startDate.month}}-{{nutritionProtocol.startDate.day}}
                         </p>
                     </div>
                 </div>
                 
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <p class="card-text"> Plan End Date:
-                            {{fitnessPlan.planEndDate.year}}-{{fitnessPlan.planEndDate.month}}-{{fitnessPlan.planEndDate.day}}
+                        <p class="lead"> Plan End Date:
+                            {{nutritionProtocol.endDate.year}}-{{nutritionProtocol.endDate.month}}-{{nutritionProtocol.endDate.day}}
                         </p>
                     </div>
                 </div>
                 
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <button (click)="onEditPlanClicked(fitnessPlan.planId, fitnessPlan)" class="btn btn-primary">Edit
+                        <button (click)="onEditPlanClicked(nutritionProtocol.protocolId, nutritionProtocol)" class="btn btn-primary">Edit
                             Plan</button>
                     </div>
                 </div>
@@ -40,14 +40,20 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <div class="card" style="height: 256px; width: 506px">
+        <div class="card h-100">
             <div class="card-body">
+                <div class="row" style="text-align: center;">
+                    <div class="col">
+                        <p class="lead">
+                            Create new nutrition plan
+                        </p>
+                    </div>
+                </div>
                 <div class="row" style="text-align: center;">
                     <div class="col">
                         <button class="btn btn-primary" (click)="onCreateFitnessPlanClicked()"> Create Plan</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

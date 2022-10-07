@@ -27,8 +27,9 @@
                             <button type="button" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>
                                 {{ (accountService.currentUser$ | async)!.name }}</button>
                             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem routerLink="/fitnessPlanCards"> Fitness Planning</button>
-                                <button ngbDropdownItem routerLink="/fitnessPlanCards"> Workout Planning</button>
+                                <button ngbDropdownItem routerLink="/nutritionProtocolCards"> Nutrition Protocol Planning</button>
+                                <button ngbDropdownItem routerLink="/mealPlanCards"> Meal Planning</button>
+                                <button ngbDropdownItem routerLink="/nutritionProtocolCards"> Training Planning</button>
                                 <button ngbDropdownItem (click)="logout()">Logout</button>
                             </div>
                         </div>

@@ -7,21 +7,19 @@
     <div class="row" style="text-align: center; padding: 50px ;">
         <div class="col mx-auto">
             <select class="form-select" (change)="updateGraphData($event)">
-                <option selected>Change Graph Data</option>
-                <option [value]="WEIGHT">Weight</option>
-                <option [value]="CALORIES">Calories</option>
-                <option [value]="NETCALORIES">Net Calories</option>
-              </select>
+                <option *ngFor="let opt of dataOptions" [value]="opt">
+                    {{opt}}
+                </option>
+            </select>
         </div>
     </div>
     <div class="row" style="text-align: center; padding-bottom: 20px; padding-left: 50px; padding-right: 50px;">
         <div class="col mx-auto">
             <select class="form-select" (change)="updateGraphType($event)">
-                <option selected>Change Graph Type</option>
-                <option [value]="LINE">Line</option>
-                <option [value]="BAR">Bar</option>
-              </select>
+                <option *ngFor="let typ of typeOptions" [value]="typ">
+                    {{typ}}
+                </option>
+            </select>
         </div>
     </div>
 </div>
-

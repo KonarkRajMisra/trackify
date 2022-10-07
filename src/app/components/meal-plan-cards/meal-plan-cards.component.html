@@ -1,0 +1,37 @@
+<div class="row" style="margin: 50px;">
+    <div *ngFor="let mealPlan of mealPlans" class="col-sm-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="row p-2" style="text-align: center;">
+                    <div class="col">
+                        <h5 class="card-title">Protocol Name: {{mealPlan.mealPlanName}}</h5>
+                    </div>
+                </div>
+
+                <div class="row p-2" style="text-align: center;">
+                    <div class="col">
+                        <h5 class="card-title">Protocol Calories: {{mealPlan.mealPlanCalories}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="row" style="text-align: center;">
+                    <div class="col">
+                        <p class="lead">
+                            Create new meal plan
+                        </p>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center;">
+                    <div class="col">
+                        <button class="btn btn-primary" (click)="onCreateMealPlanClick()"> Create Plan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
