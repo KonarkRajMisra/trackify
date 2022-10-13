@@ -24,11 +24,11 @@ export class NutritionProtocolCards implements OnInit {
     }
   }
 
-  onEditPlanClicked(id: number, nutritionProtocol: NutritionProtocol) {
+  onEditProtocolClick(id: number, nutritionProtocol: NutritionProtocol) {
     this.router.navigateByUrl("/nutritionProtocol/" + id, { state: nutritionProtocol });
   }
 
-  onCreateFitnessPlanClicked() {
+  onCreateFitnessProtocolClick() {
     this.router.navigateByUrl("/createNutritionProtocol");
   }
 

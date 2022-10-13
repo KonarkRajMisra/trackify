@@ -1,18 +1,41 @@
 <div class="row" style="margin: 50px;">
-    <div *ngFor="let mealPlan of mealPlans" class="col-sm-6">
+    <div *ngFor="let mealPlan of mealPlans; let mealPlanIdx = index" class="col-sm-6">
+
         <div class="card h-100">
+            <div class="card-header" style="text-align: center;">
+                <div class="col">
+                    <h5 class="card-title">Meal Plan Name: {{mealPlan.mealPlanName}}</h5>
+                </div>
+            </div>
             <div class="card-body">
-                <div class="row p-2" style="text-align: center;">
+                <div class="row p-1" style="text-align: center;">
                     <div class="col">
-                        <h5 class="card-title">Protocol Name: {{mealPlan.mealPlanName}}</h5>
+                        <p class="lead">
+                            Meal Plan Calories: {{mealPlan.mealPlanCalories}}
+                        </p>
                     </div>
                 </div>
 
-                <div class="row p-2" style="text-align: center;">
+                <div class="row p-1" style="text-align: center;">
                     <div class="col">
-                        <h5 class="card-title">Protocol Calories: {{mealPlan.mealPlanCalories}}</h5>
+                        <p class="lead">
+                            Meal Plan Structure
+                        </p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" *ngFor="let meal of mealPlan.meals; let i = index">
+                                <p class="lead">
+                                    Meal #{{i+1}}: Calories: {{meal.calories}}, Protein: {{meal.protein}}g
+                                </p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+                <div class="row p-1">
+                    <div class="col">
+                        <button class="btn btn-primary" (click)="onEditMealPlanClick(mealPlanIdx, mealPlan)"> Edit Plan</button>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
