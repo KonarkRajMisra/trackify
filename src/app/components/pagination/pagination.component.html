@@ -9,6 +9,7 @@
                         <th scope="col"> Calories </th>
                         <th scope="col"> Net Calories</th>
                         <th scope="col"> Notes</th>
+                        <th scope="col"> Meal Plan</th>
                     </tr>
                 </thead>
                 <tbody formArrayName="dateData">
@@ -38,6 +39,18 @@
                         <td>
                             <input class="form-control" formControlName="notes"
                                 (change)="onNotesChange(generateIndex(dateIdx), $event)">
+                        </td>
+                        <td>
+                            <select class="form-select" (change)="onMealPlanChange(generateIndex(dateIdx), $event)">
+                                <option value="default">
+                                    Select Meal Plan
+                                </option>
+                                <option *ngFor="let mealPlan of mealPlans" [value]="mealPlan.mealPlanCalories">
+                                    {{mealPlan.mealPlanName}}
+                                </option>
+
+                            </select>
+
                         </td>
                     </tr>
                 </tbody>

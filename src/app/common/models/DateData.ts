@@ -3,5 +3,6 @@ export interface DateData{
     weight: number,
     calories: number,
     netcalories: number,
-    notes: string
+    notes: string,
+    mealPlanFollowed: boolean
 }
