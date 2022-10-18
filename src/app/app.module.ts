@@ -21,6 +21,7 @@ import { MealPlanCardsComponent } from './components/meal-plan-cards/meal-plan-c
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { MealPlannerComponent } from './components/meal-planner/meal-planner.component';
+import { SummaryComponent } from './components/summary/summary.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MealPlannerComponent } from './components/meal-planner/meal-planner.com
     GraphComponent,
     MealPlanCardsComponent,
     PaginationComponent,
-    MealPlannerComponent
+    MealPlannerComponent,
+    SummaryComponent
   ],
   imports: [
     BrowserModule,
