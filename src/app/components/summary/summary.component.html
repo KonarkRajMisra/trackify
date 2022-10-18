@@ -1,1 +1,20 @@
-<p>summary works!</p>
+<div class="container">
+    <h1> Nutrition Summary</h1>
+    <div *ngFor="let weekSummary of summary?.summary">
+        <h2>
+            {{weekSummary.averageCalories}}
+        </h2>
+        <h2>
+            {{weekSummary.averageWeight}}
+        </h2>
+        <h2>
+            {{weekSummary.endDate}}
+        </h2>
+        <h2>
+            {{weekSummary.netChange}}
+        </h2>
+        <h2>
+            {{weekSummary.week}}
+        </h2>
+    </div>
+</div>

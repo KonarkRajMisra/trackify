@@ -10,6 +10,7 @@ import { GraphComponent } from './graph/graph.component';
 import { AuthGuard } from './common/guards/auth.guard';
 import { MealPlanCardsComponent } from './components/meal-plan-cards/meal-plan-cards.component';
 import { MealPlannerComponent } from './components/meal-planner/meal-planner.component';
+import { SummaryComponent } from './components/summary/summary.component';
 
 
 
@@ -24,7 +25,8 @@ const routes: Routes = [
   {path: "weightTracking", component: WeightTracker, canActivate: [AuthGuard]},
   {path: "dash", component: DashBoardComponent, canActivate: [AuthGuard]},
   {path: "login", component: LogInComponent},
-  {path: "graph", component: GraphComponent, canActivate: [AuthGuard]}
+  {path: "graph", component: GraphComponent, canActivate: [AuthGuard]},
+  {path: "summary", component: SummaryComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

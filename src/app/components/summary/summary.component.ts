@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NutritionSummary } from 'src/app/common/models/Summary/NutritionSummary';
+import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
+import { NutritionProtocolService } from 'src/app/common/services/nutrition-protocol-service/nutrition-protocol.service';
 
 @Component({
   selector: 'app-summary',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SummaryComponent implements OnInit {
 
-  constructor() { }
+  summary?: NutritionSummary
+  constructor(private accountService: AccountService, private nutritionProtocolService: NutritionProtocolService) { }
 
   ngOnInit(): void {
+    this.accountService.getCurrentUser()
+    this.nutritionProtocolService.getNutritionProtocolSummary(this.accountService.user.email, this.accountService.user.authToken).subscribe(
+      (res) => this.summary = res as NutritionSummary)
   }
 
 }

@@ -97,6 +97,6 @@ export class WeightTracker implements OnInit, AfterViewChecked {
   }
 
   viewFitnessSummary() {
-    this.nutritionProtocolService.getNutritionProtocolSummary(this.accountService.user.email, this.accountService.user.authToken).subscribe((res) => console.log("SUMMARY", res))
+    this.router.navigateByUrl('/summary')
   }
 }
