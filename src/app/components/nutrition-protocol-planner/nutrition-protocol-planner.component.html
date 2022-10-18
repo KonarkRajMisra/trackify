@@ -13,7 +13,7 @@
         </div>
         <div class="mb-3">
             <label for="plans" class="form-label"> Protocol </label>
-            <select class="form-select" id="currentPlan" (change)="changeProtocol($event)" formControlName="planName">
+            <select class="form-select" id="currentPlan" (change)="changeProtocol($event)" formControlName="protocolName">
                 <option value=""></option>
                 <option *ngFor="let protocol of protocols" [value]="protocol.name">
                     {{protocol.name}}

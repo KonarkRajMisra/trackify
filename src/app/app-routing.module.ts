@@ -16,9 +16,10 @@ import { MealPlannerComponent } from './components/meal-planner/meal-planner.com
 const routes: Routes = [
   {path: "", component: HomeComponent, canActivate: [AuthGuard]},
   {path: "nutritionProtocolCards", component: NutritionProtocolCards, canActivate: [AuthGuard]},
-  {path: "createNutritionProtocolCard", component: NutritionProtocolCards, canActivate: [AuthGuard]},
+  {path: "createNutritionProtocolCard", component: NutritionProtocolPlanner, canActivate: [AuthGuard]},
   {path: "mealPlanCards", component: MealPlanCardsComponent, canActivate: [AuthGuard]},
-  {path: "createMealPlan", component: MealPlannerComponent, canActivate: [AuthGuard]},
+  {path: "mealPlan", component: MealPlannerComponent, canActivate: [AuthGuard]},
+  {path: "mealPlan/:id", component: MealPlannerComponent, canActivate: [AuthGuard]},
   {path: "nutritionProtocol/:id", component: NutritionProtocolPlanner, canActivate: [AuthGuard]},
   {path: "weightTracking", component: WeightTracker, canActivate: [AuthGuard]},
   {path: "dash", component: DashBoardComponent, canActivate: [AuthGuard]},

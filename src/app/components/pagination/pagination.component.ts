@@ -5,6 +5,10 @@ import { NutritionProtocol } from 'src/app/common/models/Nutrition/NutritionProt
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
 import { NutritionProtocolService } from 'src/app/common/services/nutrition-protocol-service/nutrition-protocol.service';
 import { Date } from 'src/app/common/models/Date';
+import { MealPlan } from 'src/app/common/models/MealPlan/MealPlan';
+import { MealPlanService } from 'src/app/common/services/meal-plan-service/meal-plan.service';
+import { isNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
+
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
@@ -17,6 +21,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   count: number = 0;
   tableSize: number = 7;
   populatedDatesData?: DateData[];
+  mealPlans?: MealPlan[];
 
   // Form group
   nutritionProtocolForm = this.fb.group({
@@ -34,9 +39,12 @@ export class PaginationComponent implements OnInit, OnChanges {
   @Output() weekEvent = new EventEmitter<number>();
   @Output() netCalorieChangeEvent = new EventEmitter<number>();
 
-  constructor(private fb: FormBuilder, private nutritionProtocolService: NutritionProtocolService, private accountService: AccountService) { }
+  constructor(private fb: FormBuilder, private nutritionProtocolService: NutritionProtocolService, private accountService: AccountService, private mealPlanService: MealPlanService) { }
 
   ngOnInit(): void {
+    this.mealPlanService.getAllMealPlans().subscribe((res) => {
+      this.mealPlans = res
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -105,12 +113,10 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   emitNutritionProtocolEvent(value: FormGroup<any>) {
-    console.log("EMITNUT", value)
     this.nutritionProtocolFormEvent.emit(value);
   }
 
   emitPopulatedDatesEvent(value: DateData[]) {
-    console.log("EMITPOP", value)
     this.populatedDatesDataEvent.emit(value);
   }
 
@@ -119,7 +125,6 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   emitNetCalorieChange(value: number) {
-    console.log("EMITCAL", value);
     this.netCalorieChangeEvent.emit(value);
   }
 
@@ -148,7 +153,14 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   onCaloriesChange(dateIdx: number, e: any) {
-    this.dateData.at(dateIdx).get('calories')?.setValue(Number(e.target.value));
+    console.log(Number(e))
+    if (!isNaN(Number(e))){
+      e = e
+    }
+    else{
+      e = e.target.value
+    }
+    this.dateData.at(dateIdx).get('calories')?.setValue(Number(e));
     this.dateData.at(dateIdx).get('netcalories')?.setValue(Number(this.getNetCaloriesForDate(this.dateData.at(dateIdx).get('weight')?.value, this.dateData.at(dateIdx).get('calories')?.value)))
     this.updatePopulatedDatesData()
   }
@@ -190,7 +202,8 @@ export class PaginationComponent implements OnInit, OnChanges {
           weight: this.fb.control(populatedDate.weight),
           calories: this.fb.control(populatedDate.calories),
           netcalories: this.fb.control(this.getNetCaloriesForDate(populatedDate.weight, populatedDate.calories)),
-          notes: this.fb.control(populatedDate.notes)
+          notes: this.fb.control(populatedDate.notes),
+          mealPlanFollowed: this.fb.control(populatedDate.mealPlanFollowed)
         })
         this.populatedDatesData?.push(populatedDate);
         return newDate
@@ -203,7 +216,8 @@ export class PaginationComponent implements OnInit, OnChanges {
       weight: this.fb.control(0),
       calories: this.fb.control(0),
       netcalories: this.fb.control(this.netCaloriesPerDay),
-      notes: this.fb.control('')
+      notes: this.fb.control(''),
+      mealPlanFollowed: this.fb.control(false)
     })
     return newDate;
   }
@@ -215,5 +229,12 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   generateIndex(i: number) {
     return this.tableSize * (this.page - 1) + i;
+  }
+
+  onMealPlanChange(idx: number, e: any) {
+    if (e.target.value != "default"){
+      this.dateData.at(idx).get('mealPlanFollowed')?.setValue(true)
+      this.onCaloriesChange(idx, e.target.value)
+    }
   }
 }

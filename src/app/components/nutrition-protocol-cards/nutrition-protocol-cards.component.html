@@ -1,13 +1,12 @@
 <div class="row" style="margin: 50px;">
     <div *ngFor="let nutritionProtocol of fitnessPlans" class="col-sm-6">
         <div class="card h-100">
-            <div class="card-body">
-                
-                <div class="row p-2" style="text-align: center;">
-                    <div class="col">
-                        <h5 class="card-title">Current Protocol: {{nutritionProtocol.protocolName}}</h5>
-                    </div>
+            <div class="card-header" style="text-align: center;">
+                <div class="col">
+                    <h5 class="card-title">Current Protocol: {{nutritionProtocol.protocolName}}</h5>
                 </div>
+            </div>
+            <div class="card-body">
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
                         <p class="lead"> Protocol Calories: {{nutritionProtocol.protocolCalories}}</p>
@@ -15,7 +14,7 @@
                 </div>
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <p class="lead"> Plan Start Date:
+                        <p class="lead"> Protocol Start Date:
                             {{nutritionProtocol.startDate.year}}-{{nutritionProtocol.startDate.month}}-{{nutritionProtocol.startDate.day}}
                         </p>
                     </div>
@@ -23,7 +22,7 @@
                 
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <p class="lead"> Plan End Date:
+                        <p class="lead"> Protocol End Date:
                             {{nutritionProtocol.endDate.year}}-{{nutritionProtocol.endDate.month}}-{{nutritionProtocol.endDate.day}}
                         </p>
                     </div>
@@ -31,7 +30,7 @@
                 
                 <div class="row p-2" style="text-align: center;">
                     <div class="col">
-                        <button (click)="onEditPlanClicked(nutritionProtocol.protocolId, nutritionProtocol)" class="btn btn-primary">Edit
+                        <button (click)="onEditProtocolClick(nutritionProtocol.protocolId, nutritionProtocol)" class="btn btn-primary">Edit
                             Plan</button>
                     </div>
                 </div>
@@ -45,13 +44,13 @@
                 <div class="row" style="text-align: center;">
                     <div class="col">
                         <p class="lead">
-                            Create new nutrition plan
+                            Create New Nutrition Protocol
                         </p>
                     </div>
                 </div>
                 <div class="row" style="text-align: center;">
                     <div class="col">
-                        <button class="btn btn-primary" (click)="onCreateFitnessPlanClicked()"> Create Plan</button>
+                        <button class="btn btn-primary" (click)="onCreateFitnessProtocolClick()"> Create Plan</button>
                     </div>
                 </div>
             </div>

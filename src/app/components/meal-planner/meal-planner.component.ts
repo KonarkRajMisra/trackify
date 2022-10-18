@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Food } from 'src/app/common/models/MealPlan/Food';
+import { MealPlan } from 'src/app/common/models/MealPlan/MealPlan';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
+import { MealPlanService } from 'src/app/common/services/meal-plan-service/meal-plan.service';
 
 @Component({
   selector: 'app-meal-planner',
@@ -8,7 +12,8 @@ import { AccountService } from 'src/app/common/services/authentication-service/a
   styleUrls: ['./meal-planner.component.css']
 })
 export class MealPlannerComponent implements OnInit {
-
+  existingPlan: boolean = false;
+  mealPlan: MealPlan | undefined
   mealPlanForm = this.fb.group({
     mealPlanName: [''],
     mealPlanCalories: [0],
@@ -17,10 +22,30 @@ export class MealPlannerComponent implements OnInit {
 
   totalMealPlanCals: number = 0;
 
-  constructor(private fb: FormBuilder, private accountService: AccountService) { }
+  constructor(private fb: FormBuilder, private accountService: AccountService, private mealPlanService: MealPlanService, private router: Router) { 
+    this.mealPlan = this.router.getCurrentNavigation()?.extras.state as MealPlan
+  }
 
   ngOnInit(): void {
     this.accountService.getCurrentUser()
+    if (this.mealPlan != undefined)
+    {
+      this.existingPlan = true
+      this.updateFormWithExistingValues()
+    }
+  }
+
+  updateFormWithExistingValues(){
+    this.mealPlanForm.patchValue({
+      mealPlanName: this.mealPlan?.mealPlanName,
+      mealPlanCalories: this.mealPlan?.mealPlanCalories,
+      
+    })
+    for (let m of this.mealPlan?.meals!){
+      this.createMeal(m.name, m.calories, m.protein, m.carbohydrates, m.fats)
+    }
+    console.log(this.mealPlanForm)
+    console.log(this.mealPlan)
   }
 
   get meals(): FormArray {
@@ -35,11 +60,27 @@ export class MealPlannerComponent implements OnInit {
     this.meals.push(this.newMeal())
   }
 
+  createMeal(name: string, calories: number, protein: number, carbohydrates: number, fats: number): void{
+    this.meals.push(this.mealWithVals(name, calories, protein, carbohydrates, fats))
+  }
+
+  mealWithVals(name: string, calories: number, protein: number, carbohydrates: number, fats: number): FormGroup{
+    return this.fb.group({
+      name: [name],
+      calories: [calories],
+      protein: [protein],
+      carbohydrates: [carbohydrates],
+      fats: [fats]
+    })
+  }
+
   newMeal(): FormGroup{
     return this.fb.group({
       name: [''],
       calories: [0],
-      protein: [0]
+      protein: [0],
+      carbohydrates: [0],
+      fats: [0]
     })
   }
 
@@ -59,6 +100,7 @@ export class MealPlannerComponent implements OnInit {
   onMealCaloriesChange(event: any, mealIdx: number){
     this.meal(mealIdx).controls['calories'].patchValue(Number(event.target.value))
     this.totalMealPlanCals += Number(event.target.value)
+    this.mealPlanForm.controls.mealPlanCalories.patchValue(this.totalMealPlanCals);
     console.log(this.meal(mealIdx))
   }
 
@@ -68,7 +110,20 @@ export class MealPlannerComponent implements OnInit {
   }
 
   saveMealPlan(){
-    
+    console.log(this.mealPlanForm);
+    const mealPlan: MealPlan = {
+      mealPlanId: 0,
+      mealPlanName: this.mealPlanForm.get('mealPlanName')?.value!,
+      mealPlanCalories: this.mealPlanForm.get('mealPlanCalories')?.value!,
+      meals: this.meals.value as Food[]
+    }
+    console.log(mealPlan)
+    this.mealPlanService.createMealPlan(mealPlan);
+  }
+
+  deleteMealPlan(){
+    console.log(this.mealPlan, "DELETE");
+    this.mealPlanService.deleteMealPlan(this.mealPlan!);
   }
 
 }
