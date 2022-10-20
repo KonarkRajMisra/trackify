@@ -20,7 +20,6 @@ export class DashBoardComponent implements OnInit {
     this.nutritionProtocolService.getAllNutritionProtocols(this.accountService.user.email, this.accountService.user.authToken).subscribe((res) => {
       this.nutritionData = res[0].nutritionData!
       this.dateData = this.nutritionData?.dateData
-      console.log("PDD was Set", this.dateData)
     }
     )
   }

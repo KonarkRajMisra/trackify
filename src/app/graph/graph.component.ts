@@ -19,8 +19,11 @@ export class GraphComponent implements OnInit {
 
   dataOptions = [
     "Weight",
+    "Average Weight",
     "Calories",
-    "Net Calories"
+    "Average Calories",
+    "Net Calories",
+    "Average Net Change"
   ]
 
   typeOptions = [
@@ -65,6 +68,7 @@ export class GraphComponent implements OnInit {
     else {
       localStorage.setItem("graphNavigationData", JSON.stringify(this.navigationData))
     }
+    console.log("NAVIGATIONDATA", this.navigationData)
   }
 
   transformDataToGraphInput(selector: string) {

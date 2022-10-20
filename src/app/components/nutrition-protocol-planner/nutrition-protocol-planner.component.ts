@@ -158,7 +158,7 @@ export class NutritionProtocolPlanner implements OnInit {
       endDate: this.endDate?.value! as unknown as Date,
       protocolCalories: this.protocolCalories,
       status: 'active',
-      nutritionData: {email: this.accountService.user.email, dateData: []} as NutritionData
+      nutritionData: {email: this.accountService.user.email, dateData: [], summaryData: null} as NutritionData
     }
     console.log(nutritionProtocol)
     this.nutritionProtocolService.createNutritionProtocol(nutritionProtocol);
