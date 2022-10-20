@@ -1,5 +1,10 @@
 <div class="container">
-    <h1> Create New Meal Plan </h1>
+    <div class="row">
+        <div class="row g-2">
+            <h1 class="display-6"> Create New Meal Plan </h1>
+        </div>
+    </div>
+
     <form [formGroup]="mealPlanForm">
         <div class="mb-3">
             <label for="mealPlanName" class="form-label"> Meal Plan Name </label>
@@ -32,7 +37,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <button class="btn btn-primary" (click)="removeMeal(mealIdx)"> Remove Meal</button>
+                    <button class="btn btn-danger"  (click)="removeMeal(mealIdx)"> Remove Meal</button>
                 </div>
             </div>
         </div>
@@ -44,10 +49,10 @@
     </form>
 
     <div class="mb-3">
-        <button class="btn btn-primary" (click)="saveMealPlan()"> Save Meal Plan</button>
+        <button class="btn btn-success" (click)="saveMealPlan()"> Save Meal Plan</button>
     </div>
 
     <div *ngIf="existingPlan">
-        <button class="btn btn-primary" (click)="deleteMealPlan()"> Delete Meal Plan</button>
+        <button class="btn btn-danger" (click)="deleteMealPlan()"> Delete Meal Plan</button>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="container">
     <div *ngIf="nutritionData; else noProtocolData" class="row">
-        <div class="row" style="text-align: center;">
-            <h1 class="display-6"> Nutrition Protocol Data </h1>
+        <div class="row g-2" style="text-align: center;">
+            <h1 class="display-6"> Nutrition Data </h1>
         </div>
         <div class="row">
             <app-graph *ngIf="dateData?.length" [dateData]="dateData"></app-graph>
