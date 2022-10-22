@@ -75,7 +75,7 @@ export class WeightTracker implements OnInit, AfterViewChecked {
   }
 
   viewGraphClicked() {
-    this.router.navigateByUrl("/graph", { state: this.populatedDates })
+    this.router.navigateByUrl("/graph", { state: [this.populatedDates, this.activeNutritionProtocol?.nutritionData?.summaryData] })
   }
 
   convertJsDateToString(date: globalThis.Date) {

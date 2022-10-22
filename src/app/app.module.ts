@@ -16,7 +16,7 @@ import { NutritionProtocolPlanner } from './components/nutrition-protocol-planne
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
 import { NutritionProtocolCards } from './components/nutrition-protocol-cards/nutrition-protocol-cards.component';
-import { GraphComponent } from './graph/graph.component';
+import { WeightGraph } from './graph/weight-graph.component';
 import { MealPlanCardsComponent } from './components/meal-plan-cards/meal-plan-cards.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginationComponent } from './components/pagination/pagination.component';
@@ -34,7 +34,7 @@ import { SummaryComponent } from './components/summary/summary.component';
     NutritionProtocolPlanner,
     WeightTracker,
     NutritionProtocolCards,
-    GraphComponent,
+    WeightGraph,
     MealPlanCardsComponent,
     PaginationComponent,
     MealPlannerComponent,

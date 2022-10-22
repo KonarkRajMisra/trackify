@@ -6,7 +6,7 @@ import { NutritionProtocolPlanner } from './components/nutrition-protocol-planne
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
 import { LogInComponent } from './components/log-in/log-in.component';
 import { NutritionProtocolCards } from './components/nutrition-protocol-cards/nutrition-protocol-cards.component';
-import { GraphComponent } from './graph/graph.component';
+import { WeightGraph } from './graph/weight-graph.component';
 import { AuthGuard } from './common/guards/auth.guard';
 import { MealPlanCardsComponent } from './components/meal-plan-cards/meal-plan-cards.component';
 import { MealPlannerComponent } from './components/meal-planner/meal-planner.component';
@@ -25,7 +25,7 @@ const routes: Routes = [
   {path: "weightTracking", component: WeightTracker, canActivate: [AuthGuard]},
   {path: "dash", component: DashBoardComponent, canActivate: [AuthGuard]},
   {path: "login", component: LogInComponent},
-  {path: "graph", component: GraphComponent, canActivate: [AuthGuard]},
+  {path: "graph", component: WeightGraph, canActivate: [AuthGuard]},
   {path: "summary", component: SummaryComponent, canActivate: [AuthGuard]}
 ];
 
