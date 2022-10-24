@@ -24,6 +24,7 @@ export class MealPlannerComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private accountService: AccountService, private mealPlanService: MealPlanService, private router: Router) { 
     this.mealPlan = this.router.getCurrentNavigation()?.extras.state as MealPlan
+    this.totalMealPlanCals = this.mealPlan.mealPlanCalories
   }
 
   ngOnInit(): void {
@@ -85,6 +86,7 @@ export class MealPlannerComponent implements OnInit {
   }
 
   removeMeal(mealIdx: number): void {
+    this.totalMealPlanCals -= this.meals.at(mealIdx).get('calories')?.value
     this.meals.removeAt(mealIdx);
   }
 

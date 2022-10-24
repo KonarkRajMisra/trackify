@@ -26,7 +26,6 @@ export class WeightTracker implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     // get the current user
-    
     this.accountService.getCurrentUser()
     // get all fitness plans
     this.nutritionProtocolService.getAllNutritionProtocols(this.accountService.user?.email!, this.accountService.user.authToken!).subscribe((res: any) => {
@@ -72,12 +71,11 @@ export class WeightTracker implements OnInit, AfterViewChecked {
   onProtocolDataSubmit() {
     let plan: NutritionData = this.planFormData?.value as NutritionData;
     this.sanitizePlan(plan);
-    console.log(plan)
     this.nutritionProtocolService.submitNutritionData(plan);
   }
 
   viewGraphClicked() {
-    this.router.navigateByUrl("/graph", { state: this.populatedDates })
+    this.router.navigateByUrl("/graph", { state: [this.populatedDates, this.activeNutritionProtocol?.nutritionData?.summaryData] })
   }
 
   convertJsDateToString(date: globalThis.Date) {
@@ -94,9 +92,12 @@ export class WeightTracker implements OnInit, AfterViewChecked {
       }
     }
     plan.dateData = newArr
+    if (this.activeNutritionProtocol?.nutritionData?.summaryData !== undefined){
+      plan.summaryData = this.activeNutritionProtocol.nutritionData.summaryData
+    }
   }
 
   viewFitnessSummary() {
-    this.nutritionProtocolService.getNutritionProtocolSummary(this.accountService.user.email, this.accountService.user.authToken).subscribe((res) => console.log("SUMMARY", res))
+    this.router.navigateByUrl('/summary')
   }
 }

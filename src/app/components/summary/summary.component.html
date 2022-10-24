@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="row">
+        <div class="row g-2">
+            <h1 class="display-6"> Nutrition Summary</h1>
+        </div>
+    </div>
+
+    <div *ngFor="let weekSummary of summary?.summary">
+        <div class="row">
+            <div class="row">
+                <h2 class="display-6">
+                    Week# <strong> {{weekSummary.week}}</strong>
+                </h2>
+            </div>
+            
+            <div class="row">
+                <p class="lead">
+                    Average Calories: <strong> {{weekSummary.averageCalories}}</strong>
+                </p>
+            </div>
+
+            <div class="row">
+                <p class="lead">
+                    Average Weight: <strong> {{weekSummary.averageWeight}} </strong>
+                </p>
+            </div>
+
+            <div class="row">
+                <p class="lead">
+                    Week End Date: <strong> {{weekSummary.endDate}} </strong>
+                </p>
+            </div>
+
+            <div class="row">
+                <p class="lead">
+                    Net Calories Change: <strong> {{weekSummary.netChange}} </strong>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

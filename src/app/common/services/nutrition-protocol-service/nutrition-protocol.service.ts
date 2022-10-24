@@ -4,6 +4,7 @@ import { NutritionProtocol } from '../../models/Nutrition/NutritionProtocol';
 import { NutritionData } from '../../models/Nutrition/NutritionData';
 import { User } from '../../models/User/User';
 import { AccountService } from '../authentication-service/account-service.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +26,7 @@ export class NutritionProtocolService {
             .subscribe((res) => console.log(res));
     }
 
-    getAllNutritionProtocols(email: string, authToken: string) {
+    getAllNutritionProtocols(email: string, authToken: string): Observable<Array<NutritionProtocol>> {
         let header = new HttpHeaders().set('Authorization', `Bearer ${authToken}`)
         let params = { "email": email };
         const options = {
