@@ -31,6 +31,9 @@ export class WeightTracker implements OnInit, AfterViewChecked {
     this.nutritionProtocolService.getAllNutritionProtocols(this.accountService.user?.email!, this.accountService.user.authToken!).subscribe((res: any) => {
       this.allNutritionProtocols = res
       // set current active plan
+      if (this.allNutritionProtocols === undefined || this.allNutritionProtocols === null || this.allNutritionProtocols.length === 0){
+        this.router.navigateByUrl("/nutritionProtocolCards")
+      }
       this.setCurrentActivePlan()
     })
   }
