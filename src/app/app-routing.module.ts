@@ -11,22 +11,28 @@ import { AuthGuard } from './common/guards/auth.guard';
 import { MealPlanCardsComponent } from './components/meal-plan-cards/meal-plan-cards.component';
 import { MealPlannerComponent } from './components/meal-planner/meal-planner.component';
 import { SummaryComponent } from './components/summary/summary.component';
+import { WorkoutRoutinePlanner } from './components/workout-routine-planner/workout-routine-planner.component';
+import { WorkoutPlannerCardsComponent } from './components/workout-planner-cards/workout-planner-cards.component';
+import { WorkoutTrackerComponent } from './components/workout-tracker/workout-tracker.component';
 
 
 
 const routes: Routes = [
   {path: "", component: HomeComponent, canActivate: [AuthGuard]},
   {path: "nutritionProtocolCards", component: NutritionProtocolCards, canActivate: [AuthGuard]},
-  {path: "createNutritionProtocolCard", component: NutritionProtocolPlanner, canActivate: [AuthGuard]},
+  {path: "nutritionProtocolPlanner", component: NutritionProtocolPlanner, canActivate: [AuthGuard]},
   {path: "mealPlanCards", component: MealPlanCardsComponent, canActivate: [AuthGuard]},
   {path: "mealPlan", component: MealPlannerComponent, canActivate: [AuthGuard]},
   {path: "mealPlan/:id", component: MealPlannerComponent, canActivate: [AuthGuard]},
   {path: "nutritionProtocol/:id", component: NutritionProtocolPlanner, canActivate: [AuthGuard]},
-  {path: "weightTracking", component: WeightTracker, canActivate: [AuthGuard]},
+  {path: "weightTracker", component: WeightTracker, canActivate: [AuthGuard]},
   {path: "dash", component: DashBoardComponent, canActivate: [AuthGuard]},
   {path: "login", component: LogInComponent},
   {path: "graph", component: WeightGraph, canActivate: [AuthGuard]},
-  {path: "summary", component: SummaryComponent, canActivate: [AuthGuard]}
+  {path: "summary", component: SummaryComponent, canActivate: [AuthGuard]},
+  {path: "workoutRoutineCards", component: WorkoutPlannerCardsComponent, canActivate: [AuthGuard]},
+  {path: "workoutRoutinePlanner", component: WorkoutRoutinePlanner, canActivate: [AuthGuard]},
+  {path: "workoutTracker", component: WorkoutTrackerComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

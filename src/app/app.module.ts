@@ -11,7 +11,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { DashBoardComponent } from './components/dash-board/dash-board.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
-import { TemplateFormComponent } from './components/template-form/template-form.component';
+import { WorkoutRoutinePlanner } from './components/workout-routine-planner/workout-routine-planner.component';
 import { NutritionProtocolPlanner } from './components/nutrition-protocol-planner/nutrition-protocol-planner.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WeightTracker } from './components/weight-tracker/weight-tracker.component';
@@ -22,6 +22,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { MealPlannerComponent } from './components/meal-planner/meal-planner.component';
 import { SummaryComponent } from './components/summary/summary.component';
+import { WorkoutTrackerComponent } from './components/workout-tracker/workout-tracker.component';
+import { WorkoutPlannerCardsComponent } from './components/workout-planner-cards/workout-planner-cards.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import { SummaryComponent } from './components/summary/summary.component';
     NavBarComponent,
     DashBoardComponent,
     HomeComponent,
-    TemplateFormComponent,
+    WorkoutRoutinePlanner,
     NutritionProtocolPlanner,
     WeightTracker,
     NutritionProtocolCards,
@@ -38,7 +40,9 @@ import { SummaryComponent } from './components/summary/summary.component';
     MealPlanCardsComponent,
     PaginationComponent,
     MealPlannerComponent,
-    SummaryComponent
+    SummaryComponent,
+    WorkoutTrackerComponent,
+    WorkoutPlannerCardsComponent
   ],
   imports: [
     BrowserModule,

@@ -29,7 +29,7 @@ export class NutritionProtocolCards implements OnInit {
   }
 
   onCreateFitnessProtocolClick() {
-    this.router.navigateByUrl("/createNutritionProtocolCard");
+    this.router.navigateByUrl("/nutritionProtocolPlanner");
   }
 
 }

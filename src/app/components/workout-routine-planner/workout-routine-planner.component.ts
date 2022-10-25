@@ -3,11 +3,11 @@ import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { WorkoutRoutine } from 'src/app/common/models/Workout/WorkoutRoutine';
 
 @Component({
-  selector: 'app-template-form',
-  templateUrl: './template-form.component.html',
-  styleUrls: ['./template-form.component.css']
+  selector: 'app-workout-planner',
+  templateUrl: './workout-routine-planner.component.html',
+  styleUrls: ['./workout-routine-planner.component.css']
 })
-export class TemplateFormComponent implements OnInit {
+export class WorkoutRoutinePlanner implements OnInit {
 
   templateForm = this.fb.group({
     templates: this.fb.array([])
