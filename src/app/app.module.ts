@@ -42,7 +42,7 @@ import { WorkoutPlannerCardsComponent } from './components/workout-planner-cards
     MealPlannerComponent,
     SummaryComponent,
     WorkoutTrackerComponent,
-    WorkoutPlannerCardsComponent
+    WorkoutPlannerCardsComponent,
   ],
   imports: [
     BrowserModule,

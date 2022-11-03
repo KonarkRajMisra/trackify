@@ -12,9 +12,14 @@
             <p class="lead">
                 Net Calorie Change: {{this.netCals}}
             </p>
-            <p class="h2">
+            <p *ngIf="allData === false; else showAllData" class="h2">
                 Week : {{currentWeek}}
             </p>
+            <ng-template #showAllData>
+                <p class="h2">
+                    All Weight Data
+                </p>
+            </ng-template>
         </div>
     </div>
 
@@ -24,6 +29,7 @@
         (populatedDatesDataEvent)="populatedDatesHandler($event)" 
         (weekEvent)="weekUpdateHandler($event)"
         (netCalorieChangeEvent)="netCalorieChangeHandler($event)"
+        [allData]="allData"
         >
     </app-pagination>
 

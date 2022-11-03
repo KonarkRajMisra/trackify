@@ -6,17 +6,24 @@
         <ng-template #notLoggedIn>
             <a class="navbar-brand abs" routerLink="/login">Trackify</a>
         </ng-template>
-        
+
         <div class="collapse navbar-collapse" *ngIf="accountService.currentUser$ | async">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/weightTracker"> Weight </a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"> Weight </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" routerLink="/weightTracker"> Active Protocol</a></li>
+                        <li><a class="dropdown-item" routerLink="/allWeightTrackingData"> All Weight</a></li>
+                      </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/workoutTracker"> Workouts </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/workoutTracker"> Nutrition </a>
+                </li>
             </ul>
-            
+
         </div>
         <ul class="navbar-nav mr-auto" *ngIf="accountService.currentUser$ | async">
             <li class="nav-item">
@@ -27,7 +34,8 @@
                             <button type="button" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>
                                 {{ (accountService.currentUser$ | async)!.name }}</button>
                             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem routerLink="/nutritionProtocolCards"> Nutrition Protocol Planning</button>
+                                <button ngbDropdownItem routerLink="/nutritionProtocolCards"> Nutrition Protocol
+                                    Planning</button>
                                 <button ngbDropdownItem routerLink="/mealPlanCards"> Meal Planning</button>
                                 <button ngbDropdownItem routerLink="/workoutRoutineCards"> Workout Planning</button>
                                 <button ngbDropdownItem (click)="logout()">Logout</button>

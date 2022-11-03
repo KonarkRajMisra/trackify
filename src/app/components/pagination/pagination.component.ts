@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { DateData } from 'src/app/common/models/DateData';
 import { NutritionProtocol } from 'src/app/common/models/Nutrition/NutritionProtocol';
 import { AccountService } from 'src/app/common/services/authentication-service/account-service.service';
@@ -7,7 +7,7 @@ import { NutritionProtocolService } from 'src/app/common/services/nutrition-prot
 import { Date } from 'src/app/common/models/Date';
 import { MealPlan } from 'src/app/common/models/MealPlan/MealPlan';
 import { MealPlanService } from 'src/app/common/services/meal-plan-service/meal-plan.service';
-import { isNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pagination',
@@ -33,15 +33,19 @@ export class PaginationComponent implements OnInit, OnChanges {
   netCalorieChange?: number;
 
   // Weight Tracker Component 
+  @Input() allData?: boolean;
   @Input() currentActiveNutritionProtocol?: NutritionProtocol;
   @Output() nutritionProtocolFormEvent = new EventEmitter<FormGroup<any>>();
   @Output() populatedDatesDataEvent = new EventEmitter<DateData[]>();
   @Output() weekEvent = new EventEmitter<number>();
   @Output() netCalorieChangeEvent = new EventEmitter<number>();
 
-  constructor(private fb: FormBuilder, private nutritionProtocolService: NutritionProtocolService, private accountService: AccountService, private mealPlanService: MealPlanService) { }
+  constructor(private fb: FormBuilder, private nutritionProtocolService: NutritionProtocolService, private accountService: AccountService, private mealPlanService: MealPlanService, private router: Router) { }
 
   ngOnInit(): void {
+    if (this.allData){
+      this.tableSize = 1000;
+    }
     this.mealPlanService.getAllMealPlans().subscribe((res) => {
       this.mealPlans = res
     })

@@ -15,8 +15,6 @@ import { WorkoutRoutinePlanner } from './components/workout-routine-planner/work
 import { WorkoutPlannerCardsComponent } from './components/workout-planner-cards/workout-planner-cards.component';
 import { WorkoutTrackerComponent } from './components/workout-tracker/workout-tracker.component';
 
-
-
 const routes: Routes = [
   {path: "", component: HomeComponent, canActivate: [AuthGuard]},
   {path: "nutritionProtocolCards", component: NutritionProtocolCards, canActivate: [AuthGuard]},
@@ -32,7 +30,8 @@ const routes: Routes = [
   {path: "summary", component: SummaryComponent, canActivate: [AuthGuard]},
   {path: "workoutRoutineCards", component: WorkoutPlannerCardsComponent, canActivate: [AuthGuard]},
   {path: "workoutRoutinePlanner", component: WorkoutRoutinePlanner, canActivate: [AuthGuard]},
-  {path: "workoutTracker", component: WorkoutTrackerComponent, canActivate: [AuthGuard]}
+  {path: "workoutTracker", component: WorkoutTrackerComponent, canActivate: [AuthGuard]},
+  {path: "allWeightTrackingData", component: WeightTracker, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

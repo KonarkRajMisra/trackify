@@ -21,11 +21,15 @@ export class WeightTracker implements OnInit, AfterViewChecked {
   populatedDates?: DateData[]
   netCals?: number;
   currentWeek: number = 1;
+  allData: boolean = false;
 
   constructor(private accountService: AccountService, private nutritionProtocolService: NutritionProtocolService, private router: Router, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     // get the current user
+    if (this.router.url === "/allWeightTrackingData"){
+      this.allData = true;
+    }
     this.accountService.getCurrentUser()
     // get all fitness plans
     this.nutritionProtocolService.getAllNutritionProtocols(this.accountService.user?.email!, this.accountService.user.authToken!).subscribe((res: any) => {
