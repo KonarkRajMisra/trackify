@@ -1,6 +1,7 @@
 import { Workout } from "./Workout";
 
 export interface WorkoutRoutine{
-    routineName: string | undefined,
+    name: string | undefined,
+    routineId: number | undefined,
     workouts: Array<Workout> | undefined;
 }
