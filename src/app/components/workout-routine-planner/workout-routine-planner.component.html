@@ -1,37 +1,59 @@
-<form [formGroup]="templateForm" (ngSubmit)="onSubmit()">
-    <div formArrayName="templates">
-        <div *ngFor="let template of templates.controls; let tempIdx=index">
-            <div [formGroupName]="tempIdx">
-                {{tempIdx + 1}}
-                Template Name:
-                <input type="text" formControlName="templateName" />
-                <button (click)="removeTemplateForm(tempIdx)"> Remove Template</button>
-                <div formArrayName="items">
-                    <div *ngFor="let item of items(tempIdx).controls; let itemIdx = index">
-                        <div [formGroupName]="itemIdx">
-                            {{itemIdx + 1}}
-                            ItemName:
-                            <input type="text" formControlName="itemName">
-                            <button (click)="removeTemplateItem(tempIdx, itemIdx)"> Remove Template Item</button>
-                            <div formArrayName="units">
-                                <div *ngFor="let u of units(tempIdx, itemIdx).controls; let unitIdx = index">
-                                    <div [formGroupName]="unitIdx">
-                                        {{unitIdx + 1}}
-                                        Unit:
-                                        <input type="text" formControlName="unit">
-                                        <input type="text" formControlName="type">
-                                        <button (click)="removeUnit(tempIdx, itemIdx, unitIdx)"> Remove Unit</button>
+<div class="container">
+    <div class="row">
+        <div class="row g-2">
+            <h1 class="display-6"> Workout Routine </h1>
+        </div>        
+    </div>
+    
+    <form [formGroup]="workoutForm" style="margin-left: 50px;" class="mb-3">
+        <div class="mb-3" >
+            <label for="name" class="form-label" class="lead"> Routine Name </label>
+            <input class="form-control" id="name" type="text" formControlName="name"
+                (change)="changeWorkoutName($event)">
+        </div>
+        <div formArrayName="workouts" style="margin-left: 50px;">
+            <div *ngFor="let workout of workouts.controls; let workoutIdx=index">
+                <div [formGroupName]="workoutIdx">
+                    <div class="mb-3">
+                        <label for="workoutName" class="form-label">Workout Name:</label>
+                        <input type="text" class="form-control" formControlName="workoutName" />
+                    </div>
+
+                    <div class="mb-3">
+                        <div formArrayName="exercises" style="margin-left: 50px;">
+                            <div *ngFor="let item of exercises(workoutIdx).controls; let exerciseIdx = index">
+                                <div [formGroupName]="exerciseIdx">
+                                    <div class="mb-3">
+                                        <label for="exerciseName" class="form-label">
+                                            Exercise Name:
+                                        </label>
+                                        <input class="form-control" type="text" formControlName="exerciseName">
                                     </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-danger" (click)="removeExercise(workoutIdx, exerciseIdx)"> Remove Exercise</button>
+                                    </div>
+                                    
                                 </div>
                             </div>
-                            <button (click)="addUnit(tempIdx, itemIdx)"> Add Unit</button>
                         </div>
-
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-light" (click)="addExercise(workoutIdx)"> Add Exercise</button>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-danger" (click)="removeWorkout(workoutIdx)"> Remove Workout</button>
                     </div>
                 </div>
-                <button (click)="addTemplateItem(tempIdx)"> Add Template Item</button>
             </div>
         </div>
-        <button (click)="addTemplateForm()"> Add Template </button>
+        <button class="btn btn-primary" (click)="addWorkout()"> Create Workout </button>
+    </form>
+    <div *ngIf="!doesRoutineExist; else update" class="mb-3">
+        <button class="btn btn-success" (click)="saveWorkout()"> Save Workout </button>
     </div>
-</form>
+    <ng-template #update>
+        <div class="mb-3">
+            <button class="btn btn-success" (click)="updateWorkout()"> Update Workout </button>
+        </div>
+    </ng-template>
+</div>

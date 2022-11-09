@@ -1,5 +1,4 @@
-export interface ExerciseData{
-    date: string,
+export interface ExerciseSet{
     weight: number,
     reps: number,
     notes: string

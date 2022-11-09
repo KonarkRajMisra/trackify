@@ -1,6 +1,7 @@
-import { ExerciseData } from "./ExerciseData";
+import { ExerciseSet } from "./ExerciseSet";
 
 export interface Exercise{
     exerciseName: string,
-    exerciseData: Array<ExerciseData>
+    exerciseSets: Array<ExerciseSet>,
+    date: string
 }

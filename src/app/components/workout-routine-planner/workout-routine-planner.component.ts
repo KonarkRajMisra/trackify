@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Exercise } from 'src/app/common/models/Workout/Exercise';
+import { ExerciseSet } from 'src/app/common/models/Workout/ExerciseSet';
+import { Workout } from 'src/app/common/models/Workout/Workout';
 import { WorkoutRoutine } from 'src/app/common/models/Workout/WorkoutRoutine';
+import { WorkoutService } from 'src/app/common/services/workout-service/workout.service';
 
 @Component({
   selector: 'app-workout-planner',
@@ -9,73 +14,113 @@ import { WorkoutRoutine } from 'src/app/common/models/Workout/WorkoutRoutine';
 })
 export class WorkoutRoutinePlanner implements OnInit {
 
-  templateForm = this.fb.group({
-    templates: this.fb.array([])
+  workoutForm = this.fb.group({
+    name: [''],
+    routineId: [0],
+    workouts: this.fb.array([])
   })
 
-  constructor(private fb: FormBuilder) { }
+  activeRoutine: WorkoutRoutine | undefined;
+  doesRoutineExist: boolean = false;
+
+  constructor(private fb: FormBuilder, private workoutService: WorkoutService, private router: Router) {
+    if (this.router.getCurrentNavigation()?.extras.state !== null) {
+      console.log(this.router.getCurrentNavigation()?.extras.state);
+      const routineId = this.router.getCurrentNavigation()?.extras.state?.['routineId'];
+      if (routineId !== undefined && routineId !== null) {
+        this.workoutService.getWorkoutRoutine(routineId).subscribe((res) => {
+          this.activeRoutine = res;
+          this.doesRoutineExist = true;
+          // update form with activeRoutine
+          this.workoutForm.patchValue({
+            name: this.activeRoutine.name,
+            routineId: this.activeRoutine.routineId,
+          });
+          this.activeRoutine.workouts?.forEach((workout) => {
+            this.addCustomWorkout(workout);
+          });
+      })
+    }
+  }
+  }
 
   ngOnInit(): void {
   }
 
-  newTemplate(): FormGroup {
+  newWorkout(): FormGroup {
     return this.fb.group({
-      templateName: [''],
-      items: this.fb.array([])
+      workoutName: [''],
+      exercises: this.fb.array([]),
+      exerciseHistory: this.fb.array([])
     })
   }
 
-  newItem(): FormGroup {
+  newExercise(): FormGroup {
     return this.fb.group({
-      itemName: [''],
-      units : this.fb.array([])
+      exerciseName: [''],
+      exerciseSets: this.fb.array([]),
+      date: ['']
     })
   }
 
-  newUnit(): FormGroup{
-    return this.fb.group({
-      unit: [''],
-      type: ['']
-    })
+
+  get workouts(): FormArray {
+    return this.workoutForm.get('workouts') as FormArray;
   }
 
-  get templates(): FormArray {
-    return this.templateForm.get('templates') as FormArray;
+  exercises(workoutIdx: number): FormArray {
+    return this.workouts.at(workoutIdx).get('exercises') as FormArray;
   }
 
-  items(tempIdx: number): FormArray {
-    return this.templates.at(tempIdx).get('items') as FormArray;
+  addWorkout() {
+    this.workouts.push(this.newWorkout());
   }
 
-  units(tempIdx: number, itemIdx: number): FormArray {
-    return this.items(tempIdx).at(itemIdx).get('units') as FormArray;
+  addCustomWorkout(workout: Workout) {
+    this.workouts.push(this.fb.group({
+      workoutName: [workout.workoutName],
+      exercises: this.fb.array(workout.exercises?.map((exercise) => {
+        return this.fb.group({
+          exerciseName: [exercise.exerciseName],
+          exerciseSets: this.fb.array(exercise.exerciseSets?.map((exerciseSet) => {
+            return this.fb.group({
+              reps: [exerciseSet.reps],
+              weight: [exerciseSet.weight]
+            })
+          })),
+          date: [exercise.date]
+        })
+      }
+      )),
+      exerciseHistory: this.fb.array([])
+    }))
   }
 
-  addTemplateForm(){
-    this.templates.push(this.newTemplate());
+  removeWorkout(workoutIdx: number) {
+    this.workouts.removeAt(workoutIdx);
   }
 
-  removeTemplateForm(tempIdx: number){
-    this.templates.removeAt(tempIdx);
+  addExercise(workoutIdx: number) {
+    this.exercises(workoutIdx).push(this.newExercise())
   }
 
-  addTemplateItem(tempIdx: number) {
-    this.items(tempIdx).push(this.newItem());
+  removeExercise(workoutIdx: number, exerciseIdx: number) {
+    this.exercises(workoutIdx).removeAt(exerciseIdx);
   }
 
-  removeTemplateItem(tempIdx: number, itemIdx: number){
-    this.items(tempIdx).removeAt(itemIdx);
+  saveWorkout() {
+    console.log(this.workoutForm.value);
+    const workoutRoutine = this.workoutForm.value as WorkoutRoutine;
+    this.workoutService.createWorkoutRoutine(workoutRoutine);
   }
 
-  addUnit(tempIdx: number, itemIdx: number){
-    this.units(tempIdx, itemIdx).push(this.newUnit());
+  updateWorkout(){
+    const workoutRoutine = this.workoutForm.value as WorkoutRoutine;
+    console.log(workoutRoutine);
+    this.workoutService.updateWorkoutRoutine(workoutRoutine);
   }
 
-  removeUnit(tempIdx: number, itemIdx: number, unitIdx: number){
-    this.units(tempIdx, itemIdx).removeAt(unitIdx);
-  }
-
-  onSubmit(){
-    console.log(this.templateForm.value);
+  changeWorkoutName(e: any) {
+    this.workoutForm.get('name')?.setValue(e.target.value);
   }
 }

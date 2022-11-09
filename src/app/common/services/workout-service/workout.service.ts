@@ -21,7 +21,7 @@ export class WorkoutService {
     const options = {
       headers: header
     }
-    return this.http.post<User>(this.baseUrl + 'createRoutine', routine, options)
+    return this.http.post<User>(this.baseUrl + 'createRoutine', {email: this.accountService.user.email, workoutRoutine: routine}, options)
       .subscribe((res) => console.log(res));
   }
 
@@ -33,5 +33,34 @@ export class WorkoutService {
       params: params
     };
     return this.http.get<Array<WorkoutRoutine>>(this.baseUrl + 'getWorkouts', options);
+  }
+
+  getWorkoutRoutine(routineId: number): Observable<WorkoutRoutine> {
+    let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
+    let params = { "email": this.accountService.user.email, "routineId": routineId };
+    const options = {
+      headers: header,
+      params: params
+    };
+    return this.http.get<WorkoutRoutine>(this.baseUrl + 'getWorkout', options);
+  }
+
+  deleteWorkoutRoutine(routineId: number) {
+    let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
+    let body = { "email": this.accountService.user.email, "routineId": routineId };
+    const options = {
+      headers: header,
+      body: body
+    };
+    return this.http.delete<Array<WorkoutRoutine>>(this.baseUrl + 'deleteRoutine', options);
+  }
+
+  updateWorkoutRoutine(routine: WorkoutRoutine) {
+    let header = new HttpHeaders().set('Authorization', `Bearer ${this.accountService.user.authToken}`)
+    const options = {
+      headers: header
+    }
+    return this.http.patch(this.baseUrl + 'updateRoutine', {email: this.accountService.user.email, workoutRoutine: routine}, options)
+      .subscribe((res) => console.log(res));
   }
 }
