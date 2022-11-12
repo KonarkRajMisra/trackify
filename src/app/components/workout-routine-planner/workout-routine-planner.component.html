@@ -5,22 +5,25 @@
         </div>        
     </div>
     
-    <form [formGroup]="workoutForm" style="margin-left: 50px;" class="mb-3">
+    <form [formGroup]="workoutForm" class="mb-3">
         <div class="mb-3" >
             <label for="name" class="form-label" class="lead"> Routine Name </label>
             <input class="form-control" id="name" type="text" formControlName="name"
                 (change)="changeWorkoutName($event)">
         </div>
-        <div formArrayName="workouts" style="margin-left: 50px;">
+        <div formArrayName="workouts">
             <div *ngFor="let workout of workouts.controls; let workoutIdx=index">
                 <div [formGroupName]="workoutIdx">
+                    <div class="mb-3">
+                        <h2 class="display-6">Day # {{workoutIdx + 1}}</h2>
+                    </div>
                     <div class="mb-3">
                         <label for="workoutName" class="form-label">Workout Name:</label>
                         <input type="text" class="form-control" formControlName="workoutName" />
                     </div>
 
                     <div class="mb-3">
-                        <div formArrayName="exercises" style="margin-left: 50px;">
+                        <div formArrayName="exercises">
                             <div *ngFor="let item of exercises(workoutIdx).controls; let exerciseIdx = index">
                                 <div [formGroupName]="exerciseIdx">
                                     <div class="mb-3">
