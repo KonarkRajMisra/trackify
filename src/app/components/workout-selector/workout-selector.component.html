@@ -1,0 +1,18 @@
+<div class="row" style="margin: 50px;">
+    <div *ngFor="let workout of routine?.workouts" class="col-sm-6" style="margin: 20px">
+        <div class="card h-100">
+            <div class="card-header" style="text-align: center;">
+                <div class="col">
+                    <h5 class="card-title">Workout Day: {{workout.workoutName}}</h5>
+                </div>
+            </div>
+                
+                <div class="row p-2" style="text-align: center;">
+                    <div class="col">
+                        <button (click)="trackWorkout(workout)" class="btn btn-primary">Track 
+                            Workout </button>
+                    </div>
+                </div>                
+        </div>
+    </div>
+</div>

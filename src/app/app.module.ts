@@ -22,8 +22,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { MealPlannerComponent } from './components/meal-planner/meal-planner.component';
 import { SummaryComponent } from './components/summary/summary.component';
-import { WorkoutTrackerComponent } from './components/workout-tracker/workout-tracker.component';
+import { WorkoutSelectorComponent } from './components/workout-selector/workout-selector.component';
 import { WorkoutPlannerCardsComponent } from './components/workout-planner-cards/workout-planner-cards.component';
+import { WorkoutRoutineSelectorComponent } from './components/workout-routine-selector/workout-routine-selector.component';
+import { WorkoutTrackerComponent } from './components/workout-tracker/workout-tracker.component';
 
 @NgModule({
   declarations: [
@@ -41,8 +43,10 @@ import { WorkoutPlannerCardsComponent } from './components/workout-planner-cards
     PaginationComponent,
     MealPlannerComponent,
     SummaryComponent,
-    WorkoutTrackerComponent,
+    WorkoutSelectorComponent,
     WorkoutPlannerCardsComponent,
+    WorkoutRoutineSelectorComponent,
+    WorkoutTrackerComponent,
   ],
   imports: [
     BrowserModule,

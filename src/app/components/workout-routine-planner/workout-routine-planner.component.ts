@@ -51,15 +51,13 @@ export class WorkoutRoutinePlanner implements OnInit {
     return this.fb.group({
       workoutName: [''],
       exercises: this.fb.array([]),
-      exerciseHistory: this.fb.array([])
     })
   }
 
   newExercise(): FormGroup {
     return this.fb.group({
       exerciseName: [''],
-      exerciseSets: this.fb.array([]),
-      date: ['']
+      exerciseHistory: this.fb.array([])
     })
   }
 
@@ -82,17 +80,10 @@ export class WorkoutRoutinePlanner implements OnInit {
       exercises: this.fb.array(workout.exercises?.map((exercise) => {
         return this.fb.group({
           exerciseName: [exercise.exerciseName],
-          exerciseSets: this.fb.array(exercise.exerciseSets?.map((exerciseSet) => {
-            return this.fb.group({
-              reps: [exerciseSet.reps],
-              weight: [exerciseSet.weight]
-            })
-          })),
-          date: [exercise.date]
+          exerciseHistory: this.fb.array([])
         })
       }
-      )),
-      exerciseHistory: this.fb.array([])
+      ))
     }))
   }
 

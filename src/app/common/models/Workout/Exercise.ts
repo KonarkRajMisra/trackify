@@ -1,7 +1,6 @@
-import { ExerciseSet } from "./ExerciseSet";
+import { ExerciseHistory } from "./ExerciseHistory"
 
 export interface Exercise{
     exerciseName: string,
-    exerciseSets: Array<ExerciseSet>,
-    date: string
+    exerciseHistory: Array<ExerciseHistory>
 }

@@ -1,0 +1,25 @@
+<div class="row" style="margin: 50px;">
+    <div *ngFor="let workoutRoutine of workoutRoutines" class="col-sm-6">
+        <div class="card h-100">
+            <div class="card-header" style="text-align: center;">
+                <div class="col">
+                    <h5 class="card-title">Workout: {{workoutRoutine.name}}</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row p-2" style="text-align: center;">
+                    <div class="col">
+                        <p class="lead"> Number of Workout days: {{workoutRoutine.workouts?.length}}</p>
+                    </div>
+                </div>
+                
+                <div class="row p-2" style="text-align: center;">
+                    <div class="col">
+                        <button (click)="trackWorkoutRoutine(workoutRoutine.routineId!)" class="btn btn-primary">Track
+                            Routine </button>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>

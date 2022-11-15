@@ -1,1 +1,48 @@
-<p>workout-tracker works!</p>
+<div class="container">
+    <form [formGroup]="workoutForm!">
+        <div class="row" style="margin: 20px">
+            <div class="col">
+                <h1 class="lead">
+                    {{workoutForm?.get('workoutName')?.value}}
+                </h1>
+            </div>
+        </div>
+        <div formArrayName="exercises">
+            <div *ngFor="let exercise of exercises.controls; let exerciseIdx = index">
+                <div class="row" style="margin: 20px">
+                    <div class="col">
+                        <h3 class="lead">
+                            {{exercise.get('exerciseName')?.value}}
+                        </h3>
+                    </div>
+                </div>
+
+                <table *ngIf="isExerciseHistoryNonNull(exerciseIdx)" formArrayName="exerciseHistory">
+
+                    <div *ngFor="let history of exerciseHistory(exerciseIdx).controls; let exerciseHistIdx = index">
+                        <div *ngIf="isExerciseDateNonNull(exerciseIdx, exerciseHistIdx)" class="mb-3">
+                            <label for="date" class="form-label"> Date</label>
+                            <input class="form-control" type="date" formControlName="date">
+                        </div>
+                        <div *ngIf="isExerciseSetsNonNull(exerciseIdx, exerciseHistIdx)" class="mb-3" formArrayName="exerciseSets">
+                            <div
+                                *ngFor="let set of exerciseSets(exerciseIdx, exerciseHistIdx).controls; let setIdx = index">
+                                <label for="weight" class="form-label"> Weight</label>
+                                <input class="form-control" type="number" formControlName="weight">
+                                <label for="reps" class="form-label"> Reps</label>
+                                <input class="form-control" type="number" formControlName="reps">
+                                <label for="notes" class="form-label"> Notes</label>
+                                <input class="form-control" type="text" formControlName="notes">
+                            </div>
+                        </div>
+                    </div>
+                </table>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary" (click)="addExerciseDate(exerciseIdx)"> + </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

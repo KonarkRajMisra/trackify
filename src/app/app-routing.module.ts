@@ -13,6 +13,8 @@ import { MealPlannerComponent } from './components/meal-planner/meal-planner.com
 import { SummaryComponent } from './components/summary/summary.component';
 import { WorkoutRoutinePlanner } from './components/workout-routine-planner/workout-routine-planner.component';
 import { WorkoutPlannerCardsComponent } from './components/workout-planner-cards/workout-planner-cards.component';
+import { WorkoutSelectorComponent } from './components/workout-selector/workout-selector.component';
+import { WorkoutRoutineSelectorComponent } from './components/workout-routine-selector/workout-routine-selector.component';
 import { WorkoutTrackerComponent } from './components/workout-tracker/workout-tracker.component';
 
 const routes: Routes = [
@@ -30,6 +32,8 @@ const routes: Routes = [
   {path: "summary", component: SummaryComponent, canActivate: [AuthGuard]},
   {path: "workoutRoutineCards", component: WorkoutPlannerCardsComponent, canActivate: [AuthGuard]},
   {path: "workoutRoutinePlanner", component: WorkoutRoutinePlanner, canActivate: [AuthGuard]},
+  {path: "workoutRoutineSelector", component: WorkoutRoutineSelectorComponent, canActivate: [AuthGuard]},
+  {path: "workoutSelector", component: WorkoutSelectorComponent, canActivate: [AuthGuard]},
   {path: "workoutTracker", component: WorkoutTrackerComponent, canActivate: [AuthGuard]},
   {path: "allWeightTrackingData", component: WeightTracker, canActivate: [AuthGuard]}
 ];
