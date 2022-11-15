@@ -8,7 +8,7 @@
             </div>
         </div>
         <div formArrayName="exercises">
-            <div *ngFor="let exercise of exercises.controls; let exerciseIdx = index">
+            <div [formGroupName]="exerciseIdx" *ngFor="let exercise of exercises.controls; let exerciseIdx = index">
                 <div class="row" style="margin: 20px">
                     <div class="col">
                         <h3 class="lead">
@@ -17,16 +17,14 @@
                     </div>
                 </div>
 
-                <table *ngIf="isExerciseHistoryNonNull(exerciseIdx)" formArrayName="exerciseHistory">
-
-                    <div *ngFor="let history of exerciseHistory(exerciseIdx).controls; let exerciseHistIdx = index">
+                <table formArrayName="exerciseHistory">
+                    <div [formGroupName]="exerciseHistIdx" *ngFor="let history of exerciseHistory(exerciseIdx).controls; let exerciseHistIdx = index">
                         <div *ngIf="isExerciseDateNonNull(exerciseIdx, exerciseHistIdx)" class="mb-3">
                             <label for="date" class="form-label"> Date</label>
                             <input class="form-control" type="date" formControlName="date">
                         </div>
-                        <div *ngIf="isExerciseSetsNonNull(exerciseIdx, exerciseHistIdx)" class="mb-3" formArrayName="exerciseSets">
-                            <div
-                                *ngFor="let set of exerciseSets(exerciseIdx, exerciseHistIdx).controls; let setIdx = index">
+                        <div class="mb-3" formArrayName="exerciseSets">
+                            <div [formGroupName]="setIdx" *ngFor="let set of exerciseSets(exerciseIdx, exerciseHistIdx).controls; let setIdx = index">
                                 <label for="weight" class="form-label"> Weight</label>
                                 <input class="form-control" type="number" formControlName="weight">
                                 <label for="reps" class="form-label"> Reps</label>
