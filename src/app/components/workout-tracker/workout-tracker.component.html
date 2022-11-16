@@ -1,6 +1,6 @@
 <div class="container">
-    <form [formGroup]="workoutForm!">
-        <div class="row" style="margin: 20px">
+    <form [formGroup]="workoutForm!" class="m-2">
+        <div class="row">
             <div class="col">
                 <h1 class="lead">
                     {{workoutForm?.get('workoutName')?.value}}
@@ -9,7 +9,7 @@
         </div>
         <div formArrayName="exercises">
             <div [formGroupName]="exerciseIdx" *ngFor="let exercise of exercises.controls; let exerciseIdx = index">
-                <div class="row" style="margin: 20px">
+                <div class="row">
                     <div class="col">
                         <h3 class="lead">
                             {{exercise.get('exerciseName')?.value}}
@@ -18,26 +18,50 @@
                 </div>
 
                 <table formArrayName="exerciseHistory">
-                    <div [formGroupName]="exerciseHistIdx" *ngFor="let history of exerciseHistory(exerciseIdx).controls; let exerciseHistIdx = index">
-                        <div *ngIf="isExerciseDateNonNull(exerciseIdx, exerciseHistIdx)" class="mb-3">
+                    <div [formGroupName]="generateIndex(exerciseHistIdx)"
+                        *ngFor="let history of exerciseHistory(exerciseIdx).controls | paginate: {
+                            itemsPerPage: tableSize,
+                            currentPage: page,
+                            totalItems: count
+                        }; let exerciseHistIdx = index">
+                        <div class="mb-3">
                             <label for="date" class="form-label"> Date</label>
                             <input class="form-control" type="date" formControlName="date">
                         </div>
                         <div class="mb-3" formArrayName="exerciseSets">
-                            <div [formGroupName]="setIdx" *ngFor="let set of exerciseSets(exerciseIdx, exerciseHistIdx).controls; let setIdx = index">
-                                <label for="weight" class="form-label"> Weight</label>
-                                <input class="form-control" type="number" formControlName="weight">
-                                <label for="reps" class="form-label"> Reps</label>
-                                <input class="form-control" type="number" formControlName="reps">
-                                <label for="notes" class="form-label"> Notes</label>
-                                <input class="form-control" type="text" formControlName="notes">
-                            </div>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"> Set #</th>
+                                        <th scope="col"> Weight </th>
+                                        <th scope="col"> Reps </th>
+                                        <th scope="col"> Notes </th>
+                                    </tr>
+                                </thead>
+                                <tbody [formGroupName]="setIdx" *ngFor="let set of exerciseSets(exerciseIdx, generateIndex(exerciseHistIdx)).controls; let setIdx = index">
+                                    <th scope="row"> Set {{setIdx + 1}}</th>
+                                    <td>
+                                        <input class="form-control" type="number" formControlName="weight">
+                                    </td>
+
+                                    <td>
+                                        <input class="form-control" type="number" formControlName="reps">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" type="text" formControlName="notes">
+                                    </td>
+                                    <button class="btn btn-light" type="button" (click)="addExerciseSet(exerciseIdx, generateIndex(exerciseHistIdx))">Add Set</button>
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
+                    <div *ngIf="isExerciseHistoryNonNull(exerciseIdx)">
+                        <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)"></pagination-controls>
                     </div>
                 </table>
                 <div class="row">
                     <div class="col">
-                        <button class="btn btn-primary" (click)="addExerciseDate(exerciseIdx)"> + </button>
+                        <button class="btn btn-dark" (click)="addExerciseDate(exerciseIdx)"> + </button>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Workout } from 'src/app/common/models/Workout/Workout';
@@ -11,12 +11,17 @@ import { WorkoutService } from 'src/app/common/services/workout-service/workout.
   styleUrls: ['./workout-tracker.component.css']
 })
 export class WorkoutTrackerComponent implements OnInit {
-
+  title = 'Workout Tracker';
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 4;
   workout: Workout | undefined;
   workoutForm: FormGroup = this.fb.group({
     workoutName: [''],
     exercises: this.fb.array([])
   })
+
+  monthEvent = new EventEmitter<number>();
 
   constructor(private accountService: AccountService, private workoutService: WorkoutService, private router: Router, private fb: FormBuilder) {
     this.workout = this.router.getCurrentNavigation()?.extras.state?.['workout']    
@@ -80,6 +85,27 @@ export class WorkoutTrackerComponent implements OnInit {
       ])
     }))
     console.log(this.exercises, "EXERCISES")
+  }
+
+  addExerciseSet(exerciseIdx: number, exerciseHistIdx: number) {
+    this.exerciseSets(exerciseIdx, exerciseHistIdx).push(this.fb.group({
+      weight: [''],
+      reps: [''],
+      notes: ['']
+    }))
+  }
+
+  onTableDataChange(event: any){
+    this.page = event;
+    this.emitMonthChange(this.page);
+  }
+
+  emitMonthChange(value: number){
+    this.monthEvent.emit(value);
+  }
+
+  generateIndex(i: number){
+    return this.tableSize * (this.page - 1) + i;
   }
 
   isExerciseHistoryNonNull(exerciseIdx : number): boolean {

@@ -113,7 +113,6 @@ export class PaginationComponent implements OnInit, OnChanges {
   onTableDataChange(event: any) {
     this.page = event;
     this.emitWeekChange(this.page);
-    console.log()
   }
 
   emitNutritionProtocolEvent(value: FormGroup<any>) {
