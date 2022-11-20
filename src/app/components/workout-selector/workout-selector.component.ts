@@ -28,7 +28,7 @@ export class WorkoutSelectorComponent implements OnInit {
   }
 
   trackWorkout(workout: Workout){
-    this.router.navigateByUrl('/workoutTracker', { state: { workout: workout } })
+    this.router.navigateByUrl('/workoutTracker', { state: { workout: workout, routine: this.routine } })
   }
 
 }

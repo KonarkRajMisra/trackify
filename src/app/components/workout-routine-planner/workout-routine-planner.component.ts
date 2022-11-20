@@ -39,9 +39,10 @@ export class WorkoutRoutinePlanner implements OnInit {
           this.activeRoutine.workouts?.forEach((workout) => {
             this.addCustomWorkout(workout);
           });
-      })
+          console.log(this.workoutForm.value, "form value");
+        })
+      }
     }
-  }
   }
 
   ngOnInit(): void {
@@ -80,7 +81,18 @@ export class WorkoutRoutinePlanner implements OnInit {
       exercises: this.fb.array(workout.exercises?.map((exercise) => {
         return this.fb.group({
           exerciseName: [exercise.exerciseName],
-          exerciseHistory: this.fb.array([])
+          exerciseHistory: this.fb.array(exercise.exerciseHistory.map((history) => {
+            return this.fb.group({
+              date: history.date,
+              exerciseSets: this.fb.array(history.exerciseSets.map((set) => {
+                return this.fb.group({
+                  reps: [set.reps],
+                  weight: [set.weight],
+                  notes: [set.notes]
+                })
+              }))
+            })
+          }))
         })
       }
       ))
@@ -105,7 +117,7 @@ export class WorkoutRoutinePlanner implements OnInit {
     this.workoutService.createWorkoutRoutine(workoutRoutine);
   }
 
-  updateWorkout(){
+  updateWorkout() {
     const workoutRoutine = this.workoutForm.value as WorkoutRoutine;
     console.log(workoutRoutine);
     this.workoutService.updateWorkoutRoutine(workoutRoutine);

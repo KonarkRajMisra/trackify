@@ -26,6 +26,9 @@ import { WorkoutSelectorComponent } from './components/workout-selector/workout-
 import { WorkoutPlannerCardsComponent } from './components/workout-planner-cards/workout-planner-cards.component';
 import { WorkoutRoutineSelectorComponent } from './components/workout-routine-selector/workout-routine-selector.component';
 import { WorkoutTrackerComponent } from './components/workout-tracker/workout-tracker.component';
+import { MatIconModule } from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,7 @@ import { WorkoutTrackerComponent } from './components/workout-tracker/workout-tr
     WorkoutSelectorComponent,
     WorkoutPlannerCardsComponent,
     WorkoutRoutineSelectorComponent,
-    WorkoutTrackerComponent,
+    WorkoutTrackerComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,10 @@ import { WorkoutTrackerComponent } from './components/workout-tracker/workout-tr
     NgbModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTableModule
   ],
   providers: [
   ],
