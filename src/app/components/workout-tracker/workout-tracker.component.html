@@ -23,16 +23,21 @@
                                 currentPage: page,
                                 totalItems: count
                             }; let exerciseHistIdx = index" [formGroupName]="exerciseHistIdx">
-                            <div class="row">
-                                <div class="col-md-8 mx-auto">
-                                    <div class="mb-3">
-                                        <label for="date" class="form-label text-white"> Date</label>
-                                        <input class="form-control" type="date" formControlName="date">
-                                    </div>
+
+                            <div class="row justify-content-center mb-3">
+                                <div class="col-6">
+                                    <label for="date" class="form-label text-white"> Date</label>
+                                    <input class="form-control" type="date" formControlName="date">
+                                </div>
+                                <div class="col-1 align-self-end">
+                                    <button mat-icon-button color="warn"
+                                        (click)="removeExerciseDate(exerciseIdx, exerciseHistIdx)">
+                                        <mat-icon> close </mat-icon>
+                                    </button>
                                 </div>
                             </div>
 
-                            <table class="row" formArrayName="exerciseSets" mat-table>
+                            <table class="row" formArrayName="exerciseSets" class="table borderless">
                                 <div class="col-md-8 mx-auto">
                                     <thead>
                                         <tr>
@@ -76,11 +81,19 @@
                                             <input class="form-control" type="text" formControlName="notes">
                                         </td>
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col-1">
                                                 <button mat-icon-button color="primary"
                                                     (click)="addExerciseSet(exerciseIdx, exerciseHistIdx)">
                                                     <mat-icon>
                                                         add
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="col-1">
+                                                <button mat-icon-button color="primary"
+                                                    (click)="removeExerciseSet(exerciseIdx, exerciseHistIdx, setIdx)">
+                                                    <mat-icon>
+                                                        close
                                                     </mat-icon>
                                                 </button>
                                             </div>
@@ -89,29 +102,45 @@
                                 </div>
                             </table>
                         </div>
-                        <div *ngIf="isExerciseHistoryNonNull(exerciseIdx)" class="row m-2" style="text-align: center;">
-                            <div class="col-sm-6 mx-auto">
-                                <pagination-controls previousLabel="Prev" nextLabel="Next"
-                                    (pageChange)="onTableDataChange($event)"></pagination-controls>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <pagination-controls previousLabel="Prev" nextLabel="Next"
+                                        (pageChange)="onTableDataChange($event)"></pagination-controls>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="text-align: center;">
-                        <div class="col-sm-6 mx-auto">
-                            <button mat-icon-button color="warn" (click)="addExerciseDate(exerciseIdx)">
-                                <mat-icon>
-                                    add
-                                </mat-icon>  </button>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-5">
+                                <button mat-icon-button color="basic" (click)="addExerciseDate(exerciseIdx)">
+                                    <mat-icon>
+                                        add
+                                    </mat-icon> Add Workout
+                                </button>
+                            </div>
+                            <div class="col-2">
+                                <button mat-icon-button color="basic" (click)="viewGraph(exerciseIdx)">
+                                    <mat-icon>
+                                        insights
+                                    </mat-icon> View Graph
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row m-2">
-            <div class="col">
-                <button mat-icon-button color="accent" (click)="saveWorkout()"> <mat-icon>
-                    save
-                    </mat-icon> </button>
+        <div class="container">
+            <div class="row m-8">
+                <div class="col-sm-2 mx-auto">
+                    <button mat-icon-button color="primary" (click)="saveWorkout()">
+                        <mat-icon>
+                            save
+                        </mat-icon> Save Workout
+                    </button>
+                </div>
             </div>
         </div>
     </form>

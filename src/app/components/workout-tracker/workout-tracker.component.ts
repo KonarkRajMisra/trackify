@@ -92,12 +92,24 @@ export class WorkoutTrackerComponent implements OnInit {
     this.count = this.exerciseHistory(exerciseIdx).controls.length;
   }
 
+  removeExerciseDate(exerciseIdx: number, exerciseHistIdx: number) {
+    this.exerciseHistory(exerciseIdx).removeAt(exerciseHistIdx);
+  }
+
   addExerciseSet(exerciseIdx: number, exerciseHistIdx: number) {
     this.exerciseSets(exerciseIdx, exerciseHistIdx).push(this.fb.group({
       weight: [''],
       reps: [''],
       notes: ['']
     }))
+  }
+
+  removeExerciseSet(exerciseIdx: number, exerciseHistIdx: number, setIdx: number){
+    this.exerciseSets(exerciseIdx, exerciseHistIdx).removeAt(setIdx);
+  }
+
+  viewGraph(exerciseIdx: number) {
+    this.router.navigateByUrl('/workout-tracker/graph', { state: { exercise: this.exercises.at(exerciseIdx).value } })
   }
 
   onTableDataChange(event: any) {
@@ -119,22 +131,5 @@ export class WorkoutTrackerComponent implements OnInit {
   generateIndex(i: number) {
     console.log(this.tableSize * (this.page - 1) + i, "INDEX")
     return this.tableSize * (this.page - 1) + i;
-  }
-
-  isExerciseHistoryNonNull(exerciseIdx: number): boolean {
-    return this.exerciseHistory(exerciseIdx) !== null
-      && this.exerciseHistory(exerciseIdx) !== undefined
-      && this.exerciseHistory(exerciseIdx).length > 0
-  }
-
-  isExerciseDateNonNull(exerciseIdx: number, exerciseHistoryIdx: number): boolean {
-    return this.exerciseHistory(exerciseIdx).at(exerciseHistoryIdx).get('date') !== null
-      && this.exerciseHistory(exerciseIdx).at(exerciseHistoryIdx).get('date') !== undefined
-  }
-
-  isExerciseSetsNonNull(exerciseIdx: number, exerciseHistoryIdx: number): boolean {
-    return this.exerciseSets(exerciseIdx, exerciseHistoryIdx) !== null
-      && this.exerciseSets(exerciseIdx, exerciseHistoryIdx) !== undefined
-      && this.exerciseSets(exerciseIdx, exerciseHistoryIdx).length > 0
   }
 }

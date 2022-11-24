@@ -6,10 +6,11 @@ import { NutritionSummary } from '../common/models/Summary/NutritionSummary';
 import { Week } from '../common/models/Summary/Week';
 import { AccountService } from '../common/services/authentication-service/account-service.service';
 import { NutritionProtocolService } from '../common/services/nutrition-protocol-service/nutrition-protocol.service';
+
 @Component({
-  selector: 'app-weight-graph',
-  templateUrl: './weight-graph.component.html',
-  styleUrls: ['./weight-graph.component.css']
+  selector: 'app-graph',
+  templateUrl: './graph.component.html',
+  styleUrls: ['./graph.component.css']
 })
 export class WeightGraph implements OnInit {
   dateData?: Array<DateData>
